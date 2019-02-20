@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_navigation_home"
+        android:icon="@mipmap/ic_home_white"
+        android:title="Home" />
+
+
+    <item
+        android:id="@+id/bottom_navigation_settings"
+        android:icon="@mipmap/ic_settings_black"
+        android:title="Settings" />
+</menu>
