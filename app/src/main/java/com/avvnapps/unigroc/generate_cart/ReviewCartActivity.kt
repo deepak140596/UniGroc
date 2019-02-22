@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.CartViewModel
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_review_cart.*
+import kotlinx.android.synthetic.main.view_cart_total.*
 
 class ReviewCartActivity : AppCompatActivity() {
 
@@ -47,12 +48,20 @@ class ReviewCartActivity : AppCompatActivity() {
             savedCartItems = it
             adapter.cartList = savedCartItems
             adapter.notifyDataSetChanged()
+            setupSubtotal()
         })
 
 
 
     }
 
+    fun setupSubtotal(){
+        var subtotal = 0.0
+        for(cartItem in savedCartItems){
+            subtotal += cartItem.price*cartItem.quantity
+        }
+        view_cart_total_tv.text = PriceFormatter.getFormattedPrice(subtotal)
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.menu_review_cart,menu)

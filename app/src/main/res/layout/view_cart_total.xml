@@ -8,6 +8,7 @@
 
 
         <LinearLayout
+                android:id="@+id/view_cart_place_order_ll"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:paddingLeft="16dp"
@@ -39,7 +40,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/color_blue"
-                        android:text="INR 2400"/>
+                        android:text="0.0"/>
 
             </LinearLayout>
 
