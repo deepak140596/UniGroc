@@ -15,6 +15,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".location_address.CreateAddressActivity"
+        android:theme="@style/Theme.MaterialComponents">
+        </activity>
+        <activity android:name=".location_address.SavedAddressesActivity">
+        </activity>
         <activity
                 android:name=".generate_cart.ReviewCartActivity"
                 android:theme="@style/AppTheme.NoActionBar">

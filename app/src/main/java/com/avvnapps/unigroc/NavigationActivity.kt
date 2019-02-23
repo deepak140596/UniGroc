@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.util.Log
-import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.avvnapps.unigroc.database.cart.CartEntity
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
+import com.avvnapps.unigroc.location_address.CreateAddressActivity
 import com.avvnapps.unigroc.location_address.LocationUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -41,6 +41,7 @@ class NavigationActivity : AppCompatActivity() {
         var user = FirebaseAuth.getInstance().currentUser
         Log.i(TAG,"Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user.phoneNumber}")
 
+        startActivity(Intent(this@NavigationActivity,CreateAddressActivity::class.java))
 
 
     }
@@ -73,6 +74,7 @@ class NavigationActivity : AppCompatActivity() {
 
     // observe on location and update accordingly
     fun updateLocation(){
+
         LocationUtils(this).getLocation().observe(this, Observer {loc: Location? ->
             location = loc!!
             Log.i(TAG,"Location: ${location.latitude}  ${location.longitude}")
