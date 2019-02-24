@@ -1,6 +1,5 @@
 package com.avvnapps.unigroc.database.firestore
 
-import android.util.Log
 import com.avvnapps.unigroc.location_address.AddressItem
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -23,18 +22,21 @@ class FirestoreRepository {
     fun saveAddressItem(addressItem: AddressItem): Task<Void> {
         //var
         var documentReference = firestoreDB.collection("users").document(user!!.email.toString())
-            .collection("saved_addresses").document(addressItem.addressId.toString())
+            .collection("saved_addresses").document(addressItem.addressId)
         return documentReference.set(addressItem)
     }
 
-    // get saved address from firebase
-    fun getSavedAddres(): Task<QuerySnapshot> {
-        var collectionReference = firestoreDB.collection("users/${user!!.email.toString()}/saved_addresses")
-        return collectionReference.get()
-    }
-
+    // get saved addresses from firebase
     fun getSavedAddress(): CollectionReference {
         var collectionReference = firestoreDB.collection("users/${user!!.email.toString()}/saved_addresses")
         return collectionReference
     }
+
+    fun deleteAddress(addressItem: AddressItem): Task<Void> {
+        var documentReference =  firestoreDB.collection("users/${user!!.email.toString()}/saved_addresses")
+            .document(addressItem.addressId)
+
+        return documentReference.delete()
+    }
+
 }

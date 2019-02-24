@@ -46,22 +46,7 @@ class FirestoreViewModel : ViewModel(){
         }
     }
 
-    // get saved addresses
-    /*fun getSavedAddresses(): LiveData<List<AddressItem>>{
-        firebaseRepository.getSavedAddress().addOnSuccessListener { documents ->
-            var savedAddressList : MutableList<AddressItem> = mutableListOf()
-            for(doc in documents){
-                var addressItem = doc.toObject(AddressItem::class.java)
-                savedAddressList.add(addressItem)
-            }
-            savedAddresses.value = savedAddressList
-        }.addOnFailureListener {
-            savedAddresses.value = null
-        }
-
-        return savedAddresses
-    }*/
-
+    // get realtime updates from firebase regarding saved addresses
     fun getSavedAddresses(): LiveData<List<AddressItem>>{
         firebaseRepository.getSavedAddress().addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
             if (e != null) {
@@ -81,5 +66,11 @@ class FirestoreViewModel : ViewModel(){
         return savedAddresses
     }
 
+    // delete an address from firebase
+    fun deleteAddress(addressItem: AddressItem){
+        firebaseRepository.deleteAddress(addressItem).addOnFailureListener {
+            Log.e(TAG,"Failed to delete Address")
+        }
+    }
 
 }

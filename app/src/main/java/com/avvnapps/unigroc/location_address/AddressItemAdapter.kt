@@ -1,6 +1,7 @@
 package com.avvnapps.unigroc.location_address
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +43,8 @@ class AddressItemAdapter(var context: Context, var addressList : List<AddressIte
             itemView.item_saved_add_body.text = addressItem.getAddress()
 
             itemView.item_address_options_tv.setOnClickListener { view ->
-                var popupMenu = PopupMenu(context, itemView.item_address_options_tv)
+                Log.i(TAG,"Options clicked!")
+                var popupMenu = PopupMenu(context, view.item_address_options_tv)
                 popupMenu.inflate(R.menu.menu_item_address)
 
                 popupMenu.setOnMenuItemClickListener {
@@ -50,17 +52,22 @@ class AddressItemAdapter(var context: Context, var addressList : List<AddressIte
 
                         R.id.menu_item_add_edit -> {
                             Log.i(TAG, "EDIT")
+                            var intent = Intent(context,CreateAddressActivity::class.java)
+                            intent.putExtra("address_item",addressItem)
+                            context.startActivity(intent)
                             return@setOnMenuItemClickListener true
                         }
 
                         R.id.menu_item_add_delete -> {
                             Log.i(TAG, "EDIT")
+                            firestoreViewModel.deleteAddress(addressItem)
                             return@setOnMenuItemClickListener true
                         }
                     }
                     return@setOnMenuItemClickListener  true
 
                 }
+                popupMenu.show()
             }
 
 

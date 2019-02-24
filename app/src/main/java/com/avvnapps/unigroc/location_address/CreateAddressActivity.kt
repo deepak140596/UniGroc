@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
@@ -13,7 +12,6 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlacePicker
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_create_address.*
-import java.util.*
 
 class CreateAddressActivity : AppCompatActivity() {
     val TAG = "CREATE_ADDRESS"
@@ -21,10 +19,19 @@ class CreateAddressActivity : AppCompatActivity() {
     var latitutde : Double ?= null
     var longitude : Double ?= null
     var firestoreViewModel : FirestoreViewModel ?=null
+    var addressItem: AddressItem ?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_address)
+
+
+        var data = intent.getSerializableExtra("address_item")
+        if(data != null )
+            addressItem = data as AddressItem
+        if(addressItem != null){
+            setupViews()
+        }
 
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
 
@@ -34,8 +41,7 @@ class CreateAddressActivity : AppCompatActivity() {
 
         create_address_done_fab.setOnClickListener {
             if(isFormValid()){
-                Toasty.success(this@CreateAddressActivity,"Form Valid!").show()
-                var addressItem = AddressItem(Date().time,
+                var addressItem = AddressItem(create_address_name_edit_text.text.toString(),
                     create_address_name_edit_text.text.toString(),
                     create_address_house_name_edit_text.text.toString(),
                     create_address_locality_edit_text.text.toString(),
@@ -47,6 +53,16 @@ class CreateAddressActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun setupViews(){
+        create_address_house_name_edit_text.setText(addressItem!!.houseName)
+        create_address_locality_edit_text.setText(addressItem!!.locality)
+        create_address_landmark_edit_text.setText( addressItem!!.landmark)
+        create_address_name_edit_text.setText( addressItem!!.addressName)
+        latitutde = addressItem!!.latitude
+        longitude = addressItem!!.longitude
+        create_address_is_location_set_cb.isChecked = true
     }
 
     fun isFormValid() : Boolean{
