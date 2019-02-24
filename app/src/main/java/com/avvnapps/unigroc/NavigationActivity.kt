@@ -15,6 +15,7 @@ import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
 import com.avvnapps.unigroc.location_address.CreateAddressActivity
 import com.avvnapps.unigroc.location_address.LocationUtils
+import com.avvnapps.unigroc.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -41,7 +42,7 @@ class NavigationActivity : AppCompatActivity() {
         var user = FirebaseAuth.getInstance().currentUser
         Log.i(TAG,"Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user.phoneNumber}")
 
-        startActivity(Intent(this@NavigationActivity,CreateAddressActivity::class.java))
+        //startActivity(Intent(this@NavigationActivity,CreateAddressActivity::class.java))
 
 
     }
@@ -49,7 +50,7 @@ class NavigationActivity : AppCompatActivity() {
     private val mOnBottomNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when(it.itemId){
             R.id.bottom_navigation_home ->
-                startActivity(Intent(this@NavigationActivity,SearchItemActivity::class.java))
+                startActivity(Intent(this@NavigationActivity,SavedAddressesActivity::class.java))
             R.id.bottom_navigation_settings ->
                 startActivity(Intent(this@NavigationActivity, ReviewCartActivity::class.java))
         }
