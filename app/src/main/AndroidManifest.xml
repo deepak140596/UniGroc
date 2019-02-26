@@ -42,7 +42,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".authentication.VerifyPhoneActivity"/>
-        <activity android:name=".NavigationActivity"/>
+        <activity android:name=".NavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+        />
     </application>
 
 </manifest>
