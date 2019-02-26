@@ -2,11 +2,17 @@ package com.avvnapps.unigroc.location_address
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Geocoder
 import android.location.Location
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import java.io.IOException
+import java.util.*
 
 class LocationUtils(context: Context){
 
@@ -36,6 +42,35 @@ class LocationUtils(context: Context){
             }
 
         return location
+    }
+
+
+    companion object {
+        fun getAddress(activity: AppCompatActivity,lat: Double, lng: Double): String? {
+
+            //Log.d(TAG, "get Address for LAT: $lat  LON: $lng")
+            if (lat == 0.0 && lng == 0.0)
+                return null
+            val geocoder = Geocoder(activity, Locale.getDefault())
+            try {
+                val addresses = geocoder.getFromLocation(lat, lng, 1)
+                val obj = addresses[0]
+                var add = if (obj.thoroughfare == null) "" else obj.thoroughfare + ", "
+
+                add += if (obj.subLocality == null) "" else obj.subLocality + ", "
+                add += if (obj.subAdminArea == null) "" else obj.subAdminArea
+
+
+                //Log.v(TAG, "Address received: $add")
+
+                return add
+            } catch (e: IOException) {
+
+                e.printStackTrace()
+            }
+
+            return ""
+        }
     }
 
 }

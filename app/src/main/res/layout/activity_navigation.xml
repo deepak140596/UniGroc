@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.avvnapps.unigroc.NavigationActivity">
 
-    <include
+    <!--<include
         android:id="@+id/activity_nav_appbar"
-        layout="@layout/appbar_dashboard"/>
+        layout="@layout/appbar_dashboard"/>-->
 
 
     <RelativeLayout

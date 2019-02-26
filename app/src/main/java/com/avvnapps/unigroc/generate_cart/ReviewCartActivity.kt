@@ -55,7 +55,7 @@ class ReviewCartActivity : AppCompatActivity() {
 
     }
 
-    fun setupSubtotal(){
+    private fun setupSubtotal(){
         var subtotal = 0.0
         for(cartItem in savedCartItems){
             subtotal += cartItem.price*cartItem.quantity
