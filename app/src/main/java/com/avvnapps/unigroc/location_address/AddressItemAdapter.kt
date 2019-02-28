@@ -1,18 +1,20 @@
 package com.avvnapps.unigroc.location_address
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.item_address.view.*
 
-class AddressItemAdapter(var context: Context, var addressList : List<AddressItem>, var firestoreViewModel: FirestoreViewModel )
+class AddressItemAdapter(var context: AppCompatActivity, var addressList : List<AddressItem>,
+                         var firestoreViewModel: FirestoreViewModel, var isSelectableAction: Boolean)
     :RecyclerView.Adapter<AddressItemAdapter.ViewHolder>(){
 
     var TAG = "ADDRESS_ITEM_ADAPTER"
@@ -22,7 +24,7 @@ class AddressItemAdapter(var context: Context, var addressList : List<AddressIte
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_address,parent,false)
 
-        return ViewHolder(itemView)
+        return ViewHolder(itemView, isSelectableAction)
     }
 
     override fun getItemCount(): Int {
@@ -35,10 +37,11 @@ class AddressItemAdapter(var context: Context, var addressList : List<AddressIte
     }
 
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View,var isSelectableAction: Boolean): RecyclerView.ViewHolder(itemView){
+
         var TAG = "ADDRESS_ITEM_ADAPTER"
 
-        fun bindItems(context: Context, addressItem : AddressItem, firestoreViewModel: FirestoreViewModel){
+        fun bindItems(context: AppCompatActivity, addressItem : AddressItem, firestoreViewModel: FirestoreViewModel){
             itemView.item_saved_add_title.text = addressItem.addressName
             itemView.item_saved_add_body.text = addressItem.getAddress()
 
@@ -69,6 +72,21 @@ class AddressItemAdapter(var context: Context, var addressList : List<AddressIte
                 }
                 popupMenu.show()
             }
+
+            itemView.item_saved_add_body.setOnClickListener {
+
+                var resultIntent = Intent()
+                resultIntent.putExtra("latitude",addressItem.latitude)
+                resultIntent.putExtra("longitude",addressItem.longitude)
+                Log.i(TAG,"latitude : "+addressItem.latitude)
+                Log.i(TAG,"longitude : "+addressItem.longitude)
+
+                context.setResult(Activity.RESULT_OK,resultIntent)
+                if(isSelectableAction) // if address acitivity is opened to select address
+                    context.finish()
+            }
+
+
 
 
         }

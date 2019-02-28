@@ -16,10 +16,14 @@ class SavedAddressesActivity : AppCompatActivity() {
     var firestoreViewModel: FirestoreViewModel ?= null
     lateinit var savedAddresses : List<AddressItem>
     lateinit var adapter : AddressItemAdapter
+    var isSelectableAction = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_addresses)
+
+        // check if the activity is opened to select address
+        isSelectableAction = intent.getBooleanExtra("is_selectable_action",false)
 
         // set up divider in recycler view
         activity_saved_add_rv.layoutManager = LinearLayoutManager(this)
@@ -32,7 +36,7 @@ class SavedAddressesActivity : AppCompatActivity() {
         // initialise firestore view model and adapter
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
         savedAddresses = ArrayList<AddressItem>()
-        adapter = AddressItemAdapter(this,savedAddresses,firestoreViewModel!!)
+        adapter = AddressItemAdapter(this@SavedAddressesActivity as AppCompatActivity,savedAddresses,firestoreViewModel!!,isSelectableAction)
         activity_saved_add_rv.adapter = adapter
 
 
