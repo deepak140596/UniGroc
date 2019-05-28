@@ -1,15 +1,19 @@
 package com.avvnapps.unigroc.database.firestore
 
-import com.avvnapps.unigroc.location_address.AddressItem
+import com.avvnapps.unigroc.models.AddressItem
+import com.avvnapps.unigroc.models.CartEntity
+import com.avvnapps.unigroc.models.OrderItem
+import com.avvnapps.unigroc.utils.ApplicationConstants
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import java.util.*
 
 class FirestoreRepository {
 
     val TAG = "FIREBASE_REPOSITORY"
     var firestoreDB = FirebaseFirestore.getInstance()
-    var user = FirebaseAuth.getInstance().currentUser
+    var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
 
 
     // get availbale cart items
@@ -21,22 +25,53 @@ class FirestoreRepository {
     // save address to firebase
     fun saveAddressItem(addressItem: AddressItem): Task<Void> {
         //var
-        var documentReference = firestoreDB.collection("users").document(user!!.email.toString())
+        var documentReference = firestoreDB.collection("users").document(email)
             .collection("saved_addresses").document(addressItem.addressId)
         return documentReference.set(addressItem)
     }
 
     // get saved addresses from firebase
     fun getSavedAddress(): CollectionReference {
-        var collectionReference = firestoreDB.collection("users/${user!!.email.toString()}/saved_addresses")
-        return collectionReference
+        return firestoreDB.collection("users/$email/saved_addresses")
     }
 
     fun deleteAddress(addressItem: AddressItem): Task<Void> {
-        var documentReference =  firestoreDB.collection("users/${user!!.email.toString()}/saved_addresses")
+        var documentReference =  firestoreDB.collection("users/$email/saved_addresses")
             .document(addressItem.addressId)
 
         return documentReference.delete()
+    }
+
+    fun submitOrder(orderItem: OrderItem): Task<Void> {
+        var documentReference = firestoreDB.collection("orders").document(orderItem.orderId.toString())
+        return documentReference.set(orderItem)
+    }
+
+    fun getQuotedPrices(orderItem: OrderItem): CollectionReference {
+        return firestoreDB.collection("orders").document(orderItem.orderId.toString())
+            .collection("quotations")
+    }
+
+    fun getQuotedOrders(): Task<QuerySnapshot> {
+        var collectionReference = firestoreDB.collection("orders")
+            .whereEqualTo("customerId",email)
+            //.whereEqualTo("orderStatus",1)
+
+        return collectionReference.get()
+    }
+
+    fun getAllOrders(): Query {
+        var collectionReference = firestoreDB.collection("orders")
+            .whereEqualTo("customerId",email)
+        return collectionReference
+    }
+
+    fun placeOrder(orderItem: OrderItem,retailerId: String,cartItems: List<CartEntity>): Task<Void> {
+        var documentReference = firestoreDB.collection("orders").document(orderItem.orderId.toString())
+        return documentReference.update("retailerId",retailerId,
+            "cartItems",cartItems,
+            "orderStatus",ApplicationConstants.ORDER_PREPARING,
+            "datePlaced", Date().time)
     }
 
 }

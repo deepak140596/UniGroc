@@ -1,10 +1,11 @@
 package com.avvnapps.unigroc.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.avvnapps.unigroc.database.cart.CartDatabase
-import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.database.cart.CartRepository
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -38,6 +39,7 @@ class CartViewModel(application: Application): AndroidViewModel(application){
     }
 
     fun deleteAll() = scope.launch(Dispatchers.IO){
+        Log.i("TAG","DELETE ALL")
         repository.deleteAll()
     }
 

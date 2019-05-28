@@ -2,6 +2,7 @@ package com.avvnapps.unigroc.database.cart
 
 import androidx.lifecycle.LiveData
 import androidx.annotation.WorkerThread
+import com.avvnapps.unigroc.models.CartEntity
 
 /**
  * Created by Deepak Prasad on 14-02-2019.

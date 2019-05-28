@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.avvnapps.unigroc.R
-import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.models.CartEntity
+import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cart.view.*
 
 class CartItemAdapter(var context: Context, var cartList: List<CartEntity>,
-                       var cartViewModel: CartViewModel)
+                      var cartViewModel: CartViewModel)
     : RecyclerView.Adapter<CartItemAdapter.ViewHolder>(){
     var TAG = "CART_ITEM_ADAPTER"
 
@@ -42,9 +42,12 @@ class CartItemAdapter(var context: Context, var cartList: List<CartEntity>,
 
         fun bindItems(context: Context, cartItem: CartEntity, cartViewModel: CartViewModel){
             itemView.item_cart_name_tv.text = cartItem.name
-            itemView.item_cart_price_tv.text = cartItem.price.toString()
             itemView.item_cart_metric_weight_tv.text = cartItem.metricWeight
             //itemView.item_cart_quantity_tv.text = cartItem.quantity.toString()
+            if(cartItem.price == 0.0)
+                itemView.item_cart_price_tv.visibility = View.GONE
+            else
+                itemView.item_cart_price_tv.text = PriceFormatter.getFormattedPrice(cartItem.price)
 
             if(cartItem.photoUrl != null){
                 Glide.with(context).load(cartItem.photoUrl).into(itemView.item_cart_iv)

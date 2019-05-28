@@ -11,14 +11,10 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
-import com.avvnapps.unigroc.generate_cart.SearchItemActivity
-import com.avvnapps.unigroc.location_address.CreateAddressActivity
-import com.avvnapps.unigroc.location_address.LocationUtils
-import com.avvnapps.unigroc.location_address.SavedAddressesActivity
+import com.avvnapps.unigroc.utils.LocationUtils
 import com.avvnapps.unigroc.navigation_fragments.DashboardFragment
-import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,8 +35,6 @@ class NavigationActivity : AppCompatActivity() {
 
         var user = FirebaseAuth.getInstance().currentUser
         Log.i(TAG,"Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user.phoneNumber}")
-
-        //startActivity(Intent(this@NavigationActivity,CreateAddressActivity::class.java))
 
 
     }
@@ -74,9 +68,11 @@ class NavigationActivity : AppCompatActivity() {
         do {
 
 
-            var cartItem = CartEntity(i.toString(),"Item $i","Oils","Kitchen Needs",
-                    "https://www.rd.com/wp-content/uploads/2017/11/01_Constipation_Reasons-to-Buy-a-Bottle-of-Castor-Oil-Today_209913937_MaraZe-760x506.jpg",
-                    0,45.0,"1kg")
+            var cartItem = CartEntity(
+                i.toString(), "Item $i", "Oils", "Kitchen Needs",
+                "https://www.rd.com/wp-content/uploads/2017/11/01_Constipation_Reasons-to-Buy-a-Bottle-of-Castor-Oil-Today_209913937_MaraZe-760x506.jpg",
+                0, 45.0, "1kg"
+            )
             db.document(cartItem.itemId).set(cartItem)
             i++
         }while(i<15)
@@ -85,12 +81,14 @@ class NavigationActivity : AppCompatActivity() {
     // observe on location and update accordingly
     fun updateLocation(){
 
-        LocationUtils(this).getLocation().observe(this, Observer {loc: Location? ->
-            location = loc!!
-            Log.i(TAG,"Location: ${location.latitude}  ${location.longitude}")
+        LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
 
-            if(location != null)
+
+            if(loc != null) {
+                location = loc!!
+                Log.i(TAG,"Location: ${location.latitude}  ${location.longitude}")
                 startFragment(DashboardFragment())
+            }
         })
     }
 

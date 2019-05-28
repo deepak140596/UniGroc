@@ -10,6 +10,8 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
+import com.avvnapps.unigroc.database.SharedPreferencesDB
+import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.item_address.view.*
 
@@ -50,6 +52,7 @@ class AddressItemAdapter(var context: AppCompatActivity, var addressList : List<
                 var popupMenu = PopupMenu(context, view.item_address_options_tv)
                 popupMenu.inflate(R.menu.menu_item_address)
 
+                // action on menu items in each row
                 popupMenu.setOnMenuItemClickListener {
                     when(it.itemId){
 
@@ -81,9 +84,14 @@ class AddressItemAdapter(var context: AppCompatActivity, var addressList : List<
                 Log.i(TAG,"latitude : "+addressItem.latitude)
                 Log.i(TAG,"longitude : "+addressItem.longitude)
 
+
+
                 context.setResult(Activity.RESULT_OK,resultIntent)
-                if(isSelectableAction) // if address acitivity is opened to select address
+                if(isSelectableAction) { // if address acitivity is opened to select address
+                    // save the selected address as default
+                    SharedPreferencesDB.savePreferredAddress(context,addressItem)
                     context.finish()
+                }
             }
 
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.R
-import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import kotlinx.android.synthetic.main.activity_review_cart.*
@@ -52,6 +52,10 @@ class ReviewCartActivity : AppCompatActivity() {
         })
 
 
+        view_cart_place_order_ll.setOnClickListener {
+            startActivity(Intent(this,DeliveryDetailsActivity::class.java))
+            finish()
+        }
 
     }
 

@@ -1,4 +1,4 @@
-package com.avvnapps.unigroc.database.cart
+package com.avvnapps.unigroc.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -67,6 +67,10 @@ class CartEntity constructor(itemId: String, name: String , category: String,
             this.quantity = this.quantity - 1
     }
 
+    override fun toString(): String {
+        return "CartEntity(itemId='$itemId', name='$name', category='$category', clubbedCategory='$clubbedCategory', photoUrl='$photoUrl', quantity=$quantity, price=$price, metricWeight='$metricWeight')"
+    }
+
     companion object CREATOR : Parcelable.Creator<CartEntity> {
         override fun createFromParcel(parcel: Parcel): CartEntity {
             return CartEntity(parcel)
@@ -76,4 +80,6 @@ class CartEntity constructor(itemId: String, name: String , category: String,
             return arrayOfNulls(size)
         }
     }
+
+
 }

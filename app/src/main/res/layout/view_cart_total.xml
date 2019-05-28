@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/color_white">
+    android:layout_height="wrap_content">
 
 
         <LinearLayout
@@ -18,7 +17,7 @@
                 android:orientation="vertical"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?attr/selectableItemBackground">
+                android:background="@drawable/background_primary_color_ripple">
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -29,6 +28,7 @@
                         android:layout_weight="2"
                         android:text="Sub Total"
                         style="@style/Theme.AppCompat.Light.NoActionBar"
+                        android:textColor="@color/color_white"
                         android:textSize="18sp"/>
                 <TextView
                         android:id="@+id/view_cart_total_tv"
@@ -39,7 +39,7 @@
                         android:layout_marginRight="16dp"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="@color/color_blue"
+                        android:textColor="@color/color_white"
                         android:text="0.0"/>
 
             </LinearLayout>
@@ -47,6 +47,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/color_white"
                     android:text="Place Order"/>
         </LinearLayout>
 

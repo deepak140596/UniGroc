@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
-import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_search_item.*
 import androidx.recyclerview.widget.DividerItemDecoration

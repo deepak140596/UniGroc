@@ -1,4 +1,4 @@
-package com.avvnapps.unigroc.location_address
+package com.avvnapps.unigroc.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.avvnapps.unigroc.models.AddressItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.type.LatLng
 import java.io.IOException
 import java.util.*
 
@@ -37,8 +39,7 @@ class LocationUtils(context: Context){
     fun getLocation() : LiveData<Location> {
         fusedLocationProviderClient!!.lastLocation
             .addOnSuccessListener {loc: Location? ->
-                location.value = loc
-
+                location.value = loc!!
             }
 
         return location
@@ -70,6 +71,18 @@ class LocationUtils(context: Context){
             }
 
             return ""
+        }
+
+        fun getDistance(activity: AppCompatActivity,addressItem: AddressItem): Float {
+            var loc1 = Location("Location1")
+            loc1.longitude = addressItem.longitude
+            loc1.latitude = addressItem.latitude
+
+            var loc2 = Location("Location2")
+            var l = LocationUtils(activity).location.value
+            loc2.longitude = l!!.longitude
+            loc2.latitude = l!!.latitude
+            return loc1.distanceTo(loc2)
         }
     }
 

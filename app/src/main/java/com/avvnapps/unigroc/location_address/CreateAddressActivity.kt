@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProviders
 import com.avvnapps.unigroc.R
+import com.avvnapps.unigroc.database.SharedPreferencesDB
+import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
@@ -19,7 +21,7 @@ class CreateAddressActivity : AppCompatActivity() {
     var latitutde : Double ?= null
     var longitude : Double ?= null
     var firestoreViewModel : FirestoreViewModel ?=null
-    var addressItem: AddressItem ?=null
+    var addressItem: AddressItem?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +43,18 @@ class CreateAddressActivity : AppCompatActivity() {
 
         create_address_done_fab.setOnClickListener {
             if(isFormValid()){
-                var addressItem = AddressItem(create_address_name_edit_text.text.toString(),
+                var addressItem = AddressItem(
+                    create_address_name_edit_text.text.toString(),
                     create_address_name_edit_text.text.toString(),
                     create_address_house_name_edit_text.text.toString(),
                     create_address_locality_edit_text.text.toString(),
                     create_address_landmark_edit_text.text.toString(),
-                    latitutde!!,longitude!!)
+                    latitutde!!, longitude!!
+                )
 
                 firestoreViewModel!!.saveAddressToFirebase(addressItem)
+                // save the selected address as default
+                SharedPreferencesDB.savePreferredAddress(this@CreateAddressActivity,addressItem)
                 finish()
             }
         }

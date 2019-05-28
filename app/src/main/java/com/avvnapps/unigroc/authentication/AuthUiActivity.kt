@@ -11,6 +11,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 /**
  * Created by Deepak Prasad on 11-02-2019.
@@ -23,6 +25,7 @@ class AuthUiActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
+        Fabric.with(this, Crashlytics())
         title = "Sign In"
 
         mAuth = FirebaseAuth.getInstance()

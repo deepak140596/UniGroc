@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.R
+import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_saved_addresses.*
 

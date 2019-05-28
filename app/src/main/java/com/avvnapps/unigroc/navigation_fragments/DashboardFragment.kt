@@ -13,15 +13,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
-import com.avvnapps.unigroc.database.cart.CartEntity
+import com.avvnapps.unigroc.database.SharedPreferencesDB
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
-import com.avvnapps.unigroc.location_address.LocationUtils
+import com.avvnapps.unigroc.utils.LocationUtils
 import com.avvnapps.unigroc.location_address.SavedAddressesActivity
+import com.avvnapps.unigroc.models.OrderItem
+import com.avvnapps.unigroc.models.RetailerQuotationItem
+import com.avvnapps.unigroc.order_status.OrderItemAdapter
+import com.avvnapps.unigroc.utils.ApplicationConstants
 import com.avvnapps.unigroc.viewmodel.CartViewModel
+import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.appbar_dashboard.*
 import kotlinx.android.synthetic.main.appbar_dashboard.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : Fragment() {
 
@@ -30,14 +43,21 @@ class DashboardFragment : Fragment() {
     lateinit var location: Location
     lateinit var activity : AppCompatActivity
     lateinit var cartViewModel: CartViewModel
-    lateinit var savedCartItems : List<CartEntity>
+    lateinit var firestoreViewModel: FirestoreViewModel
+    var savedCartItems : List<CartEntity> = emptyList()
+
     lateinit var dashboardView: View
+
+    lateinit var recyclerView : RecyclerView
+    lateinit var adapter : OrderItemAdapter
+    var orderList : List<OrderItem> = emptyList()
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         activity = getActivity() as AppCompatActivity
-        return inflater.inflate(R.layout.fragment_dashboard,container,false);
+        return inflater.inflate(R.layout.fragment_dashboard,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +65,11 @@ class DashboardFragment : Fragment() {
 
         dashboardView = view
         // get user location and pass to geocoder for address
-        LocationUtils(activity).getLocation().observe(activity, Observer {loc ->
-            location = loc
-            updateAddress()
+        LocationUtils(activity).getLocation().observe(activity, Observer { loc : Location? ->
+            if(loc != null) {
+                location = loc!!
+                updateAddress()
+            }
 
         })
 
@@ -69,6 +91,18 @@ class DashboardFragment : Fragment() {
             intent.putExtra("is_selectable_action",true)
             startActivityForResult(intent,SET_ADDRESS_REQUEST_CODE)
         }
+
+        // initialise firebase view model
+        initialiseFirebaseViewModel()
+        // set up divider in recycler view
+        fragment_dashboard_recycler_view.layoutManager = LinearLayoutManager(activity)
+        fragment_dashboard_recycler_view.addItemDecoration(
+            DividerItemDecoration(
+                fragment_dashboard_recycler_view.context, DividerItemDecoration.VERTICAL
+            )
+        )
+        adapter = OrderItemAdapter(activity,orderList,firestoreViewModel)
+        fragment_dashboard_recycler_view.adapter = adapter
 
     }
 
@@ -97,6 +131,24 @@ class DashboardFragment : Fragment() {
                 updateAddress()
             }
         }
+    }
+
+    private fun initialiseFirebaseViewModel(){
+
+        firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
+        firestoreViewModel.getAllOrders().observe(this, Observer {
+
+            orderList = it
+            Log.i(TAG,"Order Size: ${orderList.size}")
+            adapter.orderList = orderList
+            adapter.notifyDataSetChanged()
+        })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        initialiseFirebaseViewModel()
     }
 
 }
