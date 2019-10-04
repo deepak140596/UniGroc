@@ -14,6 +14,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.type.LatLng
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
 
 class LocationUtils(context: Context){
@@ -37,11 +38,11 @@ class LocationUtils(context: Context){
 
     @SuppressLint("MissingPermission")
     fun getLocation() : LiveData<Location> {
+
         fusedLocationProviderClient!!.lastLocation
             .addOnSuccessListener {loc: Location? ->
                 location.value = loc!!
             }
-
         return location
     }
 

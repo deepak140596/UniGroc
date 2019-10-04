@@ -16,10 +16,32 @@
         profile
     </string>
     <string name="title_activity_review_cart">Review Cart</string>
-    <string name="action_settings">Settings</string>
+
     <string name="_8942">⋮</string>
     <string name="preferred_address">preferred_address</string>
     <string name="hint_select_default_address">Please Select a Address</string>
     <string name="hint_no_slots_available">Sorry, no slots available today. \nPlease select another day.</string>
     <string name="cart_items">cart_items</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="nav_terms">Terms &amp; Privacy</string>
+
+    <!-- string.xml -->
+    <string name="nav_home">Shop Now</string>
+    <string name="nav_user">User</string>
+    <string name="nav_order">My Orders</string>
+    <string name="nav_profile">My Profile</string>
+    <string name="nav_support">Support</string>
+    <string name="nav_about">About Us</string>
+    <string name="nav_review">Review Us</string>
+    <string name="nav_contact">Contact Us</string>
+    <string name="nav_share">Share with Friends</string>
+    <string name="nav_logout">Logout</string>
+
+    <string name="status_stop">Powered By <font color='green'>UniGroc</font></string>
 </resources>
