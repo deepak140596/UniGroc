@@ -1,27 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/green"
-            app:titleTextAppearance="@style/RobotoBoldTextAppearance"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+                android:padding="0dp"
+                android:theme="@style/Theme.MaterialComponents"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                            android:id="@+id/appbar_dashboard_cart_rl"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="8dp">
+
+                        <TextView
+                                android:id="@+id/appbar_dashboard_cart_no_tv"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginRight="4dp"
+                                android:background="@drawable/circle_shape"
+                                android:text="10"
+                                android:textAlignment="center"
+                                android:textColor="@color/color_red"
+                                android:textSize="12sp" />
+
+                        <ImageView
+                                android:id="@+id/appbar_dashboard_cart_iv"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_alignParentBottom="true"
+                                android:paddingTop="8dp"
+                                android:src="@mipmap/ic_cart_white" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                            android:id="@+id/appbar_dashboard_delivery_to_label_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Delivering To"
+                            android:textColor="@color/color_white"
+                            android:textSize="12sp" />
+
+                    <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toRightOf="@id/appbar_dashboard_delivery_to_label_tv"
+                            android:src="@mipmap/ic_edit_white" />
+
+
+                    <TextView
+                            android:id="@+id/appbar_dashboard_set_delivery_location_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/appbar_dashboard_delivery_to_label_tv"
+                            android:layout_toLeftOf="@+id/appbar_dashboard_cart_rl"
+                            android:text="Hussainpur, Madurdaha, Kolkata"
+                            android:textColor="@color/color_white"
+                            android:textSize="16sp" />
+
+                </RelativeLayout>
+
+
+
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

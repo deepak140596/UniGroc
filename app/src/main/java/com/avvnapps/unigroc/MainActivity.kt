@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.avvnapps.unigroc.Font.CustomTypefaceSpan
+import com.avvnapps.unigroc.Fragments.HomeFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -22,8 +24,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        startFragment(HomeFragment())
+
+        //inflate Navigation Drawer
         inflateNavDrawer();
 
+    }
+
+    fun startFragment(fragment : Fragment){
+        if(fragment != null){
+            var fragmentManager =supportFragmentManager
+            fragmentManager.beginTransaction().replace(R.id.contentPanel,fragment,"").commit()
+        }
     }
 
     private fun inflateNavDrawer(){
