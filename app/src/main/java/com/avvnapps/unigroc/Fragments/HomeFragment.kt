@@ -1,17 +1,21 @@
 package com.avvnapps.unigroc.Fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.avvnapps.unigroc.R
+import com.avvnapps.unigroc.generate_cart.SearchItemActivity
 
 
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
@@ -31,6 +35,15 @@ class HomeFragment : Fragment() {
         inflateSLider()
 
         return viewOfLayout
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val search = view.findViewById<LinearLayout>(R.id.dashboard_search_ll)
+        search.setOnClickListener {
+            startActivity(Intent(activity, SearchItemActivity::class.java))
+        }
     }
 
     private fun inflateSLider() {

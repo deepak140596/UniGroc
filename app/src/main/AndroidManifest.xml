@@ -16,20 +16,21 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity"
-                android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".Activity.SplashActivity"
+        <activity android:name=".Activity.EmptyCart"
+                android:parentActivityName=".MainActivity"></activity>
+        <activity
+                android:name=".MainActivity"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+                android:name=".Activity.SplashActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".generate_cart.DeliveryDetailsActivity"></activity>
+        <activity android:name=".generate_cart.DeliveryDetailsActivity" />
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
@@ -40,18 +41,17 @@
 
         <activity
                 android:name=".location_address.CreateAddressActivity"
-                android:theme="@style/Theme.MaterialComponents"></activity>
-        <activity android:name=".location_address.SavedAddressesActivity"></activity>
+                android:theme="@style/Theme.MaterialComponents" />
+        <activity android:name=".location_address.SavedAddressesActivity" />
         <activity
                 android:name=".generate_cart.ReviewCartActivity"
-                android:theme="@style/AppTheme.NoActionBar"></activity>
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".generate_cart.SearchItemActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
                 android:name=".authentication.AuthUiActivity"
-                android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+                android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity android:name=".authentication.VerifyPhoneActivity" />
         <activity
                 android:name=".NavigationActivity"

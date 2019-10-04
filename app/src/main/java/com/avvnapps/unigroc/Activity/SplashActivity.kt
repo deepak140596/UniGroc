@@ -4,20 +4,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.avvnapps.unigroc.R
 import android.content.Intent
-import androidx.core.os.HandlerCompat.postDelayed
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
 import android.os.Handler
+import android.view.Window
+import android.view.WindowManager
 import com.avvnapps.unigroc.MainActivity
-import com.avvnapps.unigroc.authentication.AuthUiActivity
 
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.avvnapps.unigroc.R.layout.activity_splash)
+        // remove title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_splash)
 
         Handler().postDelayed(
             Runnable /*

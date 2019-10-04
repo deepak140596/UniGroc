@@ -50,7 +50,7 @@ class AuthUiActivity : AppCompatActivity(){
                 AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.GoogleBuilder().build())
 
-// Create and launch sign-in intent
+       // Create and launch sign-in intent
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
