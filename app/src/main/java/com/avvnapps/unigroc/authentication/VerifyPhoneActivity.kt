@@ -168,22 +168,22 @@ class VerifyPhoneActivity : AppCompatActivity(){
 
             }
 
-            override fun onVerificationFailed(e: FirebaseException?) {
+            override fun onVerificationFailed(p0: FirebaseException) {
 
-                Log.e(TAG,"onVerificationFailed $e")
-                if (e is FirebaseAuthInvalidCredentialsException) {
+                Log.e(TAG,"onVerificationFailed $p0")
+                if (p0 is FirebaseAuthInvalidCredentialsException) {
                     // Invalid request
                     // ...
                     Toasty.error(this@VerifyPhoneActivity, "Invalid Phone Number. Try Again!").show()
                     gotoStepOne()
-                } else if (e is FirebaseTooManyRequestsException) {
+                } else if (p0 is FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
                     // ...
                     Toasty.error(this@VerifyPhoneActivity, "Please try after some time!").show()
                 }
             }
 
-            override fun onCodeSent(p0: String?, p1: PhoneAuthProvider.ForceResendingToken) {
+            override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(p0, p1)
 
                 Log.i(TAG, "VI: $p0")

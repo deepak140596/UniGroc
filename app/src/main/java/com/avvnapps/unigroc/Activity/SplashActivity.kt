@@ -9,6 +9,13 @@ import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
 import com.avvnapps.unigroc.MainActivity
+import com.avvnapps.unigroc.authentication.AuthUiActivity
+import com.google.firebase.auth.FirebaseAuth
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 class SplashActivity : AppCompatActivity() {
@@ -30,7 +37,16 @@ class SplashActivity : AppCompatActivity() {
             {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                val auth = FirebaseAuth.getInstance()
+                if (auth.currentUser != null) {
+                    // already signed in
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+
+                } else {
+                    // not signed in
+                    startActivity(Intent(this@SplashActivity, AuthUiActivity::class.java))
+
+                }
                 finish()
             }, 2500
         )
