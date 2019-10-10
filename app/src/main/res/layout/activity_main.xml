@@ -13,6 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+
+
     <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="295dp"
@@ -25,11 +27,6 @@
             app:itemTextAppearance="@style/NavDrawerTextStyle"
             app:itemTextColor="#fff"
             app:menu="@menu/activity_main_drawer">
-
-
-
-
-
 
 
     </com.google.android.material.navigation.NavigationView>

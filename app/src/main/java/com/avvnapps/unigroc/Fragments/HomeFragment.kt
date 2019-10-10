@@ -40,10 +40,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val search = view.findViewById<LinearLayout>(R.id.dashboard_search_ll)
-        search.setOnClickListener {
-            startActivity(Intent(activity, SearchItemActivity::class.java))
-        }
+
     }
 
     private fun inflateSLider() {
