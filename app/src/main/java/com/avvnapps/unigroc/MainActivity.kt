@@ -3,30 +3,35 @@ package com.avvnapps.unigroc
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.location.Location
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.RelativeLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.avvnapps.unigroc.Activity.EmptyCart
+import com.avvnapps.unigroc.Activity.ProfileActivity
 import com.avvnapps.unigroc.Font.CustomTypefaceSpan
-import com.avvnapps.unigroc.Fragments.HomeFragment
+import com.avvnapps.unigroc.authentication.AuthUiActivity
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
@@ -37,15 +42,27 @@ import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.lang.Exception
 
-class MainActivity : AppCompatActivity() {
+@Suppress("UNREACHABLE_CODE")
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+
     var toolbar: Toolbar? = null
     var navigationView: NavigationView? = null
+    private var nav_menu: Menu? = null
+    internal var My_Order: LinearLayout? = null
+    internal var My_Reward: LinearLayout? = null
+    internal var My_Walllet: LinearLayout? = null
+    internal var My_Cart: LinearLayout? = null
+    private var iv_profile: ImageView? = null
+    private var tv_name: TextView? = null
     internal var padding = 0
 
     var TAG = "Main_ACTIVITY"
@@ -53,8 +70,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var location: Location
     lateinit var cartViewModel: CartViewModel
     lateinit var firestoreViewModel: FirestoreViewModel
-    var savedCartItems : List<CartEntity> = emptyList()
-    lateinit var adapter : CartItemAdapter
+    var savedCartItems: List<CartEntity> = emptyList()
+    lateinit var adapter: CartItemAdapter
+    var user = FirebaseAuth.getInstance().currentUser
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,26 +92,73 @@ class MainActivity : AppCompatActivity() {
             savedCartItems = it
             updateCartImageView(savedCartItems)
         })
+        Log.i(
+            TAG,
+            "Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user!!.phoneNumber}"
+        )
+
 
         // initialise firebase view model
         initialiseFirebaseViewModel()
         // set up divider in recycler view
-        top_selling_recycler.layoutManager = LinearLayoutManager(this)
+        top_selling_recycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        adapter = CartItemAdapter(this, savedCartItems,cartViewModel)
+        adapter = CartItemAdapter(this, savedCartItems, cartViewModel)
         top_selling_recycler.adapter = adapter
 
 
     }
-    private fun updateCartImageView(savedCartItems : List<CartEntity>){
-        if(savedCartItems.isNotEmpty()){
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var id = item.itemId
+        if (id == R.id.nav_shop_now) {
+        } else if (id == R.id.nav_my_profile) {
+            startActivity(
+                Intent(this, ProfileActivity::class.java)
+            )
+
+        } else if (id == R.id.nav_support) {
+            val smsNumber = "919990797860"
+            val uri = Uri.parse("smsto:$smsNumber")
+            val i = Intent(Intent.ACTION_SENDTO, uri)
+            i.putExtra("Test", "Ahraar")
+            i.setPackage("com.whatsapp")
+            startActivity(i)
+        } else if (id == R.id.nav_aboutus) {
+
+        } else if (id == R.id.nav_policy) {
+
+        } else if (id == R.id.nav_review) {
+            reviewOnApp()
+        } else if (id == R.id.nav_contact) {
+
+        } else if (id == R.id.nav_share) {
+            shareApp()
+        } else if (id == R.id.nav_logout) {
+            signOut()
+        } else if (id == R.id.nav_powerd) {
+            // stripUnderlines(textView);
+            val url = "https://www.google.com/"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+            finish()
+        }
+        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        drawer.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    private fun updateCartImageView(savedCartItems: List<CartEntity>) {
+        if (savedCartItems.isNotEmpty()) {
             appbar_dashboard_cart_no_tv.text = savedCartItems.size.toString()
             appbar_dashboard_cart_no_tv.visibility = View.VISIBLE
-        }else
+        } else
             appbar_dashboard_cart_no_tv.visibility = View.GONE
     }
 
-    private fun init(){
+    private fun init() {
         appbar_dashboard_cart_iv.setOnClickListener {
             startActivity(Intent(this, ReviewCartActivity::class.java))
         }
@@ -102,14 +167,10 @@ class MainActivity : AppCompatActivity() {
         }
         appbar_dashboard_set_delivery_location_tv.setOnClickListener {
             var intent = Intent(this, SavedAddressesActivity::class.java)
-            intent.putExtra("is_selectable_action",true)
-            startActivityForResult(intent,SET_ADDRESS_REQUEST_CODE)
+            intent.putExtra("is_selectable_action", true)
+            startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
         }
 
-        val cart = findViewById(R.id.appbar_dashboard_cart_rl) as RelativeLayout
-        cart.setOnClickListener {
-            startActivity(Intent(this,EmptyCart::class.java))
-        }
     }
 
     private fun inflateSLider() {
@@ -123,26 +184,26 @@ class MainActivity : AppCompatActivity() {
         listURL.add(SlideModel("https://i.imgur.com/tuQ03J9.jpg"))
 
 
-        imageSlider.setImageList(listURL,true)
+        imageSlider.setImageList(listURL, true)
 
     }
 
 
     // observe on location and update accordingly
-    fun updateLocation(){
+    fun updateLocation() {
 
         LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
 
-            if(loc != null) {
+            if (loc != null) {
                 location = loc!!
-                Log.i(TAG,"Location: ${location.latitude}  ${location.longitude}")
-                var address = LocationUtils.getAddress(this,location.latitude,location.longitude)
-                if(address != null) {
+                Log.i(TAG, "Location: ${location.latitude}  ${location.longitude}")
+                var address = LocationUtils.getAddress(this, location.latitude, location.longitude)
+                if (address != null) {
                     Log.i(TAG, address)
                     try {
                         appbar_dashboard_set_delivery_location_tv.text = address
 
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -151,28 +212,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun askForPermissions() {
-        ActivityCompat.requestPermissions(this,
+        ActivityCompat.requestPermissions(
+            this,
             arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION),
-            1)
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            1
+        )
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode){
-            1 ->{
 
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            1 -> {
+
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
 
                     //isPermissionAcquired = true
 
                     updateLocation()
 
-                }
-                else{
+                } else {
                     // permission was denied
                     // isPermissionAcquired = false
-                    Toasty.error(this,"Permission Denied").show()
+                    Toasty.error(this, "Permission Denied").show()
                     // set empty list view
                 }
             }
@@ -181,8 +249,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-    private fun inflateNavDrawer(){
+    @SuppressLint("ResourceAsColor")
+    private fun inflateNavDrawer() {
         //set Custom toolbar to activity -----------------------------------------------------------
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -222,7 +290,19 @@ class MainActivity : AppCompatActivity() {
             applyFontToMenuItem(mi)
         }
 
-
+        val headerView = navigationView!!.getHeaderView(0)
+        navigationView!!.getBackground()
+            .setColorFilter(R.color.color_grey, PorterDuff.Mode.MULTIPLY)
+        navigationView!!.setNavigationItemSelectedListener(this)
+        nav_menu = navigationView!!.getMenu()
+        val header = (findViewById(R.id.nav_view) as NavigationView).getHeaderView(0)
+        iv_profile = header.findViewById(R.id.iv_header_img) as ImageView
+        tv_name = header.findViewById(R.id.tv_header_name) as TextView
+        tv_name!!.setText(user!!.displayName)
+        My_Order = header.findViewById(R.id.my_orders) as LinearLayout
+        My_Reward = header.findViewById(R.id.my_reward) as LinearLayout
+        My_Walllet = header.findViewById(R.id.my_wallet) as LinearLayout
+        My_Cart = header.findViewById(R.id.my_cart) as LinearLayout
 
     }
 
@@ -241,8 +321,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == SET_ADDRESS_REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == SET_ADDRESS_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 location.latitude = data!!.extras.getDouble("latitude")
                 location.longitude = data!!.extras.getDouble("longitude")
                 updateLocation()
@@ -250,17 +330,61 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initialiseFirebaseViewModel(){
+    private fun initialiseFirebaseViewModel() {
 
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
-            Log.i(TAG,"Order Size: ${savedCartItems.size}")
+            Log.i(TAG, "Order Size: ${savedCartItems.size}")
             adapter.cartList = savedCartItems
             adapter.notifyDataSetChanged()
         })
     }
 
+    fun signOut() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+                startActivity(
+                    Intent(this, AuthUiActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+                finish()
+            }
+    }
+
+    fun shareApp() {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "Hi friends i am using ." + " http://play.google.com/store/apps/details?id=" + packageName + " APP"
+        )
+        sendIntent.type = "text/plain"
+        startActivity(sendIntent)
+    }
+
+
+    fun reviewOnApp() {
+        val uri = Uri.parse("market://details?id=" + packageName)
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        goToMarket.addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+        try {
+            startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)
+                )
+            )
+        }
+
+    }
 
     override fun onResume() {
         super.onResume()

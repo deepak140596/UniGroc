@@ -18,6 +18,7 @@ import com.firebase.ui.auth.AuthMethodPickerLayout
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.avvnapps.unigroc.MainActivity
 
 
 /**
@@ -113,7 +114,7 @@ class AuthUiActivity : AppCompatActivity() {
             if (user.phoneNumber == null || user.phoneNumber.toString().length == 0)
                 startActivity(Intent(this, VerifyPhoneActivity::class.java))
             else
-                startActivity(Intent(this, NavigationActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }

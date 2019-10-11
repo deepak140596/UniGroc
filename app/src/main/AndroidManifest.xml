@@ -16,11 +16,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.EmptyCart"
-                android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".Activity.ProfileActivity"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".MainActivity"
-                android:theme="@style/AppTheme.NoActionBar"></activity>
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".Activity.SplashActivity"
                 android:theme="@style/AppTheme.NoActionBar">
@@ -51,7 +51,7 @@
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
                 android:name=".authentication.AuthUiActivity"
-                android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+                android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".authentication.VerifyPhoneActivity" />
         <activity
                 android:name=".NavigationActivity"

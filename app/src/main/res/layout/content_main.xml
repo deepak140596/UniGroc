@@ -28,7 +28,7 @@
                 android:clickable="true"
                 android:focusable="true">
 
-            <TextView
+            <com.avvnapps.unigroc.Font.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -61,7 +61,7 @@
                     android:layout_marginRight="16dp"
                     android:src="@mipmap/ic_search_primarycolor" />
 
-            <TextView
+            <com.avvnapps.unigroc.Font.LatoBLack
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -157,7 +157,7 @@
 
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="460dp"
+                    android:layout_height="340dp"
                     android:layout_margin="5dp"
                     android:orientation="vertical"
                     app:cardCornerRadius="2dp">
@@ -165,7 +165,7 @@
                 <FrameLayout
                         android:id="@+id/frame1"
                         android:layout_width="match_parent"
-                        android:layout_height="440dp"
+                        android:layout_height="340dp"
                         android:layout_marginTop="12dp">
 
                     <LinearLayout
@@ -182,7 +182,7 @@
                                 android:gravity="center_vertical"
                                 android:orientation="vertical">
 
-                            <TextView
+                            <com.avvnapps.unigroc.Font.LatoBLack
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center_vertical"

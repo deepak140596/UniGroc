@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit
 import android.app.Activity
 import android.content.Intent
 import android.view.inputmethod.InputMethodManager
+import com.avvnapps.unigroc.MainActivity
 import com.avvnapps.unigroc.NavigationActivity
 import kotlinx.android.synthetic.main.activity_navigation.*
 
@@ -73,7 +74,7 @@ class VerifyPhoneActivity : AppCompatActivity(){
         }
 
         activity_verify_done_btn.setOnClickListener {
-            startActivity(Intent(this@VerifyPhoneActivity,NavigationActivity::class.java))
+            startActivity(Intent(this@VerifyPhoneActivity,MainActivity::class.java))
             finish()
         }
 

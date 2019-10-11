@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -46,6 +47,17 @@ class ReviewCartActivity : AppCompatActivity() {
         // get saved cart items from local database
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
+            if (savedCartItems.isEmpty()){
+                review_cart_toolbar.title = "Cart"
+                empty_layout.visibility = View.VISIBLE
+                cart_layout.visibility = View.GONE
+
+            }else{
+                cart_layout.visibility = View.VISIBLE
+                empty_layout.visibility = View.GONE
+
+            }
+
             adapter.cartList = savedCartItems
             adapter.notifyDataSetChanged()
             setupSubtotal()
@@ -56,6 +68,10 @@ class ReviewCartActivity : AppCompatActivity() {
             startActivity(Intent(this,DeliveryDetailsActivity::class.java))
             finish()
         }
+
+        btn_shopnow.setOnClickListener(View.OnClickListener {
+            onBackPressed()
+        })
 
     }
 
