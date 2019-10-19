@@ -131,13 +131,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Intent(this, ProfileActivity::class.java)
             )
 
-        } else if (id == R.id.nav_support) {
-            val smsNumber = "919990797860"
-            val uri = Uri.parse("smsto:$smsNumber")
-            val i = Intent(Intent.ACTION_SENDTO, uri)
-            i.putExtra("Test", "Ahraar")
-            i.setPackage("com.whatsapp")
-            startActivity(i)
+        } else if (id == R.id.nav_wishlist) {
+
         } else if (id == R.id.nav_aboutus) {
 
         } else if (id == R.id.nav_policy) {
