@@ -23,7 +23,7 @@
             android:background="@color/color_grey"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
-            app:itemIconTint="#999999"
+            app:itemIconTint="#C0B4B8"
             app:itemTextAppearance="@style/NavDrawerTextStyle"
             app:itemTextColor="#fff"
             app:menu="@menu/activity_main_drawer">

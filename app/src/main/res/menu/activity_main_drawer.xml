@@ -5,19 +5,19 @@
     <group>
         <item
             android:id="@+id/nav_shop_now"
-            android:icon="@drawable/ic_nav_home"
+            android:icon="@drawable/home"
             android:title="@string/nav_home" />
         <item
             android:id="@+id/nav_my_profile"
-            android:icon="@drawable/ic_nav_profile"
+            android:icon="@drawable/profile"
             android:title="@string/nav_profile" />
         <item
             android:id="@+id/nav_support"
-            android:icon="@drawable/ic_nav_support"
-            android:title="Chat With Us" />
+            android:icon="@drawable/wishlist"
+            android:title="Wishlist" />
         <item
             android:id="@+id/nav_aboutus"
-            android:icon="@drawable/ic_nav_about"
+            android:icon="@drawable/credits"
             android:title="@string/nav_about" />
         <item
             android:id="@+id/nav_policy"
@@ -25,7 +25,7 @@
             android:title="@string/nav_terms" />
         <item
             android:id="@+id/nav_contact"
-            android:icon="@drawable/ic_location_on_black_24dp"
+            android:icon="@drawable/helpccenter"
             android:title="@string/nav_contact" />
         <item
             android:id="@+id/nav_review"
@@ -38,7 +38,7 @@
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_exit"
+            android:icon="@drawable/logout"
             android:title="@string/nav_logout" />
 
         <item

@@ -19,6 +19,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import kotlinx.android.synthetic.main.item_cart.view.*
 import kotlin.math.roundToInt
 
+
+
 class CartItemAdapter(
     var context: Context, var cartList: List<CartEntity>,
     var cartViewModel: CartViewModel
@@ -55,10 +57,31 @@ class CartItemAdapter(
         holder.bindItems(context, cartItem, cartViewModel)
     }
 
+    lateinit var mClickListener: ClickListener
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun setOnItemClickListener(aClickListener: ClickListener) {
+        mClickListener = aClickListener
+    }
+
+    interface ClickListener {
+        fun onClick(pos: Int, aView: View)
+    }
+
+    fun getItem(position: Int): Any {
+        return cartList.get(position)
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        override fun onClick(p0: View?) {
+            if (p0 != null) {
+                mClickListener.onClick(adapterPosition, p0)
+            }
+        }
+
         var TAG = "CART_ITEM_ADAPTER"
-
+        init {
+            itemView.setOnClickListener(this)
+        }
         fun bindItems(context: Context, cartItem: CartEntity, cartViewModel: CartViewModel) {
             itemView.item_cart_name_tv.text = cartItem.name
             itemView.item_cart_metric_weight_tv.text = cartItem.metricWeight

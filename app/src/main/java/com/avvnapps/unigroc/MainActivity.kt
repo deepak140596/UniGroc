@@ -18,6 +18,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Adapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -29,6 +30,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.avvnapps.unigroc.Activity.ContactUs
+import com.avvnapps.unigroc.Activity.IndividualProduct
 import com.avvnapps.unigroc.Activity.ProfileActivity
 import com.avvnapps.unigroc.Font.CustomTypefaceSpan
 import com.avvnapps.unigroc.authentication.AuthUiActivity
@@ -107,7 +110,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         adapter = CartItemAdapter(this, savedCartItems, cartViewModel)
         top_selling_recycler.adapter = adapter
 
+        adapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
+            override fun onClick(pos: Int, aView: View) {
+                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
+                if (cartItem == null)
+                    return;
+                val intent = Intent(this@MainActivity, IndividualProduct::class.java)
+                intent.putExtra("product", cartItem)
+                startActivity(intent)
 
+            }
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -132,7 +145,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_review) {
             reviewOnApp()
         } else if (id == R.id.nav_contact) {
-
+            startActivity(
+                Intent(this, ContactUs::class.java)
+            )
         } else if (id == R.id.nav_share) {
             shareApp()
         } else if (id == R.id.nav_logout) {

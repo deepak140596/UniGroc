@@ -7,15 +7,18 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.NonNull
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Deepak Prasad on 14-02-2019.
  */
 
 @Entity(tableName = "cart_table")
-class CartEntity constructor(itemId: String, name: String , category: String,
-                             clubbedCategory: String , photoUrl: String , quantity: Int,
-                             price: Double, metricWeight: String) : SearchSuggestion{
+class CartEntity constructor(
+    itemId: String, name: String, category: String,
+    clubbedCategory: String, photoUrl: String, quantity: Int,
+    price: Double, metricWeight: String
+) : SearchSuggestion {
     override fun writeToParcel(dest: Parcel?, flags: Int) {
 
     }
@@ -28,9 +31,9 @@ class CartEntity constructor(itemId: String, name: String , category: String,
         return "$name in $category"
     }
 
-    constructor(parcel : Parcel) :this()
+    constructor(parcel: Parcel) : this()
 
-    constructor():this("","","","","",0,0.0,"")
+    constructor() : this("", "", "", "", "", 0, 0.0, "")
 
     @NonNull
     @PrimaryKey
@@ -58,12 +61,12 @@ class CartEntity constructor(itemId: String, name: String , category: String,
     @ColumnInfo(name = "metric_weight")
     var metricWeight: String = metricWeight
 
-    fun incrementQuantity(){
+    fun incrementQuantity() {
         this.quantity = this.quantity + 1
     }
 
-    fun decrementQuantity(){
-        if(this.quantity > 0)
+    fun decrementQuantity() {
+        if (this.quantity > 0)
             this.quantity = this.quantity - 1
     }
 

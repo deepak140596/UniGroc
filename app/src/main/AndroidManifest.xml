@@ -16,8 +16,14 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.ProfileActivity"
+        <activity android:name=".Activity.IndividualProduct"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+                android:name=".Activity.ContactUs"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".Activity.ProfileActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".MainActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
