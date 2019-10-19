@@ -86,7 +86,7 @@ class SearchItemActivity : AppCompatActivity() {
 
                val cartItem = searchSuggestion as CartEntity
                 Log.i(TAG,"Item Clicked: ${cartItem.body}")
-               filteredCartItems = filterCartItems(availableCartItems,cartItem.name)
+               filteredCartItems = cartItem.name?.let { filterCartItems(availableCartItems, it) }!!
                updateRecylerView(filteredCartItems)
                activity_search_floating_search_view.clearSearchFocus()
            }

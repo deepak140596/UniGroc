@@ -78,7 +78,7 @@ class ReviewCartActivity : AppCompatActivity() {
     private fun setupSubtotal(){
         var subtotal = 0.0
         for(cartItem in savedCartItems){
-            subtotal += cartItem.price*cartItem.quantity
+            subtotal += cartItem.price!! * cartItem.quantity!!
         }
         view_cart_total_tv.text = PriceFormatter.getFormattedPrice(subtotal)
     }

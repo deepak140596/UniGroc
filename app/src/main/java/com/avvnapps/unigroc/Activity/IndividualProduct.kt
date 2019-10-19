@@ -28,14 +28,12 @@ class IndividualProduct : AppCompatActivity() {
     }
 
     private fun init(cartItem: CartEntity) {
-        if (cartItem!!.photoUrl != null) {
-            Glide.with(this).load(cartItem!!.photoUrl)
-                .transition(withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .dontAnimate().into(productimage)
-        }
+        Glide.with(this).load(cartItem.photoUrl)
+            .transition(withCrossFade())
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .dontAnimate().into(productimage)
 
-        product_name.setText(cartItem!!.name)
+        product_name.setText(cartItem.name)
 
     }
 
