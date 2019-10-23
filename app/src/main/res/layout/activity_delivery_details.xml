@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_white"
         tools:context=".generate_cart.DeliveryDetailsActivity">
 
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/delivery_details_continue_ll">
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -20,15 +21,17 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deliver To"
-                    android:textStyle="bold"
                     android:layout_margin="16dp"
-                    android:textSize="18sp"/>
+                    android:text="Deliver To"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="16dp">
+
                 <Button
                         android:id="@+id/delivery_details_change_address_btn"
                         android:layout_width="wrap_content"
@@ -36,36 +39,39 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="16dp"
-                        android:textColor="@color/color_white"
+                        android:background="@drawable/add_to_cart_btn_background"
                         android:text="Change"
-                        android:background="@drawable/add_to_cart_btn_background"/>
+                        android:textColor="@color/color_white" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@id/delivery_details_change_address_btn"
                         android:orientation="vertical">
+
                     <TextView
                             android:id="@+id/delivery_details_address_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Home"
-                            android:textStyle="bold"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                     <TextView
                             android:id="@+id/delivery_details_address_one_tv"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
+
                     <TextView
                             android:id="@+id/delivery_details_address_two_tv"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
+
                     <TextView
                             android:id="@+id/delivery_details_landmark_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"/>
+                            android:layout_marginTop="8dp" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -73,10 +79,11 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Select"
-                    android:textStyle="bold"
                     android:layout_marginLeft="16dp"
-                    android:textSize="18sp"/>
+                    android:text="Select"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
             <RadioGroup
                     android:id="@+id/delivery_details_type_radiogroup"
                     android:layout_width="match_parent"
@@ -92,24 +99,25 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="16dp"
-                        android:text="Delivery"/>
+                        android:text="Delivery" />
+
                 <RadioButton
                         android:id="@+id/delivery_details_pickup_rb"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="16dp"
-                        android:text="Pickup"/>
+                        android:text="Pickup" />
             </RadioGroup>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choose Slot"
-                    android:textStyle="bold"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:textSize="18sp"/>
+                    android:text="Choose Slot"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             <co.ceryle.radiorealbutton.RadioRealButtonGroup
                     android:id="@+id/delivery_details_day_radiogroup"
@@ -133,7 +141,7 @@
                         app:rrb_ripple="true"
                         app:rrb_rippleColor="@color/black"
                         app:rrb_text="Today"
-                        app:rrb_textColor="@color/black"/>
+                        app:rrb_textColor="@color/black" />
 
                 <co.ceryle.radiorealbutton.RadioRealButton
                         android:id="@+id/delivery_details_tomorrow_rb"
@@ -142,7 +150,7 @@
                         app:rrb_ripple="true"
                         app:rrb_rippleColor="@color/black"
                         app:rrb_text="Tommorow"
-                        app:rrb_textColor="@color/black"/>
+                        app:rrb_textColor="@color/black" />
 
             </co.ceryle.radiorealbutton.RadioRealButtonGroup>
 
@@ -152,69 +160,75 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:orientation="vertical">
+
                 <RadioButton
                         android:id="@+id/delivery_details_7_11_rb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="7AM to 11AM"/>
+                        android:text="7AM to 11AM" />
+
                 <RadioButton
                         android:id="@+id/delivery_details_11_1_rb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="11AM to 1PM"/>
+                        android:text="11AM to 1PM" />
+
                 <RadioButton
                         android:id="@+id/delivery_details_1_5_rb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="1PM to 5 PM"/>
+                        android:text="1PM to 5 PM" />
+
                 <RadioButton
                         android:id="@+id/delivery_details_5_7_rb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="5PM to 7PM"/>
+                        android:text="5PM to 7PM" />
+
                 <RadioButton
                         android:id="@+id/delivery_details_7_9_rb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="7PM to 9PM"/>
+                        android:text="7PM to 9PM" />
             </RadioGroup>
 
             <TextView
                     android:id="@+id/delivery_details_no_slots_available_hint_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
                     android:layout_margin="16dp"
+                    android:text="@string/hint_no_slots_available"
                     android:textAlignment="center"
-                    android:visibility="gone"
-                    android:text="@string/hint_no_slots_available"/>
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>
 
-   <LinearLayout
-           android:id="@+id/delivery_details_continue_ll"
-           android:layout_width="match_parent"
-           android:layout_height="?attr/actionBarSize"
-           android:layout_alignParentBottom="true"
-           android:focusable="true">
-       <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:paddingBottom="16dp"
-               android:paddingTop="16dp"
-               android:textStyle="bold"
-               android:textSize="18sp"
-               android:background="@drawable/background_primary_color_ripple"
-               android:textColor="@color/color_white"
-               android:textAlignment="center"
-               android:text="Continue"/>
-   </LinearLayout>
+    <LinearLayout
+            android:id="@+id/delivery_details_continue_ll"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:focusable="true">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_primary_color_ripple"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="Continue"
+                android:textAlignment="center"
+                android:textColor="@color/color_white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+    </LinearLayout>
 
 
 </RelativeLayout>

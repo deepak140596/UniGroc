@@ -1,5 +1,6 @@
 package com.avvnapps.unigroc.Activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -45,6 +46,19 @@ class Wishlist : AppCompatActivity() {
         mLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerview.setHasFixedSize(true)
         recyclerview.setLayoutManager(mLayoutManager)
+
+        view_profile.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(this, ProfileActivity::class.java)
+            )
+        })
+        //fetch data from wishlist
+        popuateData()
+
+
+    }
+
+    private fun popuateData() {
         val rootRef = FirebaseFirestore.getInstance()
         val query =
             rootRef!!.collection("users").document(user!!.email.toString()).collection("wishlist")
@@ -58,16 +72,14 @@ class Wishlist : AppCompatActivity() {
                 if (p0 != null) {
                     wishlistItem.clear()
                     for (documentSnap: QueryDocumentSnapshot in p0) {
-                        if (tv_no_cards.getVisibility() == View.VISIBLE) {
-                            tv_no_cards.setVisibility(View.GONE)
-                        }
-                        val getID = documentSnap.getId()
                         val wishlist = documentSnap!!.toObject(wishlistItems::class.java!!)
                         wishlistItem.add(wishlist)
+                        tv_no_cards.visibility = View.GONE
                         adapter.notifyDataSetChanged()
 
                     }
                     if (wishlistItem.isEmpty()){
+                        tv_no_cards.visibility = View.GONE
                         empty_cart.visibility = View.VISIBLE
                     }
                 }
@@ -75,10 +87,7 @@ class Wishlist : AppCompatActivity() {
 
             }
 
-        })
-
-    }
-
+        })    }
 
 
     override fun onSupportNavigateUp(): Boolean {

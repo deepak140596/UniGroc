@@ -1,6 +1,7 @@
 package com.avvnapps.unigroc.Adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,17 @@ import com.avvnapps.unigroc.models.wishlistItems
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import es.dmoral.toasty.Toasty
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class wishlistAdapter(var context: Context, var wishlistItems: ArrayList<wishlistItems>) :
     RecyclerView.Adapter<wishlistAdapter.wishlistViewHolder>() {
+    var user = FirebaseAuth.getInstance().currentUser
 
+    val rootRef = FirebaseFirestore.getInstance()
+    val query =
+        rootRef!!.collection("users").document(user!!.email.toString()).collection("wishlist")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): wishlistViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.cart_item_layout, parent, false)
@@ -53,6 +58,21 @@ class wishlistAdapter(var context: Context, var wishlistItems: ArrayList<wishlis
 
             cardprice.text = wishlistItems.price.toString()
             cardcount.text = wishlistItems.no_of_items.toString()
+            carddelete.setOnClickListener(View.OnClickListener {
+                query.whereEqualTo("itemId", wishlistItems.itemId).get()
+                    .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d("wishData", "${document.id} => ${document.data}")
+                    query.document(document.id)
+                        .delete()
+                }
+            }
+                .addOnFailureListener { exception ->
+                    Log.w("wishData", "Error getting documents: ", exception)
+                }
+
+
+            })
         }
 
         internal var cardname: TextView

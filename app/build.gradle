@@ -107,7 +107,7 @@ dependencies {
     implementation 'net.rimoto:intlphoneinput:1.0.1'
 
     // Custom Radio Buttons
-    implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
+    implementation 'com.github.patgdut:RadioRealButton:v2.1.2'
 
     // GSON
     implementation 'com.google.code.gson:gson:2.8.5'
