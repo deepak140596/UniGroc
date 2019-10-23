@@ -13,8 +13,8 @@
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/toolbarwrap"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -123,8 +123,8 @@
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="#eeeeee"
-                        android:text="-"
                         android:onClick="decrement"
+                        android:text="-"
                         android:textColor="@android:color/black" />
 
                 <EditText
@@ -143,8 +143,8 @@
                         android:id="@+id/incrementQuantity"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:onClick="increment"
                         android:backgroundTint="#eeeeee"
+                        android:onClick="increment"
                         android:text="+"
                         android:textColor="@android:color/black" />
 
@@ -231,6 +231,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:onClick="addToWishlist"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
@@ -292,7 +293,6 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="2dp"
                     android:background="@color/grey_light" />
-
 
 
         </LinearLayout>

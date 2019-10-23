@@ -16,8 +16,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.IndividualProduct"
+        <activity android:name=".Activity.Wishlist"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+                android:name=".Activity.IndividualProduct"
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".Activity.ContactUs"
                 android:theme="@style/AppTheme.NoActionBar" />

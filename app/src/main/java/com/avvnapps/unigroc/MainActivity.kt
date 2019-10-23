@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.Activity.ContactUs
 import com.avvnapps.unigroc.Activity.IndividualProduct
 import com.avvnapps.unigroc.Activity.ProfileActivity
+import com.avvnapps.unigroc.Activity.Wishlist
 import com.avvnapps.unigroc.Font.CustomTypefaceSpan
 import com.avvnapps.unigroc.authentication.AuthUiActivity
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
@@ -132,7 +133,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             )
 
         } else if (id == R.id.nav_wishlist) {
-
+            startActivity(
+                Intent(this, Wishlist::class.java)
+            )
         } else if (id == R.id.nav_aboutus) {
 
         } else if (id == R.id.nav_policy) {

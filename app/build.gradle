@@ -30,6 +30,10 @@ android {
     androidExtensions {
         experimental = true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -50,6 +54,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-firestore:18.0.1'
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:6.0.2'
     implementation 'com.firebaseui:firebase-ui-auth:6.0.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
@@ -74,6 +80,7 @@ dependencies {
     // maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation "com.google.android.gms:play-services-places:17.0.0"
+
 
     //=====================================================================================
 

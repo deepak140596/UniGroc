@@ -22,6 +22,13 @@ class FirestoreRepository {
         return collectionReference.get()
     }
 
+    //get Wishlist Items
+    fun getWishlistItems(): Task<QuerySnapshot>{
+        var collectionReference = firestoreDB.collection("users").document(email)
+            .collection("wishlist")
+        return collectionReference.get()
+    }
+
     // save address to firebase
     fun saveAddressItem(addressItem: AddressItem): Task<Void> {
         //var

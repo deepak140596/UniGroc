@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -14,13 +13,20 @@ import com.avvnapps.unigroc.utils.PriceFormatter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_individual_product.*
 
+
 class IndividualProduct : AppCompatActivity() {
     private var quantity = 1
-
+    var firestoreDB = FirebaseFirestore.getInstance()
     var cartItem: CartEntity? = null;
+    var user = FirebaseAuth.getInstance().currentUser
+    var collectionReference = firestoreDB.collection("users").document(user!!.email.toString()).collection("wishlist")
+    private var flag: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_individual_product)
@@ -46,6 +52,7 @@ class IndividualProduct : AppCompatActivity() {
 
         product_name.setText(cartItem!!.name)
         product_price.text = PriceFormatter.getFormattedPrice(cartItem!!.price!!)
+
 
 
     }
@@ -99,6 +106,43 @@ class IndividualProduct : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+
+    fun addToWishlist(view: View) {
+        add_to_wishlist.playAnimation()
+        val data = hashMapOf(
+            "itemId" to cartItem?.itemId.toString(),
+            "no_of_items" to Integer.parseInt(quantityProductPage.text.toString()),
+            "user_email" to user?.email,
+            "user_mobile" to  user?.phoneNumber,
+            "name" to   cartItem?.name,
+            "price" to cartItem?.price,
+            "photoUrl" to  cartItem?.photoUrl,
+            "category" to  cartItem?.category,
+            "clubbedCategory" to cartItem?.clubbedCategory,
+            "metricWeight" to cartItem?.metricWeight
+
+
+
+        )
+        val query = collectionReference.whereEqualTo("itemId", cartItem!!.itemId)
+        query.get()
+            .addOnSuccessListener { queryDocumentSnapshots ->
+                for (documentSnapshot in queryDocumentSnapshots) {
+                    flag = true
+                }
+                if (flag) {
+
+                    Toasty.success(this@IndividualProduct, "Added", Toast.LENGTH_SHORT)
+                        .show()
+
+                } else {
+                    collectionReference.add(data)
+                    Toasty.success(this@IndividualProduct, "Added to Wishlist", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
     }
 
 }
