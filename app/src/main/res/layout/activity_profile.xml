@@ -55,15 +55,6 @@
                         android:backgroundTint="@color/color_white"
                         android:src="@drawable/cart" />
 
-                <com.avvnapps.unigroc.Font.LatoBLack
-                        android:id="@+id/update_profile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="20dp"
-                        android:text="Update"
-                        android:textAllCaps="true"
-                        android:textColor="#E1F5FE" />
 
             </LinearLayout>
 
@@ -93,33 +84,57 @@
                         android:layout_height="100dp"
                         android:background="@color/colorPrimary" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_pic"
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="30dp"
-                        android:elevation="5dp"
-                        app:civ_border_color="@color/color_white"
-                        app:civ_border_width="1dp"
-                        android:src="@drawable/user"
-                        android:visibility="visible" />
-                <com.avvnapps.unigroc.Font.LatoBLack
-                        android:id="@+id/name_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/profile_pic"
-                        android:elevation="5dp"
-                        android:textSize="16sp"
-                        android:layout_marginTop="78dp"
-                        android:textColor="@color/black"
-                        android:paddingBottom="10dp"
-                        android:background="@color/color_white"
-                        android:layout_marginLeft="20dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp"/>
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:gravity="left"
+                        android:padding="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile_pic"
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="30dp"
+                            android:elevation="5dp"
+                            app:civ_border_color="@color/color_white"
+                            app:civ_border_width="1dp"
+                            android:src="@drawable/user"
+                            android:visibility="visible" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/changeProfilePic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/profile_pic"
+                            android:layout_alignBottom="@+id/profile_pic"
+                            android:elevation="4dp"
+                            app:backgroundTint="@color/colorPrimary"
+                            android:src="@drawable/uploadpic"
+                            app:borderWidth="0dp"
+                            app:fabCustomSize="40dp"
+                            app:pressedTranslationZ="1dp" />
+
+                    <com.avvnapps.unigroc.Font.LatoBLack
+                            android:id="@+id/name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/profile_pic"
+                            android:elevation="5dp"
+                            android:textSize="16sp"
+                            android:layout_marginTop="78dp"
+                            android:textColor="@color/black"
+                            android:paddingBottom="10dp"
+                            android:background="@color/color_white"
+                            android:layout_marginLeft="20dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingTop="10dp"/>
+
+
+                </RelativeLayout>
+
 
 
             </RelativeLayout>

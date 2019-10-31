@@ -30,10 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.avvnapps.unigroc.Activity.ContactUs
-import com.avvnapps.unigroc.Activity.IndividualProduct
-import com.avvnapps.unigroc.Activity.ProfileActivity
-import com.avvnapps.unigroc.Activity.Wishlist
+import com.avvnapps.unigroc.Activity.*
 import com.avvnapps.unigroc.Font.CustomTypefaceSpan
 import com.avvnapps.unigroc.authentication.AuthUiActivity
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
@@ -121,6 +118,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
 
             }
+        })
+
+        view_all_topselling.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(this, Products::class.java)
+            )
         })
     }
 

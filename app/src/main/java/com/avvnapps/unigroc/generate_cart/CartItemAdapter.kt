@@ -48,11 +48,11 @@ class CartItemAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cartItem = cartList[position]
 
-        val itemWidth = screenWidth / 2.33
+        val itemWidth = screenWidth / 2
 
         val lp = holder.itemView.layoutParams
         lp.height = lp.height
-        lp.width = itemWidth.roundToInt()
+        lp.width = itemWidth
         holder.itemView.layoutParams = lp
         holder.bindItems(context, cartItem, cartViewModel)
     }
