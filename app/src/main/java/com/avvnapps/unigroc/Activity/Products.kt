@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.avvnapps.unigroc.R
@@ -13,6 +14,7 @@ import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.avvnapps.unigroc.MainActivity
 
 import kotlinx.android.synthetic.main.activity_products.*
 
@@ -29,6 +31,12 @@ class Products : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
+
+        val toolbar = findViewById(R.id.products_toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // initialise cart view model
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
@@ -78,7 +86,10 @@ class Products : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
         return true
     }
 }

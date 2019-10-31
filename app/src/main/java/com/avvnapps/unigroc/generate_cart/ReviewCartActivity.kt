@@ -44,6 +44,8 @@ class ReviewCartActivity : AppCompatActivity() {
         adapter = CartItemAdapter(this,savedCartItems,cartViewModel)
         review_cart_recycler_view.adapter = adapter
 
+
+
         // get saved cart items from local database
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it

@@ -18,10 +18,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Adapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -105,9 +102,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         top_selling_recycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        rv_deal_of_the_day.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
         adapter = CartItemAdapter(this, savedCartItems, cartViewModel)
         top_selling_recycler.adapter = adapter
-
+        rv_deal_of_the_day.adapter = adapter
         adapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
                 val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
@@ -319,6 +319,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         My_Reward = header.findViewById(R.id.my_reward) as LinearLayout
         My_Walllet = header.findViewById(R.id.my_wallet) as LinearLayout
         My_Cart = header.findViewById(R.id.my_cart) as LinearLayout
+
+        My_Order!!.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(this, Order::class.java)
+            )
+        })
+
+        My_Cart!!.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(this, ReviewCartActivity::class.java))
+        })
 
     }
 
