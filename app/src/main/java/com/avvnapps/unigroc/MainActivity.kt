@@ -35,6 +35,7 @@ import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
 import com.avvnapps.unigroc.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.models.CartEntity
+import com.avvnapps.unigroc.utils.GpsUtils
 import com.avvnapps.unigroc.utils.LocationUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
@@ -72,12 +73,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var adapter: CartItemAdapter
     var user = FirebaseAuth.getInstance().currentUser
 
+    private lateinit var gpsUtils: GpsUtils
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //Location Permissions
         askForPermissions()
+
+        gpsUtils = GpsUtils(this)
+
 
         //inflate Navigation Drawer
         inflateNavDrawer();
@@ -213,16 +219,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (loc != null) {
                 location = loc!!
                 Log.i(TAG, "Location: ${location.latitude}  ${location.longitude}")
-                var address = LocationUtils.getAddress(this, location.latitude, location.longitude)
-                if (address != null) {
-                    Log.i(TAG, address)
-                    try {
-                        appbar_dashboard_set_delivery_location_tv.text = address
+                gpsUtils.getLatLong { lat, long ->
+                    println("location is $lat + $long")
+                    Log.i(TAG, "location is $lat + $long")
 
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                    var address = LocationUtils.getAddress(this, lat, long)
+                    if (address != null) {
+                        Log.i(TAG, address)
+                        try {
+                            appbar_dashboard_set_delivery_location_tv.text = address
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
+
             }
         })
     }
@@ -250,8 +262,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     // permission was granted
 
                     //isPermissionAcquired = true
+                    gpsUtils.onProgressUpdate = { show ->
+                        println("need to show progress $show")
+                        // updateLocation()
 
-                    updateLocation()
+                    }
+                    getLocation();
 
                 } else {
                     // permission was denied
@@ -261,6 +277,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
+        }
+    }
+
+    private fun getLocation() {
+        gpsUtils.getLatLong { lat, long ->
+            Log.i(TAG, "location is $lat + $long")
+
+            var address = LocationUtils.getAddress(this, lat, long)
+            if (address != null) {
+                Log.i(TAG, address)
+                try {
+                    appbar_dashboard_set_delivery_location_tv.text = address
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
@@ -347,6 +380,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //super.onActivityResult(requestCode, resultCode, data)
+        gpsUtils.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == SET_ADDRESS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 location.latitude = data!!.extras.getDouble("latitude")

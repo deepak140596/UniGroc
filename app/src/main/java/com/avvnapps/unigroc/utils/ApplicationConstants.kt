@@ -1,6 +1,6 @@
 package com.avvnapps.unigroc.utils
 
-class ApplicationConstants{
+class ApplicationConstants {
     companion object {
         var ORDER_SUBMITTED = 0
         var ORDER_QUOTED = 1
