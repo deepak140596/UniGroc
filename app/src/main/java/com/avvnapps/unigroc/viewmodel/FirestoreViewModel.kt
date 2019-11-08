@@ -17,9 +17,11 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     var availableCartItems : MutableLiveData<List<CartEntity>> = MutableLiveData()
     var savedAddresses : MutableLiveData<List<AddressItem>> = MutableLiveData()
     var quotedPrices : MutableLiveData<List<RetailerQuotationItem>> = MutableLiveData()
-    var quotedOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
     var allOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
     var wishListItems : MutableLiveData<List<wishlistItems>> = MutableLiveData()
+    //Orders
+    var quotedOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
+
 
     // get available cart items from firestore
     fun getAvailableCartItems() : LiveData<List<CartEntity>>{

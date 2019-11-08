@@ -21,33 +21,13 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:titleTextAppearance="@style/RobotoBoldTextAppearance">
 
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/back_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/ic_arrow_back_black_24dp" />-->
-
-            <!--<Fonts.LatoBLack-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@id/back_button"-->
-            <!--android:layout_marginLeft="@dimen/space_8"-->
-            <!--android:text="Products"-->
-            <!--android:textColor="#ffffff"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--</RelativeLayout>-->
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
+            android:id="@+id/order_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_bar"
@@ -64,9 +44,9 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+            android:id="@+id/order_pager"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@id/tab_layout" />
+            android:layout_below="@id/order_tab_layout" />
 
 </RelativeLayout>

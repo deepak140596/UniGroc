@@ -190,11 +190,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         appbar_dashboard_set_delivery_location_tv.setOnClickListener {
             var intent = Intent(this, SavedAddressesActivity::class.java)
             intent.putExtra("is_selectable_action", true)
-            startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
+            startActivity(intent)
+            // startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
         }
+
+
 
     }
 
+    //Image Slider
     private fun inflateSLider() {
         val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
 
@@ -226,12 +230,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     var address = LocationUtils.getAddress(this, lat, long)
                     if (address != null) {
                         Log.i(TAG, address)
-                        try {
-                            appbar_dashboard_set_delivery_location_tv.text = address
+                        appbar_dashboard_set_delivery_location_tv.text = address
 
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
                     }
                 }
 
@@ -287,12 +287,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             var address = LocationUtils.getAddress(this, lat, long)
             if (address != null) {
                 Log.i(TAG, address)
-                try {
-                    appbar_dashboard_set_delivery_location_tv.text = address
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                appbar_dashboard_set_delivery_location_tv.text = address
             }
         }
     }
