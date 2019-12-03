@@ -59,6 +59,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:tint="@color/colorPrimary"
                     android:src="@mipmap/ic_search_primarycolor" />
 
             <com.avvnapps.unigroc.Font.LatoBLack
@@ -155,82 +156,74 @@
 
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+
+            <FrameLayout
+                    android:id="@+id/frame1"
                     android:layout_width="match_parent"
                     android:layout_height="340dp"
-                    android:layout_margin="4dp"
-                    android:orientation="vertical"
-                    app:cardCornerRadius="2dp">
+                    android:layout_marginTop="12dp">
 
-                <FrameLayout
-                        android:id="@+id/frame1"
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="340dp"
-                        android:layout_marginTop="12dp">
+                        android:layout_height="55dp"
+                        android:weightSum="2">
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:weightSum="2">
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
 
-                        <LinearLayout
-                                android:layout_width="0dp"
+                        <com.avvnapps.unigroc.Font.LatoBLack
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="12dp"
-                                android:layout_weight="1"
                                 android:gravity="center_vertical"
-                                android:orientation="vertical">
+                                android:text="Top Selling Products"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="18dp" />
 
-                            <com.avvnapps.unigroc.Font.LatoBLack
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
-                                    android:text="Top Selling Products"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="18dp" />
+                    </LinearLayout>
 
-                        </LinearLayout>
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:layout_weight="1"
+                            android:gravity="center|right">
 
-                        <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="right|center"
-                                android:layout_weight="1"
-                                android:gravity="center|right">
-
-                            <Button
-                                    android:id="@+id/view_all_topselling"
-                                    android:layout_width="70dp"
-                                    android:layout_height="35dp"
-                                    android:layout_marginRight="12dp"
-                                    android:background="@drawable/corner_button_orange"
-                                    android:text="View All"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="10dp"
-                                    android:textStyle="bold" />
-
-                        </LinearLayout>
-
+                        <Button
+                                android:id="@+id/view_all_topselling"
+                                android:layout_width="70dp"
+                                android:layout_height="35dp"
+                                android:layout_marginRight="12dp"
+                                android:background="@drawable/corner_button_orange"
+                                android:text="View All"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="10dp"
+                                android:textStyle="bold" />
 
                     </LinearLayout>
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/top_selling_recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="40dp"
-                            android:orientation="horizontal"
-                            android:scrollbars="none"
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                </LinearLayout>
 
 
-                </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_selling_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="40dp"
+                        android:orientation="horizontal"
+                        android:scrollbars="none"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
 
 
             <LinearLayout
@@ -255,9 +248,9 @@
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="340dp"
-                    android:orientation="vertical"
-                    android:background="@color/transparent"
                     android:layout_margin="4dp"
+                    android:background="@color/transparent"
+                    android:orientation="vertical"
                     app:cardCornerRadius="2dp">
 
                 <FrameLayout
@@ -332,8 +325,8 @@
                                         android:id="@+id/view_all_deals"
                                         android:layout_width="70dp"
                                         android:layout_height="35dp"
-                                        android:background="@drawable/corner_button_orange"
                                         android:layout_marginEnd="12dp"
+                                        android:background="@drawable/corner_button_orange"
                                         android:text="View All"
                                         android:textColor="@color/colorPrimary"
                                         android:textSize="10sp"
@@ -351,8 +344,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="8dp"
-                                android:layout_marginRight="8dp"
                                 android:layout_marginTop="40dp"
+                                android:layout_marginRight="8dp"
                                 android:scrollbars="none"
                                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

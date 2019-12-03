@@ -18,7 +18,7 @@
                 android:orientation="vertical">
 
 
-            <TextView
+            <com.avvnapps.unigroc.Font.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -38,6 +38,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:fontFamily="@font/bold"
                         android:layout_margin="16dp"
                         android:background="@drawable/add_to_cart_btn_background"
                         android:text="Change"
@@ -49,7 +50,7 @@
                         android:layout_toLeftOf="@id/delivery_details_change_address_btn"
                         android:orientation="vertical">
 
-                    <TextView
+                    <com.avvnapps.unigroc.Font.LatoBLack
                             android:id="@+id/delivery_details_address_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -76,7 +77,7 @@
 
             </RelativeLayout>
 
-            <TextView
+            <com.avvnapps.unigroc.Font.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -98,6 +99,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/bold"
                         android:padding="16dp"
                         android:text="Delivery" />
 
@@ -106,11 +108,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/bold"
+
                         android:padding="16dp"
                         android:text="Pickup" />
             </RadioGroup>
 
-            <TextView
+            <com.avvnapps.unigroc.Font.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -217,7 +221,7 @@
             android:layout_alignParentBottom="true"
             android:focusable="true">
 
-        <TextView
+        <com.avvnapps.unigroc.Font.LatoBLack
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_primary_color_ripple"

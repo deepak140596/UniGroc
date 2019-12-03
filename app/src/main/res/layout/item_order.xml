@@ -1,57 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp">
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="10dp">
 
     <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
+
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Order ID :"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
+
             <TextView
                     android:id="@+id/item_order_id_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="12sp"
-                    android:text="12345432329"/>
+                    android:text="12345432329"
+                    android:textSize="12sp" />
+
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                 <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@mipmap/ic_green_circle"
+                        android:layout_gravity="center_vertical"
                         android:layout_toLeftOf="@id/item_order_estimated_delivery_tv"
-                        android:layout_gravity="center_vertical"/>
+                        android:src="@mipmap/ic_green_circle" />
+
                 <TextView
                         android:id="@+id/item_order_estimated_delivery_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="center_vertical"
-                        android:text="Delivery, Tomorrow by 9 PM"/>
+                        android:text="Delivery, Tomorrow by 9 PM" />
             </RelativeLayout>
 
 
@@ -60,26 +64,27 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginRight="8dp">
+                android:orientation="horizontal">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="4dp"
                     android:text="Items :"
-                    android:textSize="14sp"
-                    android:layout_marginRight="4dp"/>
+                    android:textSize="14sp" />
+
             <TextView
                     android:id="@+id/item_order_item_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:text="12"
                     android:textColor="@color/black"
-                    android:text="12"/>
+                    android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -87,63 +92,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
             <com.shuhart.stepview.StepView
                     android:id="@+id/item_order_status_stepview"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:sv_selectedCircleColor="@color/colorPrimary"
-                    app:sv_selectedTextColor="@color/colorAccent"
-                    app:sv_stepLineWidth="1dp"
-                    app:sv_stepPadding="4dp"
-                    app:sv_stepsNumber="6"
-                    app:sv_nextTextColor="@color/colorAccent"
-                    app:sv_nextStepLineColor="@color/colorAccent"
+                    app:sv_animationType="Line"
                     app:sv_doneCircleColor="@color/colorAccent"
-                    app:sv_doneStepLineColor="@color/colorAccent"
                     app:sv_doneCircleRadius="12dp"
+                    app:sv_doneStepLineColor="@color/colorAccent"
+                    app:sv_doneStepMarkColor="@color/color_white"
+                    app:sv_nextStepLineColor="@color/colorAccent"
+                    app:sv_nextTextColor="@color/colorAccent"
+                    app:sv_selectedCircleColor="@color/colorPrimary"
                     app:sv_selectedCircleRadius="12dp"
                     app:sv_selectedStepNumberColor="@color/color_white"
-                    app:sv_stepViewStyle="@style/StepView"
-                    app:sv_doneStepMarkColor="@color/color_white"
+                    app:sv_selectedTextColor="@color/colorAccent"
+                    app:sv_stepLineWidth="1dp"
                     app:sv_stepNumberTextSize="12sp"
-                    app:sv_animationType="Line"/>
+                    app:sv_stepPadding="4dp"
+                    app:sv_stepViewStyle="@style/StepView"
+                    app:sv_stepsNumber="6" />
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginRight="8dp">
+                android:orientation="horizontal">
 
             <TextView
                     android:id="@+id/item_order_status_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="4dp"
                     android:text="Placed at"
-                    android:textSize="16sp"
-                    android:layout_marginRight="4dp"/>
+                    android:textSize="16sp" />
+
             <TextView
                     android:id="@+id/item_order_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:text="12 Mar, 19:00"
                     android:textColor="@color/black"
-                    android:text="12 Mar, 19:00"/>
+                    android:textSize="16sp" />
+
             <TextView
                     android:id="@+id/item_order_view_action_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp"
                     android:text="View Quotes"
-                    android:textColor="@color/color_blue"/>
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/color_blue"
+                    android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -152,8 +160,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:visibility="visible"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
+
             <RelativeLayout
                     android:id="@+id/item_order_retail1_details_ll"
                     android:layout_width="match_parent"
@@ -166,7 +175,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_github_icon"/>
+                        android:src="@mipmap/ic_github_icon" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -174,52 +183,57 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:layout_toRightOf="@+id/item_order_retail1_iv"
                         android:layout_toLeftOf="@+id/item_order_retail1_place_btn"
+                        android:layout_toRightOf="@+id/item_order_retail1_iv"
                         android:orientation="vertical">
+
                     <TextView
                             android:id="@+id/item_order_retail1_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Retailer 1 "/>
+                            android:text="Retailer 1 "
+                            android:textSize="16sp" />
+
                     <TextView
                             android:id="@+id/item_order_retail1_quote_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
+                            android:text="INR 834.00"
                             android:textColor="@color/color_blue"
-                            android:text="INR 834.00"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                     <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                         <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@mipmap/ic_star_yellow"/>
+                                android:src="@mipmap/ic_star_yellow" />
+
                         <TextView
                                 android:id="@+id/item_order_retailer1_rating_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:text="4.6"
-                                android:textSize="12sp"
-                                android:layout_gravity="center_vertical"/>
+                                android:textSize="12sp" />
 
                         <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginLeft="16dp"
-                                android:src="@mipmap/ic_location"/>
+                                android:src="@mipmap/ic_location" />
+
                         <TextView
                                 android:id="@+id/item_order_retailer1_distance_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:text="0.5 km away"
-                                android:textSize="12sp"
-                                android:layout_gravity="center_vertical"/>
+                                android:textSize="12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -228,12 +242,12 @@
                         android:id="@+id/item_order_retail1_place_btn"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:textSize="10sp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/background_primary_color_ripple"
                         android:text="Place"
                         android:textColor="@color/color_white"
-                        android:background="@drawable/background_primary_color_ripple"/>
+                        android:textSize="10sp" />
 
             </RelativeLayout>
 
@@ -241,8 +255,8 @@
                     android:id="@+id/item_order_retail2_details_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -250,7 +264,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_github_icon"/>
+                        android:src="@mipmap/ic_github_icon" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -258,52 +272,57 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:layout_toRightOf="@+id/item_order_retail2_iv"
                         android:layout_toLeftOf="@+id/item_order_retail2_place_btn"
+                        android:layout_toRightOf="@+id/item_order_retail2_iv"
                         android:orientation="vertical">
+
                     <TextView
                             android:id="@+id/item_order_retail2_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Retailer 1 "/>
+                            android:text="Retailer 1 "
+                            android:textSize="16sp" />
+
                     <TextView
                             android:id="@+id/item_order_retail2_quote_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
+                            android:text="INR 834.00"
                             android:textColor="@color/color_blue"
-                            android:text="INR 834.00"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                     <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                         <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@mipmap/ic_star_yellow"/>
+                                android:src="@mipmap/ic_star_yellow" />
+
                         <TextView
                                 android:id="@+id/item_order_retailer2_rating_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="12sp"
+                                android:layout_gravity="center_vertical"
                                 android:text="4.6"
-                                android:layout_gravity="center_vertical"/>
+                                android:textSize="12sp" />
 
                         <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginLeft="16dp"
-                                android:src="@mipmap/ic_location"/>
+                                android:src="@mipmap/ic_location" />
+
                         <TextView
                                 android:id="@+id/item_order_retailer2_distance_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="12sp"
+                                android:layout_gravity="center_vertical"
                                 android:text="0.5 km away"
-                                android:layout_gravity="center_vertical"/>
+                                android:textSize="12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -312,12 +331,12 @@
                         android:id="@+id/item_order_retail2_place_btn"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:textSize="10sp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/background_primary_color_ripple"
                         android:text="Place"
                         android:textColor="@color/color_white"
-                        android:background="@drawable/background_primary_color_ripple"/>
+                        android:textSize="10sp" />
 
             </RelativeLayout>
 
@@ -332,7 +351,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_github_icon"/>
+                        android:src="@mipmap/ic_github_icon" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -340,52 +359,57 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:layout_toRightOf="@+id/item_order_retail3_iv"
                         android:layout_toLeftOf="@+id/item_order_retail3_place_btn"
+                        android:layout_toRightOf="@+id/item_order_retail3_iv"
                         android:orientation="vertical">
+
                     <TextView
                             android:id="@+id/item_order_retail3_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Retailer 1 "/>
+                            android:text="Retailer 1 "
+                            android:textSize="16sp" />
+
                     <TextView
                             android:id="@+id/item_order_retail3_quote_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
+                            android:text="INR 834.00"
                             android:textColor="@color/color_blue"
-                            android:text="INR 834.00"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                     <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                         <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@mipmap/ic_star_yellow"/>
+                                android:src="@mipmap/ic_star_yellow" />
+
                         <TextView
                                 android:id="@+id/item_order_retailer3_rating_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:text="4.6"
-                                android:textSize="12sp"
-                                android:layout_gravity="center_vertical"/>
+                                android:textSize="12sp" />
 
                         <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginLeft="16dp"
-                                android:src="@mipmap/ic_location"/>
+                                android:src="@mipmap/ic_location" />
+
                         <TextView
                                 android:id="@+id/item_order_retailer3_distance_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:text="0.5 km away"
-                                android:textSize="12sp"
-                                android:layout_gravity="center_vertical"/>
+                                android:textSize="12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -394,22 +418,19 @@
                         android:id="@+id/item_order_retail3_place_btn"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:textSize="10sp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/background_primary_color_ripple"
                         android:text="Place"
                         android:textColor="@color/color_white"
-                        android:background="@drawable/background_primary_color_ripple"/>
+                        android:textSize="10sp" />
 
             </RelativeLayout>
 
         </LinearLayout>
 
 
-
     </LinearLayout>
-
-
 
 
 </androidx.cardview.widget.CardView>

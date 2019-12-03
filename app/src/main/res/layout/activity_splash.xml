@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textAlignment="center"
-            android:textColor="@color/green"
+            android:textColor="@color/colorPrimary"
             android:textSize="24sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="10dp"

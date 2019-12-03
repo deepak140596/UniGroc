@@ -73,6 +73,7 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
             if(orderItem.quotations.isEmpty())
                 orderStatus = 0
 
+
             setupStepView(orderStatus)
             setupQuotationView(orderItem,firestoreViewModel)
             setupOrderStatus(orderStatus,getTime(orderStatus,orderItem),orderItem.isPickup)
@@ -100,14 +101,28 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
                 3 -> {
                     status = statusArray[3]
                     formattedDate = ""
+                    itemView.item_order_retail1_place_btn.visibility = View.GONE
+                    itemView.item_order_retail2_place_btn.visibility = View.GONE
+                    itemView.item_order_retail3_place_btn.visibility = View.GONE
+
+
                 }
                 4 ->{
+                    itemView.item_order_retail1_place_btn.visibility = View.GONE
+                    itemView.item_order_retail2_place_btn.visibility = View.GONE
+                    itemView.item_order_retail3_place_btn.visibility = View.GONE
+
                     if(isPickup)
                         status = statusArray[4]
                     else
                         status = statusArray[5]
+
                 }
                 5 ->{
+                    itemView.item_order_retail1_place_btn.visibility = View.GONE
+                    itemView.item_order_retail2_place_btn.visibility = View.GONE
+                    itemView.item_order_retail3_place_btn.visibility = View.GONE
+
                     if(isPickup)
                         status = statusArray[6]
                     else
@@ -148,6 +163,7 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
                 itemView.item_order_retail1_place_btn.setOnClickListener {
 
                     firestoreViewModel.placeOrder(orderItem,quotations[0].retailerId,quotations[0].cartItems)
+
                 }
             }else{
                 itemView.item_order_retail1_details_ll.visibility = View.GONE

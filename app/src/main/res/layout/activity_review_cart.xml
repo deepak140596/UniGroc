@@ -55,7 +55,7 @@
                 android:shadowDy="1"
                 android:text="Your Cart is empty!"
                 android:textAlignment="center"
-                android:textColor="@color/green"
+                android:textColor="@color/md_red_A400"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="10dp"

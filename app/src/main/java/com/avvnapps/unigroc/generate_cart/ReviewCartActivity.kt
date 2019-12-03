@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.avvnapps.unigroc.Activity.IndividualProduct
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.utils.PriceFormatter
@@ -21,7 +22,7 @@ class ReviewCartActivity : AppCompatActivity() {
 
     lateinit var cartViewModel: CartViewModel
     lateinit var savedCartItems : List<CartEntity>
-    lateinit var adapter: CartItemAdapter
+    lateinit var adapter: ReviewItemAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_cart)
@@ -41,9 +42,19 @@ class ReviewCartActivity : AppCompatActivity() {
         // initialise the viewmodel to pass into adapter
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
         savedCartItems = ArrayList<CartEntity>()
-        adapter = CartItemAdapter(this,savedCartItems,cartViewModel)
+        adapter = ReviewItemAdapter(this,savedCartItems,cartViewModel)
         review_cart_recycler_view.adapter = adapter
+        adapter.setOnItemClickListener(object : ReviewItemAdapter.ClickListener{
+            override fun onClick(pos: Int, aView: View) {
+                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
+                if (cartItem == null)
+                    return;
+                val intent = Intent(this@ReviewCartActivity, IndividualProduct::class.java)
+                intent.putExtra("product", cartItem)
+                startActivity(intent)
 
+            }
+        })
 
 
         // get saved cart items from local database
