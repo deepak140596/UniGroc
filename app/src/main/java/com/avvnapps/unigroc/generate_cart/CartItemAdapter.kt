@@ -70,7 +70,8 @@ class CartItemAdapter(
         return cartList.get(position)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         var transduration = 200
         var prod_selectable: TransitionDrawable
         override fun onClick(p0: View?) {
@@ -80,12 +81,14 @@ class CartItemAdapter(
         }
 
         var TAG = "CART_ITEM_ADAPTER"
+
         init {
             itemView.setOnClickListener(this)
             prod_selectable =
                 itemView.findViewById<View>(R.id.product_selectable).getBackground() as TransitionDrawable
 
         }
+
         fun bindItems(context: Context, cartItem: CartEntity, cartViewModel: CartViewModel) {
             itemView.item_cart_name_tv.text = cartItem.name
             itemView.item_cart_metric_weight_tv.text = cartItem.metricWeight

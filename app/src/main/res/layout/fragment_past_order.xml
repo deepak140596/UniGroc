@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_past_order_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Fragments.PastOrder">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_past_order_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Past Order" />
+            android:paddingTop="0dp"
+            android:scrollbars="vertical" />
 
-</FrameLayout>
+    <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/emptyShoppingBag"
+            android:layout_width="match_parent"
+            app:lottie_fileName="empty_shopping.json"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            android:src="@drawable/cartempty"
+            android:visibility="invisible"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

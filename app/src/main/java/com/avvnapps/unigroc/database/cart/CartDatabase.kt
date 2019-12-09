@@ -10,26 +10,29 @@ import com.avvnapps.unigroc.models.CartEntity
  * Created by Deepak Prasad on 14-02-2019.
  */
 
-@Database(entities = arrayOf(CartEntity::class),version = 1,exportSchema = false)
-abstract class CartDatabase : RoomDatabase(){
+// Annotates class to be a Room Database with a table (entity) of the CartEntity class
+@Database(entities = arrayOf(CartEntity::class), version = 1, exportSchema = false)
+abstract class CartDatabase : RoomDatabase() {
 
-    abstract fun cartDao() : CartDAO
+    abstract fun cartDao(): CartDAO
 
     companion object {
-        // the only instance
-
+        // Singleton prevents multiple instances of database opening at the
+        // same time.
         @Volatile
-        private var INSTANCE : CartDatabase? = null
+        private var INSTANCE: CartDatabase? = null
 
 
         fun getInstance(context: Context): CartDatabase {
-            if(INSTANCE == null){
+            if (INSTANCE == null) {
                 synchronized(this) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            CartDatabase::class.java, "cart_database")
-                            .fallbackToDestructiveMigration()
-                            .allowMainThreadQueries()
-                            .build()
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        CartDatabase::class.java, "cart_database"
+                    )
+                        .fallbackToDestructiveMigration()
+                        .allowMainThreadQueries()
+                        .build()
                 }
 
             }

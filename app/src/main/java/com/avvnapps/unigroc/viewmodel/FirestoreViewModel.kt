@@ -21,6 +21,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     var wishListItems : MutableLiveData<List<wishlistItems>> = MutableLiveData()
     //Orders
     var quotedOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
+    var orderHistoryList : MutableLiveData<List<OrderItem>> = MutableLiveData()
 
 
     // get available cart items from firestore
@@ -139,6 +140,22 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
         return quotedOrdersList
+    }
+
+    fun getOrdersHistory(): MutableLiveData<List<OrderItem>> {
+        firebaseRepository.getOrderHistory().addOnSuccessListener {
+            var qOrders : MutableList<OrderItem> = mutableListOf()
+            for ( doc in it){
+                var orderItem = doc.toObject(OrderItem::class.java)
+                qOrders.add(orderItem)
+            }
+            orderHistoryList.value = qOrders
+        }.addOnFailureListener {
+            Log.e(TAG,"Failed to retrieve quoted prices",it)
+            orderHistoryList.value = null
+        }
+
+        return orderHistoryList
     }
 
     fun getAllOrders(): MutableLiveData<List<OrderItem>> {
