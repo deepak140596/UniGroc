@@ -28,7 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.Activity.*
-import com.avvnapps.unigroc.Font.CustomTypefaceSpan
+import Fonts.CustomTypefaceSpan
 import com.avvnapps.unigroc.authentication.AuthUiActivity
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
@@ -47,7 +47,6 @@ import com.google.firebase.auth.FirebaseAuth
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.lang.Exception
 
 @Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -303,7 +302,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (view is TextView) {
 
-                val myCustomFont = Typeface.createFromAsset(assets, "Font/Bold.otf")
+                val myCustomFont = Typeface.createFromAsset(assets, "Fonts/Bold.otf")
                 view.typeface = myCustomFont
             }
 
@@ -361,7 +360,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun applyFontToMenuItem(mi: MenuItem) {
-        val font = Typeface.createFromAsset(assets, "Font/Bold.otf")
+        val font = Typeface.createFromAsset(assets, "Fonts/Bold.otf")
         val mNewTitle = SpannableString(mi.title)
         mNewTitle.setSpan(
             CustomTypefaceSpan("", font),

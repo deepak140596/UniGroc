@@ -52,7 +52,7 @@
                     android:layout_weight="1.3"
                     android:gravity="center">
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:id="@+id/tv_header_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                             android:src="@drawable/order" />
 
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -147,7 +147,7 @@
                             android:src="@drawable/gift" />
 
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -179,7 +179,7 @@
                             android:src="@drawable/ic_account_balance_wallet_black_24dp" />
 
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -211,7 +211,7 @@
                             android:src="@drawable/ic_shopping_cart_black_24dp" />
 
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

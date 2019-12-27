@@ -1,4 +1,4 @@
-package com.avvnapps.unigroc.Font
+package Fonts
 
 import android.content.Context
 import android.graphics.Typeface

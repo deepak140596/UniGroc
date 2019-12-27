@@ -23,7 +23,7 @@
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize">
 
-            <com.avvnapps.unigroc.Font.LatoBLack
+            <Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Product"
@@ -79,7 +79,7 @@
                     android:layout_marginTop="16dp"
                     android:orientation="vertical">
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:id="@+id/product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:id="@+id/product_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -177,7 +177,7 @@
                             android:layout_height="30dp"
                             android:src="@drawable/share" />
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:id="@+id/text_action1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                             android:layout_height="30dp"
                             android:src="@drawable/similar" />
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:id="@+id/text_action2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -244,7 +244,7 @@
                             android:visibility="visible"
                             app:lottie_fileName="heart.json" />
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:id="@+id/text_action3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -270,7 +270,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="16dp">
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Details"
@@ -307,7 +307,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-        <com.avvnapps.unigroc.Font.LatoBLack
+        <Fonts.LatoBLack
                 android:id="@+id/add_to_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -319,7 +319,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-        <com.avvnapps.unigroc.Font.LatoBLack
+        <Fonts.LatoBLack
                 android:id="@+id/buy_now"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

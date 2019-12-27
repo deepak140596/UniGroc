@@ -62,8 +62,8 @@ class FirestoreRepository {
 
     fun getQuotedOrders(): Task<QuerySnapshot> {
         var collectionReference = firestoreDB.collection("orders")
+            .whereLessThan("orderStatus",5)
             .whereEqualTo("customerId", email)
-        //.whereEqualTo("orderStatus",1)
 
         return collectionReference.get()
     }

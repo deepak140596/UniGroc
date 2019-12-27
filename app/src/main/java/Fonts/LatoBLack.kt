@@ -1,4 +1,4 @@
-package com.avvnapps.unigroc.Font
+package Fonts
 
 import android.annotation.SuppressLint
 import android.content.Context

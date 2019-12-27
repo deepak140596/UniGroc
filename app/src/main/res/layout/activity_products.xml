@@ -19,7 +19,7 @@
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize">
 
-            <com.avvnapps.unigroc.Font.LatoBLack
+            <Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Products"

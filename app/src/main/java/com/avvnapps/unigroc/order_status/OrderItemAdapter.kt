@@ -65,8 +65,11 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
 
             itemView.item_order_estimated_delivery_tv.text = preferredDeliveryTime
             itemView.item_order_id_tv.text = orderItem.orderId.toString()
+            Log.i(TAG,"Quotations Time: ${orderItem.preferredDate.toString()}")
+
             itemView.item_order_item_count_tv.text = orderItem.cartItems.size.toString()
             itemView.item_order_status_tv.text = orderItem.orderStatus.toString()
+            //itemView.item_order_time_tv.text = orderItem.preferredDate.toString()
             itemView.item_order_quotations_ll.visibility = if (orderItem.isExpanded) View.VISIBLE else View.GONE
 
             var orderStatus = orderItem.orderStatus
@@ -122,6 +125,7 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
                     itemView.item_order_retail1_place_btn.visibility = View.GONE
                     itemView.item_order_retail2_place_btn.visibility = View.GONE
                     itemView.item_order_retail3_place_btn.visibility = View.GONE
+                    itemView.item_order_status_stepview.visibility = View.GONE
 
                     if(isPickup)
                         status = statusArray[6]

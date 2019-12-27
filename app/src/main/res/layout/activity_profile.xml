@@ -20,7 +20,7 @@
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize">
 
-            <com.avvnapps.unigroc.Font.LatoBLack
+            <Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Profile"
@@ -116,7 +116,7 @@
                             app:fabCustomSize="40dp"
                             app:pressedTranslationZ="1dp" />
 
-                    <com.avvnapps.unigroc.Font.LatoBLack
+                    <Fonts.LatoBLack
                             android:id="@+id/name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/mail" />
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:id="@+id/emailview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -193,7 +193,7 @@
                         android:tint="@color/green"
                         android:src="@drawable/smartphone" />
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:id="@+id/mobileview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -226,7 +226,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/agenda" />
 
-                <com.avvnapps.unigroc.Font.LatoBLack
+                <Fonts.LatoBLack
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="0.9"
