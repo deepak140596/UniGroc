@@ -13,6 +13,9 @@ import com.avvnapps.unigroc.models.RetailerQuotationItem
 import com.avvnapps.unigroc.utils.ApplicationConstants
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade
 import kotlinx.android.synthetic.main.activity_verify_phone.view.*
 import kotlinx.android.synthetic.main.item_order.view.*
 import java.util.*
@@ -159,6 +162,15 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
                 itemView.item_order_retail1_name_tv.text = quotations[0].retailerName
                 itemView.item_order_retailer1_rating_tv.text = quotations[0].rating.toString()
                 itemView.item_order_retail1_quote_price_tv.text = quotations[0].quotedPrice.toString()
+
+                if (quotations[0].photoUrl != null) {
+                    Glide.with(context).load(quotations[0].photoUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .dontAnimate().into(itemView.item_order_retail1_img)
+                }
+
+
+
                 /*itemView.item_order_retailer1_distance_tv.text = LocationUtils.getDistance(
                     context as AppCompatActivity,
                     quotations[0].addressItem
@@ -184,6 +196,12 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
                     quotations[1].addressItem
                 ).toString()*/
 
+                if (quotations[1].photoUrl != null) {
+                    Glide.with(context).load(quotations[1].photoUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .dontAnimate().into(itemView.item_order_retail2_iv)
+                }
+
                 itemView.item_order_retail2_place_btn.setOnClickListener {
 
                     firestoreViewModel.placeOrder(orderItem,quotations[1].retailerId,quotations[1].cartItems)
@@ -201,6 +219,12 @@ class OrderItemAdapter(var context: Context, var orderList: List<OrderItem>,
                     context as AppCompatActivity,
                     quotations[2].addressItem
                 ).toString()*/
+
+                if (quotations[2].photoUrl != null) {
+                    Glide.with(context).load(quotations[2].photoUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .dontAnimate().into(itemView.item_order_retail3_iv)
+                }
 
                 itemView.item_order_retail3_place_btn.setOnClickListener {
 

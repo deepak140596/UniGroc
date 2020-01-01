@@ -7,11 +7,37 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_pending_recycler_view"
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="0dp"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_pending_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="0dp"
+                android:scrollbars="vertical" />
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/empty_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="40dp"
+                android:foregroundGravity="center"
+                android:src="@drawable/cartempty"
+                android:visibility="visible"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="empty_shopping.json"
+                app:lottie_loop="true" />
+
+
+        <ProgressBar
+                android:id="@+id/activity_pending_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

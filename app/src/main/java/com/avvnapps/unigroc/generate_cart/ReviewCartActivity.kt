@@ -41,7 +41,7 @@ class ReviewCartActivity : AppCompatActivity() {
         )
         // initialise the viewmodel to pass into adapter
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
-        savedCartItems = ArrayList<CartEntity>()
+        savedCartItems = ArrayList<CartEntity>() as List<CartEntity>
         adapter = ReviewItemAdapter(this,savedCartItems,cartViewModel)
         review_cart_recycler_view.adapter = adapter
         adapter.setOnItemClickListener(object : ReviewItemAdapter.ClickListener{

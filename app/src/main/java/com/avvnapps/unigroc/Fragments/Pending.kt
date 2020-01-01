@@ -35,6 +35,7 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         activity = getActivity() as AppCompatActivity
         return inflater.inflate(R.layout.fragment_pending, container, false)
     }
@@ -42,6 +43,8 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // initialise Firestore VM
+        activity_pending_progress_bar.visibility = View.VISIBLE
+
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
         initialiseFirestoreViewModel()
 
@@ -57,11 +60,21 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         firestoreViewModel.getQuotedOrders().observe(this, Observer { orders ->
             Log.i(TAG, "OrdersSize: ${orders.size}")
             submittedOrders = orders
+            if (submittedOrders.isNullOrEmpty()){
+                empty_cart.visibility = View.VISIBLE
+                fragment_pending_recycler_view.visibility = View.GONE
+            }else{
+                empty_cart.visibility = View.GONE
+                fragment_pending_recycler_view.visibility = View.VISIBLE
+            }
             adapter.orderList = submittedOrders
             adapter.notifyDataSetChanged()
 
             if (fragment_pending_swipe_layout.isRefreshing)
                 fragment_pending_swipe_layout.isRefreshing = false
+
+            activity_pending_progress_bar.visibility = View.GONE
+
         })
 
 

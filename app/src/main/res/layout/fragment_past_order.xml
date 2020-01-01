@@ -7,23 +7,36 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_past_order_recycler_view"
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="0dp"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent">
 
-    <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/emptyShoppingBag"
-            android:layout_width="match_parent"
-            app:lottie_fileName="empty_shopping.json"
-            android:layout_height="match_parent"
-            android:foregroundGravity="center"
-            android:src="@drawable/cartempty"
-            android:visibility="invisible"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_past_order_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="0dp"
+                android:scrollbars="vertical" />
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/emptyShoppingBag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="40dp"
+                android:foregroundGravity="center"
+                android:src="@drawable/cartempty"
+                android:visibility="invisible"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="empty_shopping.json"
+                app:lottie_loop="true" />
+
+        <ProgressBar
+                android:id="@+id/activity_past_order_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+    </RelativeLayout>
 
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

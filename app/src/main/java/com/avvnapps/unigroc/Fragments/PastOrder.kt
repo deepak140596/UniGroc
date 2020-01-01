@@ -41,6 +41,8 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity_past_order_progress_bar.visibility = View.VISIBLE
+
         // initialise Firestore VM
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
         initialiseFirestoreViewModel()
@@ -57,10 +59,15 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun initialiseFirestoreViewModel() {
         firestoreViewModel.getOrdersHistory().observe(this, Observer { orders ->
             Log.i(TAG, "OrdersSize: ${orders.size}")
-            if(ordersHistory.isEmpty()){
-                emptyShoppingBag.visibility = View.VISIBLE
-            }
+
             ordersHistory = orders
+            if (ordersHistory.isNullOrEmpty()){
+                emptyShoppingBag.visibility = View.VISIBLE
+                fragment_past_order_recycler_view.visibility = View.GONE
+            }else{
+                emptyShoppingBag.visibility = View.GONE
+                fragment_past_order_recycler_view.visibility = View.VISIBLE
+            }
             adapter.orderList = ordersHistory
             adapter.notifyDataSetChanged()
 
@@ -68,6 +75,9 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             if (fragment_past_order_swipe_layout.isRefreshing)
                 fragment_past_order_swipe_layout.isRefreshing = false
+
+            activity_past_order_progress_bar.visibility = View.GONE
+
         })
 
 
