@@ -3,13 +3,10 @@ package com.avvnapps.unigroc.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.avvnapps.unigroc.database.SharedPreferencesDB
-import com.avvnapps.unigroc.models.CartEntity
+
 import com.avvnapps.unigroc.database.firestore.FirestoreRepository
 import com.avvnapps.unigroc.generate_cart.DeliveryDetailsActivity
-import com.avvnapps.unigroc.models.AddressItem
-import com.avvnapps.unigroc.models.OrderItem
-import com.avvnapps.unigroc.models.RetailerQuotationItem
+import com.avvnapps.unigroc.models.*
 import com.avvnapps.unigroc.utils.ApplicationConstants
 import com.google.firebase.firestore.*
 
@@ -20,8 +17,12 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     var availableCartItems : MutableLiveData<List<CartEntity>> = MutableLiveData()
     var savedAddresses : MutableLiveData<List<AddressItem>> = MutableLiveData()
     var quotedPrices : MutableLiveData<List<RetailerQuotationItem>> = MutableLiveData()
-    var quotedOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
     var allOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
+    var wishListItems : MutableLiveData<List<wishlistItems>> = MutableLiveData()
+    //Orders
+    var quotedOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
+    var orderHistoryList : MutableLiveData<List<OrderItem>> = MutableLiveData()
+
 
     // get available cart items from firestore
     fun getAvailableCartItems() : LiveData<List<CartEntity>>{
@@ -42,6 +43,22 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
         return availableCartItems
 
+    }
+    // get wishlist items from firestore
+    fun getWishListItem() : LiveData<List<wishlistItems>>{
+        wishListItems = MutableLiveData()
+        firebaseRepository.getWishlistItems().addOnSuccessListener { document->
+            var wishlistItemsList : MutableList<wishlistItems> = mutableListOf()
+            for (doc in document){
+                var wishlistItem = doc.toObject(wishlistItems::class.java)
+                wishlistItemsList.add(wishlistItem)
+            }
+            wishListItems.value = wishlistItemsList
+        }.addOnFailureListener {
+            wishListItems.value = null
+
+        }
+        return wishListItems
     }
 
     // save address to firebase
@@ -123,6 +140,22 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
         return quotedOrdersList
+    }
+
+    fun getOrdersHistory(): MutableLiveData<List<OrderItem>> {
+        firebaseRepository.getOrderHistory().addOnSuccessListener {
+            var qOrders : MutableList<OrderItem> = mutableListOf()
+            for ( doc in it){
+                var orderItem = doc.toObject(OrderItem::class.java)
+                qOrders.add(orderItem)
+            }
+            orderHistoryList.value = qOrders
+        }.addOnFailureListener {
+            Log.e(TAG,"Failed to retrieve quoted prices",it)
+            orderHistoryList.value = null
+        }
+
+        return orderHistoryList
     }
 
     fun getAllOrders(): MutableLiveData<List<OrderItem>> {

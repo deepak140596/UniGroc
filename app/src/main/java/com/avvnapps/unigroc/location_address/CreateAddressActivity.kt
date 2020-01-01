@@ -1,5 +1,6 @@
 package com.avvnapps.unigroc.location_address
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,11 +10,15 @@ import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB
 import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesRepairableException
-import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_create_address.*
+import java.lang.reflect.Array
+import java.util.*
+
 
 class CreateAddressActivity : AppCompatActivity() {
     val TAG = "CREATE_ADDRESS"
@@ -22,6 +27,8 @@ class CreateAddressActivity : AppCompatActivity() {
     var longitude : Double ?= null
     var firestoreViewModel : FirestoreViewModel ?=null
     var addressItem: AddressItem?=null
+
+    lateinit var fields:List<Place.Field>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +65,13 @@ class CreateAddressActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        // Initialize Places.
+        Places.initialize(getApplicationContext(), "AIzaSyCugE5Tb5kWS5FfOyxHT0LuF3aEJoi6rKA");
+        // Create a new Places client instance.
+        val placesClient = Places.createClient(this)
+
+        fields = Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG)
 
     }
 
@@ -99,9 +113,7 @@ class CreateAddressActivity : AppCompatActivity() {
 
     fun createPlacePicker(){
 
-        val builder = PlacePicker.IntentBuilder()
-
-
+    /*    val builder = PlacePicker.IntentBuilder()
         try {
             Log.d(TAG, "opening startActivityforResult")
             startActivityForResult(builder.build(this@CreateAddressActivity), PLACE_PICKER_REQUEST)
@@ -109,20 +121,24 @@ class CreateAddressActivity : AppCompatActivity() {
             e.printStackTrace()
         } catch (e: GooglePlayServicesNotAvailableException) {
             e.printStackTrace()
-        }
+        }*/
+        var intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN,fields)
+            .build(this)
+        startActivityForResult(intent,PLACE_PICKER_REQUEST)
 
     }
 
 
+    @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                val place = PlacePicker.getPlace(this,data)
-                val latLng = place.latLng
+                val place = data?.let { Autocomplete.getPlaceFromIntent(it) }
+                val latLng = place?.latLng
                 Log.d(TAG, "LatLng: $latLng")
-                latitutde = latLng.latitude
-                longitude = latLng.longitude
+                latitutde = latLng?.latitude
+                longitude = latLng?.longitude
 
                 create_address_is_location_set_cb.isChecked = true
             }

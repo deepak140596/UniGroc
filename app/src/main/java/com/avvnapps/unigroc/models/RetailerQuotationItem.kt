@@ -1,8 +1,7 @@
 package com.avvnapps.unigroc.models
 
-import com.avvnapps.unigroc.utils.LocationUtils
 
-class RetailerQuotationItem (var retailerId : String ="",
+data class RetailerQuotationItem (var retailerId : String ="",
                              var retailerName: String = "",
                              var photoUrl : String ="",
                              var quotedPrice: Double = 0.0,

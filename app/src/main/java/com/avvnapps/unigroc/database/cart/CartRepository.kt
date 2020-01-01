@@ -9,30 +9,32 @@ import com.avvnapps.unigroc.models.CartEntity
  */
 
 
-class CartRepository (private  val cartDAO: CartDAO) {
+class CartRepository(private val cartDAO: CartDAO) {
 
     // get cart list
     val cartList: LiveData<List<CartEntity>> = cartDAO.getCartList()
 
     @WorkerThread
-    suspend fun insert(cartEntity: CartEntity){
+    suspend fun insert(cartEntity: CartEntity) {
         cartDAO.insert(cartEntity)
     }
 
     @WorkerThread
-    suspend fun delete(cartEntity: CartEntity){
+    suspend fun delete(cartEntity: CartEntity) {
         cartDAO.delete(cartEntity)
     }
 
     @WorkerThread
-    suspend fun deleteAll(){
+    suspend fun deleteAll() {
         cartDAO.deleteAll()
     }
+
     @WorkerThread
-    suspend fun setQuantity(id: String, qty:Int){
-        cartDAO.setQuantity(id,qty)
+    suspend fun setQuantity(id: String, qty: Int) {
+        cartDAO.setQuantity(id, qty)
     }
-    fun getQuantity(id:String):Int{
+
+    fun getQuantity(id: String): Int {
         return cartDAO.getQuantity(id)
     }
 

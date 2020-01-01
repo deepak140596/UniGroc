@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.io.Serializable
 import java.util.*
 
-class OrderItem (var orderId: Long = Date().time,
+data class OrderItem (var orderId: Long = Date().time,
                  var customerId: String = FirebaseAuth.getInstance().currentUser!!.email.toString(),
                  var cartItems : List<CartEntity> = emptyList(),
                  var isPickup: Boolean = true,

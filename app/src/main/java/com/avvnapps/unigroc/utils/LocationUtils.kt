@@ -1,12 +1,15 @@
 package com.avvnapps.unigroc.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.avvnapps.unigroc.models.AddressItem
@@ -14,13 +17,14 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.type.LatLng
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
 
 class LocationUtils(context: Context){
 
     private var fusedLocationProviderClient: FusedLocationProviderClient ?= null
     private var location : MutableLiveData<Location> = MutableLiveData()
-
+    private val appContext = context.applicationContext
     // call constructor to get location
     init {
         getInstance(context)
@@ -37,11 +41,11 @@ class LocationUtils(context: Context){
 
     @SuppressLint("MissingPermission")
     fun getLocation() : LiveData<Location> {
+
         fusedLocationProviderClient!!.lastLocation
             .addOnSuccessListener {loc: Location? ->
                 location.value = loc!!
             }
-
         return location
     }
 

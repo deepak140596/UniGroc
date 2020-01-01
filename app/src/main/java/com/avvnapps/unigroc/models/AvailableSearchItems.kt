@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 
-class AvailableSearchItems() : SearchSuggestion {
+ class AvailableSearchItems() : SearchSuggestion {
 
     constructor(parcel: Parcel) : this() {
     }

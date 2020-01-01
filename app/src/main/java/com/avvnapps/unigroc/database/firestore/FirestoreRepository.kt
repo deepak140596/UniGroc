@@ -22,6 +22,13 @@ class FirestoreRepository {
         return collectionReference.get()
     }
 
+    //get Wishlist Items
+    fun getWishlistItems(): Task<QuerySnapshot> {
+        var collectionReference = firestoreDB.collection("users").document(email)
+            .collection("wishlist")
+        return collectionReference.get()
+    }
+
     // save address to firebase
     fun saveAddressItem(addressItem: AddressItem): Task<Void> {
         //var
@@ -36,14 +43,15 @@ class FirestoreRepository {
     }
 
     fun deleteAddress(addressItem: AddressItem): Task<Void> {
-        var documentReference =  firestoreDB.collection("users/$email/saved_addresses")
+        var documentReference = firestoreDB.collection("users/$email/saved_addresses")
             .document(addressItem.addressId)
 
         return documentReference.delete()
     }
 
     fun submitOrder(orderItem: OrderItem): Task<Void> {
-        var documentReference = firestoreDB.collection("orders").document(orderItem.orderId.toString())
+        var documentReference =
+            firestoreDB.collection("orders").document(orderItem.orderId.toString())
         return documentReference.set(orderItem)
     }
 
@@ -54,24 +62,39 @@ class FirestoreRepository {
 
     fun getQuotedOrders(): Task<QuerySnapshot> {
         var collectionReference = firestoreDB.collection("orders")
-            .whereEqualTo("customerId",email)
-            //.whereEqualTo("orderStatus",1)
+            .whereLessThan("orderStatus",ApplicationConstants.ORDER_PICKED_DELIVERED)
+            .whereEqualTo("customerId", email)
+
+        return collectionReference.get()
+    }
+
+    fun getOrderHistory(): Task<QuerySnapshot> {
+        var collectionReference = firestoreDB.collection("orders")
+            .whereEqualTo("customerId", email)
+            .whereEqualTo("orderStatus", ApplicationConstants.ORDER_PICKED_DELIVERED)
 
         return collectionReference.get()
     }
 
     fun getAllOrders(): Query {
         var collectionReference = firestoreDB.collection("orders")
-            .whereEqualTo("customerId",email)
+            .whereEqualTo("customerId", email)
         return collectionReference
     }
 
-    fun placeOrder(orderItem: OrderItem,retailerId: String,cartItems: List<CartEntity>): Task<Void> {
-        var documentReference = firestoreDB.collection("orders").document(orderItem.orderId.toString())
-        return documentReference.update("retailerId",retailerId,
-            "cartItems",cartItems,
-            "orderStatus",ApplicationConstants.ORDER_PREPARING,
-            "datePlaced", Date().time)
+    fun placeOrder(
+        orderItem: OrderItem,
+        retailerId: String,
+        cartItems: List<CartEntity>
+    ): Task<Void> {
+        var documentReference =
+            firestoreDB.collection("orders").document(orderItem.orderId.toString())
+        return documentReference.update(
+            "retailerId", retailerId,
+            "cartItems", cartItems,
+            "orderStatus", ApplicationConstants.ORDER_PREPARING,
+            "datePlaced", Date().time
+        )
     }
 
 }

@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.avvnapps.unigroc.Activity.IndividualProduct
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.utils.PriceFormatter
@@ -20,7 +22,7 @@ class ReviewCartActivity : AppCompatActivity() {
 
     lateinit var cartViewModel: CartViewModel
     lateinit var savedCartItems : List<CartEntity>
-    lateinit var adapter: CartItemAdapter
+    lateinit var adapter: ReviewItemAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_cart)
@@ -39,13 +41,36 @@ class ReviewCartActivity : AppCompatActivity() {
         )
         // initialise the viewmodel to pass into adapter
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
-        savedCartItems = ArrayList<CartEntity>()
-        adapter = CartItemAdapter(this,savedCartItems,cartViewModel)
+        savedCartItems = ArrayList<CartEntity>() as List<CartEntity>
+        adapter = ReviewItemAdapter(this,savedCartItems,cartViewModel)
         review_cart_recycler_view.adapter = adapter
+        adapter.setOnItemClickListener(object : ReviewItemAdapter.ClickListener{
+            override fun onClick(pos: Int, aView: View) {
+                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
+                if (cartItem == null)
+                    return;
+                val intent = Intent(this@ReviewCartActivity, IndividualProduct::class.java)
+                intent.putExtra("product", cartItem)
+                startActivity(intent)
+
+            }
+        })
+
 
         // get saved cart items from local database
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
+            if (savedCartItems.isEmpty()){
+                review_cart_toolbar.title = "Cart"
+                empty_layout.visibility = View.VISIBLE
+                cart_layout.visibility = View.GONE
+
+            }else{
+                cart_layout.visibility = View.VISIBLE
+                empty_layout.visibility = View.GONE
+
+            }
+
             adapter.cartList = savedCartItems
             adapter.notifyDataSetChanged()
             setupSubtotal()
@@ -57,12 +82,16 @@ class ReviewCartActivity : AppCompatActivity() {
             finish()
         }
 
+        btn_shopnow.setOnClickListener(View.OnClickListener {
+            onBackPressed()
+        })
+
     }
 
     private fun setupSubtotal(){
         var subtotal = 0.0
         for(cartItem in savedCartItems){
-            subtotal += cartItem.price*cartItem.quantity
+            subtotal += cartItem.price!! * cartItem.quantity!!
         }
         view_cart_total_tv.text = PriceFormatter.getFormattedPrice(subtotal)
     }

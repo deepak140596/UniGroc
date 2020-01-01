@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB
+import com.avvnapps.unigroc.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
@@ -49,8 +50,10 @@ class DashboardFragment : Fragment() {
     lateinit var dashboardView: View
 
     lateinit var recyclerView : RecyclerView
-    lateinit var adapter : OrderItemAdapter
+    lateinit var adapter : CartItemAdapter
     var orderList : List<OrderItem> = emptyList()
+    var CartItems : List<CartEntity> = emptyList()
+
 
 
 
@@ -101,7 +104,7 @@ class DashboardFragment : Fragment() {
                 fragment_dashboard_recycler_view.context, DividerItemDecoration.VERTICAL
             )
         )
-        adapter = OrderItemAdapter(activity,orderList,firestoreViewModel)
+        adapter = CartItemAdapter(activity, CartItems,cartViewModel)
         fragment_dashboard_recycler_view.adapter = adapter
 
     }
@@ -136,11 +139,10 @@ class DashboardFragment : Fragment() {
     private fun initialiseFirebaseViewModel(){
 
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
-        firestoreViewModel.getAllOrders().observe(this, Observer {
-
-            orderList = it
+        firestoreViewModel.getAvailableCartItems().observe(this, Observer {
+            CartItems = it
             Log.i(TAG,"Order Size: ${orderList.size}")
-            adapter.orderList = orderList
+            adapter.cartList = CartItems
             adapter.notifyDataSetChanged()
         })
     }

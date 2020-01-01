@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.avvnapps.unigroc">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.avvnapps.unigroc">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
             android:allowBackup="true"
@@ -16,42 +16,61 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".generate_cart.DeliveryDetailsActivity">
+        <activity android:name=".Activity.Order"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+                android:name=".Activity.Products"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".Activity.Wishlist"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".Activity.IndividualProduct"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".Activity.ContactUs"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".Activity.ProfileActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".MainActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".Activity.SplashActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".generate_cart.DeliveryDetailsActivity" />
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_maps_key"/>
+                android:value="@string/google_maps_key" />
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="43e5f223dec6a731082078ed343284b26320b72b" />
 
         <activity
                 android:name=".location_address.CreateAddressActivity"
-                android:theme="@style/Theme.MaterialComponents">
-        </activity>
-        <activity android:name=".location_address.SavedAddressesActivity">
-        </activity>
+                android:theme="@style/Theme.MaterialComponents" />
+        <activity android:name=".location_address.SavedAddressesActivity" />
         <activity
                 android:name=".generate_cart.ReviewCartActivity"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".generate_cart.SearchItemActivity"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
                 android:name=".authentication.AuthUiActivity"
-                android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".authentication.VerifyPhoneActivity"/>
+                android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".authentication.VerifyPhoneActivity" />
         <activity
                 android:name=".NavigationActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

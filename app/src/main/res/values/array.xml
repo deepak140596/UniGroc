@@ -24,7 +24,7 @@
         <item>Ready for pickup,</item>
         <item>Ready for delivery,</item>
         <item>Picked up on</item>
-        <item>Delivered on</item>
+        <item>Delivered</item>
     </string-array>
 
 </resources>

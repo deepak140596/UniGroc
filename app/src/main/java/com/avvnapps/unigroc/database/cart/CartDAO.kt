@@ -12,7 +12,7 @@ import com.avvnapps.unigroc.models.CartEntity
 interface CartDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(cartEntity : CartEntity)
+    fun insert(cartEntity: CartEntity)
 
     @Delete
     fun delete(cartEntity: CartEntity)
@@ -21,13 +21,13 @@ interface CartDAO {
     fun deleteAll()
 
     @Query("SELECT * FROM cart_table WHERE quantity <> 0")
-    fun getCartList() : LiveData<List<CartEntity>>
+    fun getCartList(): LiveData<List<CartEntity>>
 
     @Query("UPDATE cart_table SET quantity = :qty WHERE item_id = :id")
     fun setQuantity(id: String, qty: Int)
 
     @Query("SELECT quantity FROM cart_table WHERE item_id = :id")
-    fun getQuantity(id:String):Int
+    fun getQuantity(id: String): Int
 
 
 }
