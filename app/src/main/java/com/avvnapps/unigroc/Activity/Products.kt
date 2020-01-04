@@ -88,7 +88,6 @@ class Products : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(0, 0)
         finish()
         return true
     }

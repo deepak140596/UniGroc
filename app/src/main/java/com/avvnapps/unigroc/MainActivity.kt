@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(i)
             finish()
         }
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this, SearchItemActivity::class.java))
         }
         appbar_dashboard_set_delivery_location_tv.setOnClickListener {
-            var intent = Intent(this, SavedAddressesActivity::class.java)
+            val intent = Intent(this, SavedAddressesActivity::class.java)
             intent.putExtra("is_selectable_action", true)
             startActivity(intent)
             // startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
@@ -223,10 +223,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 location = loc!!
                 Log.i(TAG, "Location: ${location.latitude}  ${location.longitude}")
                 gpsUtils.getLatLong { lat, long ->
-                    println("location is $lat + $long")
-                    Log.i(TAG, "location is $lat + $long")
 
-                    var address = LocationUtils.getAddress(this, lat, long)
+                    val address = LocationUtils.getAddress(this, lat, long)
                     if (address != null) {
                         Log.i(TAG, address)
                         appbar_dashboard_set_delivery_location_tv.text = address
@@ -262,7 +260,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                     //isPermissionAcquired = true
                     gpsUtils.onProgressUpdate = { show ->
-                        println("need to show progress $show")
                         // updateLocation()
 
                     }
@@ -378,9 +375,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (requestCode == SET_ADDRESS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                location.latitude = data!!.extras.getDouble("latitude")
-                location.longitude = data!!.extras.getDouble("longitude")
-                updateLocation()
+               // location.latitude = data!!.extras.getDouble("latitude")
+               // location.longitude = data!!.extras.getDouble("longitude")
+                getLocation()
             }
         }
     }

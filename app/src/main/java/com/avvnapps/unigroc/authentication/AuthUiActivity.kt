@@ -68,7 +68,7 @@ class AuthUiActivity : AppCompatActivity() {
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAuthMethodPickerLayout(customLayout)
-                .setTheme(R.style.GreenTheme)
+                .setTheme(R.style.RedTheme)
                 .setAvailableProviders(providers)
                 .setIsSmartLockEnabled(false)
                 .build(),

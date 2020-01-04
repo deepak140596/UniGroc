@@ -16,8 +16,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.Order"
+        <activity android:name=".order_status.OrderItemDetail"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+                android:name=".Activity.Order"
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".Activity.Products"
                 android:theme="@style/AppTheme.NoActionBar" />

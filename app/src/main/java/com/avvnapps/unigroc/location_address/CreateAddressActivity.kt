@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB
 import com.avvnapps.unigroc.models.AddressItem
+import com.avvnapps.unigroc.utils.GpsUtils
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -30,9 +31,12 @@ class CreateAddressActivity : AppCompatActivity() {
 
     lateinit var fields:List<Place.Field>
 
+    private lateinit var gpsUtils: GpsUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_address)
+        gpsUtils = GpsUtils(this)
 
 
         var data = intent.getSerializableExtra("address_item")
@@ -43,6 +47,7 @@ class CreateAddressActivity : AppCompatActivity() {
         }
 
         firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
+        getLocation()
 
         create_address_set_location_btn.setOnClickListener {
             createPlacePicker()
@@ -110,6 +115,19 @@ class CreateAddressActivity : AppCompatActivity() {
         return true
 
     }
+
+    private fun getLocation() {
+
+
+        gpsUtils.getLatLong { lat, long ->
+            Log.i(TAG, "location is $lat + $long")
+            latitutde = lat
+            longitude = long
+
+            create_address_is_location_set_cb.isChecked = true
+        }
+    }
+
 
     fun createPlacePicker(){
 

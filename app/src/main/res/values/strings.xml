@@ -45,6 +45,13 @@
 
     <string name="status_stop">Powered By <font color='red'>UniGroc</font></string>
 
+    <!-- activity_my_order_detail.xml -->
+    <string name="tv_order_cancle">Cancel Order</string>
+    <string name="tv_order_summery">Summary</string>
+    <string name="tv_order_total">Total: Rs.</string>
+    <string name="tv_order_qty">Qty</string>
+    <string name="tv_order_rs">Rs.</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="help">In case of any query feel free to reach us at : \n    abc.com@gmail.com\n\nYou can also Call us at our helpline numbers : \n     +91-9990797860 \n     +44-7969953890</string>

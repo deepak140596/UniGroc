@@ -1,13 +1,16 @@
 package com.avvnapps.unigroc.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class RetailerQuotationItem (var retailerId : String ="",
                              var retailerName: String = "",
                              var photoUrl : String ="",
                              var quotedPrice: Double = 0.0,
                              var cartItems : List<CartEntity> = emptyList(),
                              var addressItem: AddressItem = AddressItem(),
-                             var rating: Double = 0.0){
+                             var rating: Double = 0.0) : Parcelable {
 
     companion object {
         // compare by rating high to low

@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference
 
 class GpsUtils {
 
-    private val GPS_REQUEST_CODE = 1001
+    private val GPS_REQUEST_CODE = 100
     private var weakActivity: WeakReference<FragmentActivity>? = null
     private var weakFragment: WeakReference<Fragment>? = null
 
