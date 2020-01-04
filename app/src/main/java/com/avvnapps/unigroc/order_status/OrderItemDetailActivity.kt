@@ -1,7 +1,13 @@
 package com.avvnapps.unigroc.order_status
 
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.avvnapps.unigroc.R
@@ -10,8 +16,9 @@ import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_order_details.*
+import kotlinx.android.synthetic.main.item_add_rating.*
 
-class OrderItemDetail : AppCompatActivity() {
+class OrderItemDetailActivity : AppCompatActivity() {
 
     lateinit var firestoreViewModel: FirestoreViewModel
     var orderItems: List<CartEntity> = emptyList()
@@ -52,6 +59,24 @@ class OrderItemDetail : AppCompatActivity() {
         var orderStatus = orderItem.orderStatus
         setupOrderStatus(orderStatus, orderItem.isPickup)
 
+        btn_order_detail_cancle.setOnClickListener {
+            showReviewDialog(orderStatus)
+
+        }
+
+
+    }
+
+    private fun showReviewDialog(orderStatus: Int) {
+
+        var dialog = Dialog(this)
+        dialog.setContentView(R.layout.item_add_rating)
+        dialog.getWindow().setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.addBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     private fun setupOrderStatus(orderStatus: Int, isPickup: Boolean) {

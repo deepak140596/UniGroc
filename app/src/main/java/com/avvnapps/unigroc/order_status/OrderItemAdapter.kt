@@ -82,7 +82,7 @@ class OrderItemAdapter(
                 if (orderItem.orderStatus ==1) {
                     
                 } else {
-                    val intent = Intent(context, OrderItemDetail::class.java)
+                    val intent = Intent(context, OrderItemDetailActivity::class.java)
                     intent.putExtra("order", orderItem)
                     context.startActivity(intent)
                 }

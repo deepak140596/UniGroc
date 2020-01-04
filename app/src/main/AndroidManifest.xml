@@ -16,7 +16,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".order_status.OrderItemDetail"
+        <activity android:name=".order_status.OrderItemDetailActivity"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".Activity.Order"

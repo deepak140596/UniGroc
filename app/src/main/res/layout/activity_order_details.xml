@@ -7,7 +7,7 @@
         android:background="@color/md_grey_100"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        tools:context=".order_status.OrderItemDetail">
+        tools:context=".order_status.OrderItemDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -90,12 +90,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/tv_order_cancle"
+                    android:text="Add Review"
                     android:textColor="#fff"
                     android:textSize="@dimen/text_size_small" />
 
 
         </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
