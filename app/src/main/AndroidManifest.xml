@@ -17,7 +17,9 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".order_status.OrderItemDetailActivity"
-                android:theme="@style/AppTheme.NoActionBar"></activity>
+                android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
                 android:name=".Activity.Order"
                 android:theme="@style/AppTheme.NoActionBar" />
@@ -59,7 +61,7 @@
 
         <activity
                 android:name=".location_address.CreateAddressActivity"
-                android:theme="@style/Theme.MaterialComponents" />
+                android:theme="@style/MaterialTheme" />
         <activity android:name=".location_address.SavedAddressesActivity" />
         <activity
                 android:name=".generate_cart.ReviewCartActivity"

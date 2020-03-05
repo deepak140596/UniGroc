@@ -85,7 +85,7 @@ class LocationUtils(context: Context){
             var loc2 = Location("Location2")
             var l = LocationUtils(activity).location.value
             loc2.longitude = l!!.longitude
-            loc2.latitude = l!!.latitude
+            loc2.latitude = l.latitude
             return loc1.distanceTo(loc2)
         }
     }

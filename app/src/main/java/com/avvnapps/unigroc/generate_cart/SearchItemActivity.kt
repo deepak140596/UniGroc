@@ -1,5 +1,6 @@
 package com.avvnapps.unigroc.generate_cart
 
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_search_item.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.view.View
 import android.widget.ImageView
+import com.avvnapps.unigroc.Activity.IndividualProduct
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.bumptech.glide.Glide
 
@@ -131,5 +133,17 @@ class SearchItemActivity : AppCompatActivity() {
     fun updateRecylerView(cartList: List<CartEntity>){
         cartItemAdapter = CartItemAdapter(this,cartList,cartItemViewModel)
         activity_search_item_rv.adapter = cartItemAdapter
+
+        cartItemAdapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
+            override fun onClick(pos: Int, aView: View) {
+                val cartItem: CartEntity = cartItemAdapter.getItem(pos) as CartEntity;
+                if (cartItem == null)
+                    return;
+                val intent = Intent(this@SearchItemActivity, IndividualProduct::class.java)
+                intent.putExtra("product", cartItem)
+                startActivity(intent)
+
+            }
+        })
     }
 }

@@ -71,7 +71,7 @@ class OrderItemDetailActivity : AppCompatActivity() {
 
         var dialog = Dialog(this)
         dialog.setContentView(R.layout.item_add_rating)
-        dialog.getWindow().setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
+        dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(true)
         dialog.addBtn.setOnClickListener {
             dialog.dismiss()

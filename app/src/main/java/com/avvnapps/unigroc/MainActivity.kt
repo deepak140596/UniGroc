@@ -29,6 +29,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.Activity.*
 import Fonts.CustomTypefaceSpan
+import androidx.lifecycle.ViewModelProvider
+import com.android.volley.Request
 import com.avvnapps.unigroc.authentication.AuthUiActivity
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
@@ -39,14 +41,20 @@ import com.avvnapps.unigroc.utils.GpsUtils
 import com.avvnapps.unigroc.utils.LocationUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 @Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -90,7 +98,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //inflate Slides
         inflateSLider()
         // initialise cart view model
-        cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
+        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
             updateCartImageView(savedCartItems)
@@ -100,6 +108,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             "Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user!!.phoneNumber}"
         )
 
+
+        // get user location and pass to geocoder for address
+        LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
+            if (loc != null) {
+                location = loc
+                //updateAddress()
+                getLocation()
+            }
+
+        })
 
         // initialise firebase view model
         initialiseFirebaseViewModel()
@@ -190,7 +208,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, SavedAddressesActivity::class.java)
             intent.putExtra("is_selectable_action", true)
             startActivity(intent)
-            // startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
+            startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
         }
 
 
@@ -336,7 +354,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView!!.setNavigationItemSelectedListener(this)
         nav_menu = navigationView!!.getMenu()
         val header = (findViewById(R.id.nav_view) as NavigationView).getHeaderView(0)
-        iv_profile = header.findViewById(R.id.iv_header_img) as ImageView
+        iv_profile = header.findViewById(R.id.iv_header_img) as CircleImageView
+
+        val options: RequestOptions = RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.user)
+            .error(R.drawable.user)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .priority(Priority.HIGH)
+            .dontAnimate()
+            .dontTransform()
+
+        Glide.with(this)
+            .applyDefaultRequestOptions(options)
+            .load(user!!.photoUrl)
+            .into(iv_profile as CircleImageView)
+
         tv_name = header.findViewById(R.id.tv_header_name) as TextView
         tv_name!!.setText(user!!.displayName)
         My_Order = header.findViewById(R.id.my_orders) as LinearLayout
@@ -375,9 +408,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (requestCode == SET_ADDRESS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-               // location.latitude = data!!.extras.getDouble("latitude")
-               // location.longitude = data!!.extras.getDouble("longitude")
-                getLocation()
+                location.latitude = data!!.extras!!.getDouble("latitude")
+                location.longitude = data!!.extras!!.getDouble("longitude")
+                updateLocation()
             }
         }
     }

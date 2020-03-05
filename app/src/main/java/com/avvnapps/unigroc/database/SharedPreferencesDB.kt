@@ -1,7 +1,7 @@
 package com.avvnapps.unigroc.database
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.AddressItem
 import com.google.gson.Gson
@@ -23,7 +23,7 @@ class SharedPreferencesDB {
         fun getSavedAddress(context: Context): AddressItem?{
             var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
             var json = sharedPreferences.getString(context.getString(R.string.preferred_address),"")
-            if(json.isEmpty())
+            if (json!!.isEmpty())
                 return null
             return Gson().fromJson(json, AddressItem::class.java)
         }

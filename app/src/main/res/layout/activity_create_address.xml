@@ -7,7 +7,24 @@
         android:layout_height="match_parent"
         tools:context=".location_address.CreateAddressActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/addressToolwrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="Add Address"
+                app:titleTextColor="@color/color_white">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
     <ScrollView
+            android:layout_below="@+id/addressToolwrap"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

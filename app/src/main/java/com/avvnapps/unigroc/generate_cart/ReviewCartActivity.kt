@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +41,7 @@ class ReviewCartActivity : AppCompatActivity() {
             )
         )
         // initialise the viewmodel to pass into adapter
-        cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
+        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         savedCartItems = ArrayList<CartEntity>() as List<CartEntity>
         adapter = ReviewItemAdapter(this,savedCartItems,cartViewModel)
         review_cart_recycler_view.adapter = adapter
