@@ -3,6 +3,11 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="dimen_1">1dp</dimen>
+    <dimen name="dimen_4">4dp</dimen>
+    <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_16">16dp</dimen>
+
     <dimen name="text_size_XX_small">10sp</dimen>
     <dimen name="text_size_XXX_small">8sp</dimen>
     <dimen name="text_size_X_small">12sp</dimen>

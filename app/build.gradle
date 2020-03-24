@@ -96,7 +96,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
+    kapt "com.github.bumptech.glide:compiler:4.11.0"
 
     //For Step View
     implementation 'com.shuhart.stepview:stepview:1.5.1'
@@ -125,6 +125,8 @@ dependencies {
     // Image Slider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
 
+    //money converter
+    implementation 'com.github.tobiasschuerg:android-money:v0.3'
 
 }
 

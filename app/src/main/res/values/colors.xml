@@ -14,6 +14,9 @@
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>
 
+    <color name="colorStatusConnected">#43A047</color>
+    <color name="colorStatusNotConnected">#D32F2F</color>
+
     <color name="windowBackground">#ECF0F1</color>
     <color name="btn_beli_pressed">#F4D8E2</color>
     <color name="btn_body_pressed">#0A000000</color>

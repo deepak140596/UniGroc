@@ -44,7 +44,8 @@
     <string name="nav_logout">Logout</string>
 
     <string name="status_stop">Powered By <font color='red'>UniGroc</font></string>
-
+    <string name="text_no_connectivity">No Connection</string>
+    <string name="text_connectivity">Back Online</string>
     <!-- activity_my_order_detail.xml -->
     <string name="tv_order_cancle">Cancel Order</string>
     <string name="tv_order_summery">Summary</string>

@@ -29,6 +29,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.Activity.*
 import Fonts.CustomTypefaceSpan
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.avvnapps.unigroc.authentication.AuthUiActivity
@@ -37,10 +39,10 @@ import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
 import com.avvnapps.unigroc.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.models.CartEntity
-import com.avvnapps.unigroc.utils.GpsUtils
-import com.avvnapps.unigroc.utils.LocationUtils
+import com.avvnapps.unigroc.utils.*
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
+import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator.animate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -147,6 +149,45 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(
                 Intent(this, Products::class.java)
             )
+        })
+
+        handleNetworkChanges()
+
+
+    }
+
+    companion object {
+        const val ANIMATION_DURATION = 1000.toLong()
+    }
+
+    /**
+     * Observe network changes i.e. Internet Connectivity
+     */
+    private fun handleNetworkChanges() {
+        NetworkUtils.getNetworkLiveData(applicationContext).observe(this, Observer { isConnected ->
+            if (!isConnected) {
+                textViewNetworkStatus.text = getString(R.string.text_no_connectivity)
+                networkStatusLayout.apply {
+                    show()
+                    setBackgroundColor(getColorRes(R.color.colorStatusNotConnected))
+                }
+            } else {
+                initialiseFirebaseViewModel()
+                textViewNetworkStatus.text = getString(R.string.text_connectivity)
+                networkStatusLayout.apply {
+                    setBackgroundColor(getColorRes(R.color.colorStatusConnected))
+
+                    animate()
+                        .alpha(1f)
+                        .setStartDelay(ANIMATION_DURATION)
+                        .setDuration(ANIMATION_DURATION)
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator) {
+                                hide()
+                            }
+                        })
+                }
+            }
         })
     }
 
