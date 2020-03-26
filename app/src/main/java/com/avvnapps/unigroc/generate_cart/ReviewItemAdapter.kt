@@ -74,7 +74,7 @@ class ReviewItemAdapter(var context: Context, var cartList: List<CartEntity>,
             else
                 itemView.item_cart_price_tv.text = cartItem.price?.let {
                     PriceFormatter.getFormattedPrice(
-                        it
+                        context, it
                     )
                 }
 

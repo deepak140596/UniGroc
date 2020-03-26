@@ -1,15 +1,13 @@
 package com.avvnapps.unigroc.utils
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.avvnapps.unigroc.models.AddressItem
@@ -24,7 +22,7 @@ class LocationUtils(context: Context){
 
     private var fusedLocationProviderClient: FusedLocationProviderClient ?= null
     private var location : MutableLiveData<Location> = MutableLiveData()
-    private val appContext = context.applicationContext
+
     // call constructor to get location
     init {
         getInstance(context)
@@ -51,7 +49,9 @@ class LocationUtils(context: Context){
 
 
     companion object {
-        fun getAddress(activity: AppCompatActivity,lat: Double, lng: Double): String? {
+        var TAG = "Main_ACTIVITY"
+
+        fun getAddress(activity: AppCompatActivity, lat: Double, lng: Double): String? {
 
             //Log.d(TAG, "get Address for LAT: $lat  LON: $lng")
             if (lat == 0.0 && lng == 0.0)
@@ -77,7 +77,7 @@ class LocationUtils(context: Context){
             return ""
         }
 
-        fun getDistance(activity: AppCompatActivity,addressItem: AddressItem): Float {
+        fun getDistance(activity: AppCompatActivity, addressItem: AddressItem): Float {
             var loc1 = Location("Location1")
             loc1.longitude = addressItem.longitude
             loc1.latitude = addressItem.latitude
@@ -88,6 +88,8 @@ class LocationUtils(context: Context){
             loc2.latitude = l.latitude
             return loc1.distanceTo(loc2)
         }
+
+
     }
 
 }

@@ -96,11 +96,10 @@ class CartItemAdapter(
             if (cartItem.price == 0.0)
                 itemView.item_cart_price_tv.visibility = View.GONE
             else
-                itemView.item_cart_price_tv.text = cartItem.price?.let {
-                    PriceFormatter.getFormattedPrice(
-                        it
-                    )
-                }
+                itemView.item_cart_price_tv.text =
+                    cartItem.price?.let { PriceFormatter.getFormattedPrice(context, it) }
+
+
 
             if (cartItem.photoUrl != null) {
                 Glide.with(context).load(cartItem.photoUrl)

@@ -94,7 +94,7 @@ class ReviewCartActivity : AppCompatActivity() {
         for(cartItem in savedCartItems){
             subtotal += cartItem.price!! * cartItem.quantity!!
         }
-        view_cart_total_tv.text = PriceFormatter.getFormattedPrice(subtotal)
+        view_cart_total_tv.text = PriceFormatter.getFormattedPrice(this, subtotal)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 

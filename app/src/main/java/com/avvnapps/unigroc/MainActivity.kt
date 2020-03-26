@@ -1,6 +1,9 @@
 package com.avvnapps.unigroc
 
+import Fonts.CustomTypefaceSpan
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
@@ -8,9 +11,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.graphics.Typeface
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -18,31 +22,35 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidfung.geoip.GeoIpService
+import com.androidfung.geoip.ServicesManager
+import com.androidfung.geoip.model.GeoIpResponseModel
 import com.avvnapps.unigroc.Activity.*
-import Fonts.CustomTypefaceSpan
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import androidx.lifecycle.ViewModelProvider
-import com.android.volley.Request
 import com.avvnapps.unigroc.authentication.AuthUiActivity
+import com.avvnapps.unigroc.database.SharedPreferencesDB
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
 import com.avvnapps.unigroc.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.models.CartEntity
+import com.avvnapps.unigroc.models.GeoIp
 import com.avvnapps.unigroc.utils.*
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
-import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator.animate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -56,7 +64,11 @@ import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -93,6 +105,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         gpsUtils = GpsUtils(this)
 
+        val ipApiService: GeoIpService = ServicesManager.getGeoIpService()
+        ipApiService.getGeoIp().enqueue(object : Callback<GeoIpResponseModel?> {
+            override fun onResponse(
+                call: Call<GeoIpResponseModel?>,
+                response: Response<GeoIpResponseModel?>
+            ) {
+                val countryName: String = response.body()!!.countryName
+                val currency: String = response.body()!!.currency
+                val country: String = response.body()!!.country
+                val latitude: Double = response.body()!!.latitude
+                val longtidue: Double = response.body()!!.longitude
+                val isp: String = response.body()!!.ip
+
+                var GeoIpValues = GeoIp(
+                    countryName,
+                    currency,
+                    country,
+                    latitude,
+                    longtidue,
+                    isp
+                )
+                SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
+
+            }
+
+            override fun onFailure(call: Call<GeoIpResponseModel?>?, t: Throwable) {
+                Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_SHORT).show()
+            }
+
+
+        })
 
         //inflate Navigation Drawer
         inflateNavDrawer();
@@ -110,16 +153,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             "Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user!!.phoneNumber}"
         )
 
+        getLocation()
 
         // get user location and pass to geocoder for address
-        LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
-            if (loc != null) {
-                location = loc
-                //updateAddress()
-                getLocation()
-            }
+        /*  LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
+              if (loc != null) {
+                  location = loc
+                  //updateAddress()
+                  getLocation()
+              }
 
-        })
+          })*/
 
         // initialise firebase view model
         initialiseFirebaseViewModel()
@@ -253,7 +297,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
 
-
     }
 
     //Image Slider
@@ -338,13 +381,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun getLocation() {
         gpsUtils.getLatLong { lat, long ->
             Log.i(TAG, "location is $lat + $long")
-
             var address = LocationUtils.getAddress(this, lat, long)
             if (address != null) {
                 Log.i(TAG, address)
                 appbar_dashboard_set_delivery_location_tv.text = address
             }
         }
+
+
     }
 
 
@@ -449,9 +493,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (requestCode == SET_ADDRESS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                location.latitude = data!!.extras!!.getDouble("latitude")
-                location.longitude = data!!.extras!!.getDouble("longitude")
-                updateLocation()
+                //  location.latitude = data!!.extras!!.getDouble("latitude")
+                // location.longitude = data!!.extras!!.getDouble("longitude")
+                //updateLocation()
+                getLocation()
             }
         }
     }

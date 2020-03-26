@@ -36,7 +36,7 @@ class ItemDetailAdapter(
 
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
         fun bindItems(context: Context, cartItem: CartEntity) {
@@ -44,11 +44,13 @@ class ItemDetailAdapter(
             itemView.order_item_name_tv.text = cartItem.name
             itemView.order_item_metric_weight_tv.text = getQuantityAndWeight(cartItem)
             itemView.order_item_total_price_tv.text = PriceFormatter.getFormattedPrice(
+                context,
                 cartItem.price?.times(
                     cartItem.quantity!!
                 )!!
             )
-            itemView.order_item_price_tv.text = PriceFormatter.getFormattedPrice(cartItem.price!!)
+            itemView.order_item_price_tv.text =
+                PriceFormatter.getFormattedPrice(context, cartItem.price!!)
 
             if (cartItem.photoUrl != null) {
                 Glide.with(context).load(cartItem.photoUrl)
@@ -58,11 +60,9 @@ class ItemDetailAdapter(
             }
 
 
-
-
         }
 
-        fun getQuantityAndWeight(cartItem: CartEntity): String{
+        fun getQuantityAndWeight(cartItem: CartEntity): String {
             var text = "${cartItem.metricWeight} x ${cartItem.quantity}"
             return text
         }

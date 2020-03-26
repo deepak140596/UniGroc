@@ -51,7 +51,7 @@ class IndividualProduct : AppCompatActivity() {
             .dontAnimate().into(productimage)
 
         product_name.setText(cartItem!!.name)
-        product_price.text = PriceFormatter.getFormattedPrice(cartItem!!.price!!)
+        product_price.text = PriceFormatter.getFormattedPrice(this, cartItem!!.price!!)
 
 
 
