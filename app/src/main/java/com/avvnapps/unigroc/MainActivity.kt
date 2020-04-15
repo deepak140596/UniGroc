@@ -11,8 +11,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -34,7 +32,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidfung.geoip.GeoIpService
 import com.androidfung.geoip.ServicesManager
@@ -60,6 +57,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -67,8 +65,6 @@ import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.ArrayList
 
 @Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -104,9 +100,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         askForPermissions()
 
         gpsUtils = GpsUtils(this)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
+        val crashlytics = FirebaseCrashlytics.getInstance()
+
+        crashlytics.log("my message")
+
+// To log a message to a crash report, use the following syntax:
 
         val ipApiService: GeoIpService = ServicesManager.getGeoIpService()
-        ipApiService.getGeoIp().enqueue(object : Callback<GeoIpResponseModel?> {
+        ipApiService.geoIp.enqueue(object : Callback<GeoIpResponseModel?> {
             override fun onResponse(
                 call: Call<GeoIpResponseModel?>,
                 response: Response<GeoIpResponseModel?>
@@ -126,6 +128,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     longtidue,
                     isp
                 )
+                crashlytics.log("E/TAG: Country Currency : $currency")
+                Log.e(TAG, "Country Currency : $currency")
                 SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
 
             }
@@ -138,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
 
         //inflate Navigation Drawer
-        inflateNavDrawer();
+        inflateNavDrawer()
         init()
         //inflate Slides
         inflateSLider()
@@ -179,9 +183,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rv_deal_of_the_day.adapter = adapter
         adapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
-                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
-                if (cartItem == null)
-                    return;
+                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity
                 val intent = Intent(this@MainActivity, IndividualProduct::class.java)
                 intent.putExtra("product", cartItem)
                 startActivity(intent)
@@ -322,7 +324,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
 
             if (loc != null) {
-                location = loc!!
+                location = loc
                 Log.i(TAG, "Location: ${location.latitude}  ${location.longitude}")
                 gpsUtils.getLatLong { lat, long ->
 
@@ -365,7 +367,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         // updateLocation()
 
                     }
-                    getLocation();
+                    getLocation()
 
                 } else {
                     // permission was denied
@@ -381,7 +383,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun getLocation() {
         gpsUtils.getLatLong { lat, long ->
             Log.i(TAG, "location is $lat + $long")
-            var address = LocationUtils.getAddress(this, lat, long)
+            val address = LocationUtils.getAddress(this, lat, long)
             if (address != null) {
                 Log.i(TAG, address)
                 appbar_dashboard_set_delivery_location_tv.text = address
@@ -397,7 +399,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //set Custom toolbar to activity -----------------------------------------------------------
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        for (i in 0 until toolbar!!.getChildCount()) {
+        for (i in 0 until toolbar!!.childCount) {
             val view = toolbar!!.getChildAt(i)
 
             if (view is TextView) {
@@ -407,24 +409,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
         }
-        supportActionBar!!.setTitle(resources.getString(R.string.app_name))
+        supportActionBar!!.title = resources.getString(R.string.app_name)
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         drawer.addDrawerListener(toggle)
         toggle.syncState()
-        navigationView = findViewById(R.id.nav_view) as NavigationView
-        val m = navigationView!!.getMenu()
+        navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val m = navigationView!!.menu
         for (i in 0 until m.size()) {
             val mi = m.getItem(i)
 
             //for aapplying a font to subMenu ...
-            val subMenu = mi.getSubMenu()
-            if (subMenu != null && subMenu!!.size() > 0) {
-                for (j in 0 until subMenu!!.size()) {
-                    val subMenuItem = subMenu!!.getItem(j)
+            val subMenu = mi.subMenu
+            if (subMenu != null && subMenu.size() > 0) {
+                for (j in 0 until subMenu.size()) {
+                    val subMenuItem = subMenu.getItem(j)
                     applyFontToMenuItem(subMenuItem)
                 }
             }
@@ -434,11 +436,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         val headerView = navigationView!!.getHeaderView(0)
-        navigationView!!.getBackground()
+        navigationView!!.background
             .setColorFilter(R.color.color_grey, PorterDuff.Mode.MULTIPLY)
         navigationView!!.setNavigationItemSelectedListener(this)
-        nav_menu = navigationView!!.getMenu()
-        val header = (findViewById(R.id.nav_view) as NavigationView).getHeaderView(0)
+        nav_menu = navigationView!!.menu
+        val header = (findViewById<NavigationView>(R.id.nav_view)).getHeaderView(0)
         iv_profile = header.findViewById(R.id.iv_header_img) as CircleImageView
 
         val options: RequestOptions = RequestOptions()
@@ -456,7 +458,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .into(iv_profile as CircleImageView)
 
         tv_name = header.findViewById(R.id.tv_header_name) as TextView
-        tv_name!!.setText(user!!.displayName)
+        tv_name!!.text = user!!.displayName.toString()
         My_Order = header.findViewById(R.id.my_orders) as LinearLayout
         My_Reward = header.findViewById(R.id.my_reward) as LinearLayout
         My_Walllet = header.findViewById(R.id.my_wallet) as LinearLayout
@@ -503,7 +505,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun initialiseFirebaseViewModel() {
 
-        firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Order Size: ${savedCartItems.size}")

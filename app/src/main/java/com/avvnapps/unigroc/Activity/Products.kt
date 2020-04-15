@@ -1,21 +1,20 @@
 package com.avvnapps.unigroc.Activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.avvnapps.unigroc.MainActivity
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.avvnapps.unigroc.MainActivity
-
 import kotlinx.android.synthetic.main.activity_products.*
 
 
@@ -32,14 +31,14 @@ class Products : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
 
-        val toolbar = findViewById(R.id.products_toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.products_toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // initialise cart view model
-        cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
+        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
 
@@ -55,9 +54,7 @@ class Products : AppCompatActivity() {
 
         adapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
-                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
-                if (cartItem == null)
-                    return;
+                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity
                 val intent = Intent(this@Products, IndividualProduct::class.java)
                 intent.putExtra("product", cartItem)
                 startActivity(intent)
@@ -71,7 +68,7 @@ class Products : AppCompatActivity() {
 
     private fun initialiseFirebaseViewModel() {
 
-        firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Order Size: ${savedCartItems.size}")

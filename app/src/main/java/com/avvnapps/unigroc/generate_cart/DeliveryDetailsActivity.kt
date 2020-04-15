@@ -1,31 +1,22 @@
 package com.avvnapps.unigroc.generate_cart
 
-import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.avvnapps.unigroc.NavigationActivity
+import androidx.lifecycle.ViewModelProvider
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB
-import com.avvnapps.unigroc.models.CartEntity
-import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.location_address.SavedAddressesActivity
+import com.avvnapps.unigroc.models.AddressItem
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.OrderItem
-import com.avvnapps.unigroc.models.RetailerQuotationItem
-import com.avvnapps.unigroc.navigation_fragments.DashboardFragment
-import com.avvnapps.unigroc.utils.ApplicationConstants
 import com.avvnapps.unigroc.utils.DateTimeUtils
-import com.avvnapps.unigroc.utils.SuccessToast
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_delivery_details.*
 import java.util.*
 
@@ -51,8 +42,8 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_delivery_details)
 
-        firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
-        cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
+        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
             Log.i(TAG,"Saved Cart items size: ${savedCartItems.size}")

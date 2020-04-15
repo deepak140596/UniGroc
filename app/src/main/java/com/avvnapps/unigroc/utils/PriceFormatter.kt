@@ -2,7 +2,6 @@ package com.avvnapps.unigroc.utils
 
 import android.content.Context
 import com.avvnapps.unigroc.database.SharedPreferencesDB
-import com.firebase.ui.auth.AuthUI.getApplicationContext
 import de.tobiasschuerg.money.Currency
 import de.tobiasschuerg.money.Money
 
@@ -12,7 +11,6 @@ class PriceFormatter {
     // equivalent to static scope
     companion object {
 
-
         val CURRENCY_SYMBOL = "₹"
 
         var CURRENCY_FORMAT = " %.2f"
@@ -21,6 +19,8 @@ class PriceFormatter {
 
         val euro = Currency("EUR", "Euro", 0.012)
         val usd = Currency("USD", "USD", 0.013)
+        val gbr = Currency("GBP", "GBP", 0.010)
+
 
         fun getCurrencySymbol(): String {
             return CURRENCY_SYMBOL
@@ -36,8 +36,11 @@ class PriceFormatter {
             if (geoipVal!!.currency == "EUR") {
                 return inrPrice.convertInto(euro).toString()
             }
-            if (geoipVal!!.currency == "USD") {
+            if (geoipVal.currency == "USD") {
                 return inrPrice.convertInto(usd).toString()
+            }
+            if (geoipVal.currency == "GBP") {
+                return inrPrice.convertInto(gbr).toString()
             }
 
             return CURRENCY_SYMBOL + String.format(CURRENCY_FORMAT, price)

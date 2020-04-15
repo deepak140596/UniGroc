@@ -4,21 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import com.avvnapps.unigroc.NavigationActivity
+import androidx.appcompat.app.AppCompatActivity
+import com.avvnapps.unigroc.MainActivity
 import com.avvnapps.unigroc.R
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
-import com.firebase.ui.auth.AuthMethodPickerLayout
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.avvnapps.unigroc.MainActivity
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 
 /**
@@ -32,7 +27,7 @@ class AuthUiActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        Fabric.with(this, Crashlytics())
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
         title = "Sign In"
 
         mAuth = FirebaseAuth.getInstance()

@@ -1,25 +1,17 @@
 package com.avvnapps.unigroc.Activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.avvnapps.unigroc.Adapter.wishlistAdapter
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.wishlistItems
-import com.google.firebase.firestore.FirebaseFirestore
-import android.view.View
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_wishlist.*
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
-
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.QueryDocumentSnapshot
-
-
-
 
 
 class Wishlist : AppCompatActivity() {
@@ -35,7 +27,7 @@ class Wishlist : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wishlist)
 
-        val toolbar = findViewById(com.avvnapps.unigroc.R.id.toolbar_wishlist) as Toolbar
+        val toolbar = findViewById<Toolbar>(com.avvnapps.unigroc.R.id.toolbar_wishlist)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -45,7 +37,7 @@ class Wishlist : AppCompatActivity() {
         //using staggered grid pattern in recyclerview
         mLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerview.setHasFixedSize(true)
-        recyclerview.setLayoutManager(mLayoutManager)
+        recyclerview.layoutManager = mLayoutManager
 
         view_profile.setOnClickListener(View.OnClickListener {
             startActivity(
@@ -61,7 +53,7 @@ class Wishlist : AppCompatActivity() {
     private fun popuateData() {
         val rootRef = FirebaseFirestore.getInstance()
         val query =
-            rootRef!!.collection("users").document(user!!.email.toString()).collection("wishlist")
+            rootRef.collection("users").document(user!!.email.toString()).collection("wishlist")
 
         query.addSnapshotListener(object : EventListener<QuerySnapshot> {
             override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
@@ -72,7 +64,7 @@ class Wishlist : AppCompatActivity() {
                 if (p0 != null) {
                     wishlistItem.clear()
                     for (documentSnap: QueryDocumentSnapshot in p0) {
-                        val wishlist = documentSnap!!.toObject(wishlistItems::class.java!!)
+                        val wishlist = documentSnap.toObject(wishlistItems::class.java)
                         wishlistItem.add(wishlist)
                         tv_no_cards.visibility = View.GONE
                         adapter.notifyDataSetChanged()

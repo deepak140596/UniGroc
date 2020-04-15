@@ -1,14 +1,13 @@
 package com.avvnapps.unigroc.generate_cart
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.avvnapps.unigroc.Activity.IndividualProduct
@@ -22,7 +21,7 @@ import kotlinx.android.synthetic.main.view_cart_total.*
 class ReviewCartActivity : AppCompatActivity() {
 
     lateinit var cartViewModel: CartViewModel
-    lateinit var savedCartItems : List<CartEntity>
+    lateinit var savedCartItems: List<CartEntity>
     lateinit var adapter: ReviewItemAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,19 +36,17 @@ class ReviewCartActivity : AppCompatActivity() {
         review_cart_recycler_view.layoutManager = LinearLayoutManager(this)
         review_cart_recycler_view.addItemDecoration(
             DividerItemDecoration(
-                review_cart_recycler_view.context,DividerItemDecoration.VERTICAL
+                review_cart_recycler_view.context, DividerItemDecoration.VERTICAL
             )
         )
         // initialise the viewmodel to pass into adapter
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
-        savedCartItems = ArrayList<CartEntity>() as List<CartEntity>
-        adapter = ReviewItemAdapter(this,savedCartItems,cartViewModel)
+        savedCartItems = ArrayList<CartEntity>()
+        adapter = ReviewItemAdapter(this, savedCartItems, cartViewModel)
         review_cart_recycler_view.adapter = adapter
-        adapter.setOnItemClickListener(object : ReviewItemAdapter.ClickListener{
+        adapter.setOnItemClickListener(object : ReviewItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
-                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity;
-                if (cartItem == null)
-                    return;
+                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity
                 val intent = Intent(this@ReviewCartActivity, IndividualProduct::class.java)
                 intent.putExtra("product", cartItem)
                 startActivity(intent)
@@ -61,12 +58,12 @@ class ReviewCartActivity : AppCompatActivity() {
         // get saved cart items from local database
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
-            if (savedCartItems.isEmpty()){
+            if (savedCartItems.isEmpty()) {
                 review_cart_toolbar.title = "Cart"
                 empty_layout.visibility = View.VISIBLE
                 cart_layout.visibility = View.GONE
 
-            }else{
+            } else {
                 cart_layout.visibility = View.VISIBLE
                 empty_layout.visibility = View.GONE
 
@@ -79,34 +76,34 @@ class ReviewCartActivity : AppCompatActivity() {
 
 
         view_cart_place_order_ll.setOnClickListener {
-            startActivity(Intent(this,DeliveryDetailsActivity::class.java))
+            startActivity(Intent(this, DeliveryDetailsActivity::class.java))
             finish()
         }
 
-        btn_shopnow.setOnClickListener(View.OnClickListener {
+        btn_shopnow.setOnClickListener {
             onBackPressed()
-        })
-
+        }
     }
 
-    private fun setupSubtotal(){
+    private fun setupSubtotal() {
         var subtotal = 0.0
-        for(cartItem in savedCartItems){
+        for (cartItem in savedCartItems) {
             subtotal += cartItem.price!! * cartItem.quantity!!
         }
         view_cart_total_tv.text = PriceFormatter.getFormattedPrice(this, subtotal)
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        menuInflater.inflate(R.menu.menu_review_cart,menu)
+        menuInflater.inflate(R.menu.menu_review_cart, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        when(item!!.itemId){
-            R.id.menu_review_cart_search ->{
-                startActivity(Intent(this@ReviewCartActivity,SearchItemActivity::class.java))
+        when (item!!.itemId) {
+            R.id.menu_review_cart_search -> {
+                startActivity(Intent(this@ReviewCartActivity, SearchItemActivity::class.java))
                 return true
             }
         }
