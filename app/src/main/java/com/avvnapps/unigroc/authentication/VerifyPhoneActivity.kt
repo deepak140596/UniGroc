@@ -1,11 +1,12 @@
 package com.avvnapps.unigroc.authentication
 
-import android.opengl.Visibility
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.avvnapps.unigroc.MainActivity
 import com.avvnapps.unigroc.R
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -13,16 +14,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_verify_phone.*
 import java.util.concurrent.TimeUnit
-import android.app.Activity
-import android.content.Intent
-import android.view.inputmethod.InputMethodManager
-import com.avvnapps.unigroc.MainActivity
-import com.avvnapps.unigroc.NavigationActivity
-import kotlinx.android.synthetic.main.activity_navigation.*
 
 
 /**
@@ -54,7 +48,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
         initializeOtpCallback()
 
-        Log.i(TAG, FirebaseAuth.getInstance().currentUser!!.displayName)
+        Log.i(TAG, FirebaseAuth.getInstance().currentUser!!.displayName.toString())
 
         // send OTP btn
         activity_send_otp_btn.setOnClickListener {

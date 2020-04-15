@@ -1,72 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="8dp">
 
     <LinearLayout
-        android:id="@+id/reviewContainer"
-        android:background="@color/color_white"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:id="@+id/reviewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/color_white"
+            android:orientation="vertical">
 
 
         <hyogeun.github.com.colorratingbarlib.ColorRatingBar
-            android:id="@+id/rating_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:rating="0"
-            app:changeable="true"
-            app:empty_color="@color/grey_light"
-            app:progress_color="@color/md_amber_A700" />
+                android:id="@+id/rating_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:rating="0"
+                app:changeable="true"
+                app:empty_color="@color/grey_light"
+                app:progress_color="@color/md_amber_A700" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.HintText"
-            app:boxStrokeColor="@color/black"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/reviewEdt"
+     <!--   <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@null"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                app:boxStrokeColor="@color/black">
 
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reviewEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Reviews"
+
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <EditText
+                android:id="@+id/reviewEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/strock"
+                android:padding="12dp"
                 android:textColor="@color/black"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:hint="Reviews"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="10dp">
+
+        </EditText>
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addBtn"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Add review"
-            android:textColor="@color/color_white"
-            />
+        <Button
+                android:id="@+id/addBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Add review"
+                android:textColor="@color/color_white" />
 
 
     </LinearLayout>

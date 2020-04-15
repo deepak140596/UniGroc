@@ -84,6 +84,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+            <LinearLayout
+                    android:id="@+id/networkStatusLayout"
+                    style="@style/StatusView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorStatusNotConnected"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                        android:id="@+id/textViewNetworkStatus"
+                        style="@style/StatusTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/text_no_connectivity" />
+            </LinearLayout>
+
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -374,6 +392,7 @@
                     <ImageView
                             android:id="@+id/iv_call"
                             android:layout_width="32dp"
+                            android:tint="@color/colorPrimary"
                             android:layout_height="32dp"
                             android:src="@drawable/call_answer" />
 
@@ -389,6 +408,7 @@
                     <ImageView
                             android:id="@+id/iv_whatsapp"
                             android:layout_width="32dp"
+                            android:tint="@color/colorPrimary"
                             android:layout_height="32dp"
                             android:src="@drawable/mywhatsapp" />
 
@@ -405,6 +425,7 @@
                             android:id="@+id/reviews"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
+                            android:tint="@color/colorPrimary"
                             android:src="@drawable/reviews" />
 
                 </LinearLayout>
@@ -420,6 +441,7 @@
                             android:id="@+id/share_via"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
+                            android:tint="@color/colorPrimary"
                             android:src="@drawable/share_via" />
 
                 </LinearLayout>

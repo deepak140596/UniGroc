@@ -3,16 +3,15 @@ package com.avvnapps.unigroc.Fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.order_status.OrderItemAdapter
@@ -44,7 +43,7 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         activity_past_order_progress_bar.visibility = View.VISIBLE
 
         // initialise Firestore VM
-        firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         initialiseFirestoreViewModel()
 
         fragment_past_order_recycler_view.layoutManager = LinearLayoutManager(activity)
@@ -57,7 +56,7 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun initialiseFirestoreViewModel() {
-        firestoreViewModel.getOrdersHistory().observe(this, Observer { orders ->
+        firestoreViewModel.getOrdersHistory().observe(viewLifecycleOwner, Observer { orders ->
             Log.i(TAG, "OrdersSize: ${orders.size}")
 
             ordersHistory = orders

@@ -4,17 +4,17 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
-import com.avvnapps.unigroc.utils.LocationUtils
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.navigation_fragments.DashboardFragment
+import com.avvnapps.unigroc.utils.LocationUtils
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,8 +33,8 @@ class NavigationActivity : AppCompatActivity() {
 
         activity_bottom_nav_view.setOnNavigationItemSelectedListener(mOnBottomNavigationItemSelectedListener)
 
-        var user = FirebaseAuth.getInstance().currentUser
-        Log.i(TAG,"Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user.phoneNumber}")
+        val user = FirebaseAuth.getInstance().currentUser
+        Log.i(TAG, "Name: ${user!!.displayName}  Email: ${user.email}  Phone: ${user.phoneNumber}")
 
 
     }
@@ -56,7 +56,7 @@ class NavigationActivity : AppCompatActivity() {
 
     fun startFragment(fragment : Fragment){
         if(fragment != null){
-            var fragmentManager =supportFragmentManager
+            val fragmentManager = supportFragmentManager
             fragmentManager.beginTransaction().replace(R.id.activity_nav_frame_layout,fragment,"").commit()
         }
     }
@@ -68,7 +68,7 @@ class NavigationActivity : AppCompatActivity() {
         do {
 
 
-            var cartItem = CartEntity(
+            val cartItem = CartEntity(
                 i.toString(), "Item $i", "Oils", "Kitchen Needs",
                 "https://www.rd.com/wp-content/uploads/2017/11/01_Constipation_Reasons-to-Buy-a-Bottle-of-Castor-Oil-Today_209913937_MaraZe-760x506.jpg",
                 0, 45.0, "1kg"
@@ -79,13 +79,13 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     // observe on location and update accordingly
-    fun updateLocation(){
+    private fun updateLocation() {
 
         LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
 
 
             if(loc != null) {
-                location = loc!!
+                location = loc
                 Log.i(TAG,"Location: ${location.latitude}  ${location.longitude}")
                 startFragment(DashboardFragment())
             }

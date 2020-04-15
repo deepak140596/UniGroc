@@ -7,6 +7,10 @@ import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import com.avvnapps.unigroc.MainActivity
 import com.avvnapps.unigroc.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_profile.*
 
@@ -17,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        val toolbar = findViewById(R.id.profile_toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.profile_toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -35,6 +39,20 @@ class ProfileActivity : AppCompatActivity() {
         name_tv.setText(user!!.displayName)
         emailview.setText(user!!.email)
         mobileview.setText(user!!.phoneNumber)
+
+        val options: RequestOptions = RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.user)
+            .error(R.drawable.user)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .priority(Priority.HIGH)
+            .dontAnimate()
+            .dontTransform()
+
+        Glide.with(this)
+            .applyDefaultRequestOptions(options)
+            .load(user!!.photoUrl)
+            .into(profile_pic)
     }
 
     override fun onSupportNavigateUp(): Boolean {

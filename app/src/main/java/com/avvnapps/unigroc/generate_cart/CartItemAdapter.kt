@@ -2,7 +2,6 @@ package com.avvnapps.unigroc.generate_cart
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.drawable.TransitionDrawable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,24 +13,27 @@ import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_cart.view.*
 import kotlin.math.roundToInt
 
 
 class CartItemAdapter(
-    var context: Context, var cartList: List<CartEntity>,
+    var context: Context,
+    var cartList: List<CartEntity>,
     var cartViewModel: CartViewModel
 ) : RecyclerView.Adapter<CartItemAdapter.ViewHolder>() {
     var TAG = "CART_ITEM_ADAPTER"
+
     // holds this device's screen width,
     private var screenWidth = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val displayMetrics = DisplayMetrics()
-        (context as Activity).windowManager.getDefaultDisplay().getMetrics(displayMetrics)
+        (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
 
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -72,8 +74,6 @@ class CartItemAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        var transduration = 200
-        var prod_selectable: TransitionDrawable
         override fun onClick(p0: View?) {
             if (p0 != null) {
                 mClickListener.onClick(adapterPosition, p0)
@@ -84,9 +84,6 @@ class CartItemAdapter(
 
         init {
             itemView.setOnClickListener(this)
-            prod_selectable =
-                itemView.findViewById<View>(R.id.product_selectable).getBackground() as TransitionDrawable
-
         }
 
         fun bindItems(context: Context, cartItem: CartEntity, cartViewModel: CartViewModel) {
@@ -96,18 +93,23 @@ class CartItemAdapter(
             if (cartItem.price == 0.0)
                 itemView.item_cart_price_tv.visibility = View.GONE
             else
-                itemView.item_cart_price_tv.text = cartItem.price?.let {
-                    PriceFormatter.getFormattedPrice(
-                        it
-                    )
-                }
+                itemView.item_cart_price_tv.text =
+                    cartItem.price?.let { PriceFormatter.getFormattedPrice(context, it) }
 
-            if (cartItem.photoUrl != null) {
-                Glide.with(context).load(cartItem.photoUrl)
-                    .transition(withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontAnimate().into(itemView.item_cart_iv)
-            }
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.cartempty)
+                .error(R.drawable.cartempty)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .dontAnimate()
+                .dontTransform()
+
+            Glide.with(context)
+                .applyDefaultRequestOptions(options)
+                .load(cartItem.photoUrl)
+                .into(itemView.item_cart_iv)
+
 
             cartItem.quantity = cartViewModel.getQuantity(cartItem.itemId)
             Log.i(TAG, "Qty: ${cartItem.quantity}")
@@ -128,7 +130,6 @@ class CartItemAdapter(
                 cartItem.incrementQuantity()
                 if (cartItem.quantity == 1) {
                     cartViewModel.insert(cartItem)
-                    prod_selectable.startTransition(transduration)
 
                 } else {
                     cartViewModel.setQuantity(cartItem.itemId, cartItem.quantity!!)
@@ -140,7 +141,7 @@ class CartItemAdapter(
 
                 cartItem.incrementQuantity()
                 cartViewModel.insert(cartItem)
-                prod_selectable.startTransition(transduration)
+
 
                 updateViews(cartItem)
             }
@@ -148,7 +149,7 @@ class CartItemAdapter(
                 cartItem.decrementQuantity()
                 if (cartItem.quantity == 0) {
                     cartViewModel.delete(cartItem)
-                    prod_selectable.reverseTransition(transduration)
+
 
                 } else {
                     cartViewModel.setQuantity(cartItem.itemId, cartItem.quantity!!)
@@ -159,9 +160,7 @@ class CartItemAdapter(
 
         }
 
-        fun updateViews(cartItem: CartEntity) {
-            animateIt(itemView.item_cart_quantity_tv, false, true)
-
+        private fun updateViews(cartItem: CartEntity) {
             itemView.item_cart_quantity_tv.text = cartItem.quantity.toString()
             if (cartItem.quantity == 0) {
                 itemView.item_cart_add_large_btn.visibility = View.VISIBLE
@@ -173,18 +172,6 @@ class CartItemAdapter(
             }
         }
 
-        private fun animateIt(
-            v: View,
-            reverse: Boolean,
-            fade: Boolean
-        ) {
-            v.animate().duration = 0
-            if (fade) v.animate().alpha(0f) else v.animate().translationY(if (reverse) 100F else -100.toFloat())
-            v.animate().start()
-            v.animate().duration = if (fade) 1000 else 500.toLong()
-            if (fade) v.animate().alpha(1f) else v.animate().translationY(0f)
-            v.animate().start()
-        }
 
     }
 }

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,8 +78,8 @@ class DashboardFragment : Fragment() {
         })
 
         // initialise cart view model
-        cartViewModel = ViewModelProviders.of(activity).get(CartViewModel::class.java)
-        cartViewModel.cartList.observe(this, Observer {
+        cartViewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
+        cartViewModel.cartList.observe(viewLifecycleOwner, Observer {
             savedCartItems = it
             updateCartImageView(savedCartItems)
         })
@@ -129,8 +130,8 @@ class DashboardFragment : Fragment() {
         //super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == SET_ADDRESS_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
-                location.latitude = data!!.extras.getDouble("latitude")
-                location.longitude = data!!.extras.getDouble("longitude")
+                location.latitude = data!!.extras!!.getDouble("latitude")
+                location.longitude = data!!.extras!!.getDouble("longitude")
                 updateAddress()
             }
         }
@@ -138,8 +139,8 @@ class DashboardFragment : Fragment() {
 
     private fun initialiseFirebaseViewModel(){
 
-        firestoreViewModel = ViewModelProviders.of(this).get(FirestoreViewModel::class.java)
-        firestoreViewModel.getAvailableCartItems().observe(this, Observer {
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
+        firestoreViewModel.getAvailableCartItems().observe(viewLifecycleOwner, Observer {
             CartItems = it
             Log.i(TAG,"Order Size: ${orderList.size}")
             adapter.cartList = CartItems

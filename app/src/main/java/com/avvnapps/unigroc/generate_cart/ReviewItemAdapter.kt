@@ -50,7 +50,7 @@ class ReviewItemAdapter(var context: Context, var cartList: List<CartEntity>,
     }
 
     fun getItem(position: Int): Any {
-        return cartList.get(position)
+        return cartList[position]
     }
 
 
@@ -74,7 +74,7 @@ class ReviewItemAdapter(var context: Context, var cartList: List<CartEntity>,
             else
                 itemView.item_cart_price_tv.text = cartItem.price?.let {
                     PriceFormatter.getFormattedPrice(
-                        it
+                        context, it
                     )
                 }
 
@@ -129,7 +129,7 @@ class ReviewItemAdapter(var context: Context, var cartList: List<CartEntity>,
 
         }
 
-        fun updateViews(cartItem: CartEntity) {
+        private fun updateViews(cartItem: CartEntity) {
             itemView.item_cart_quantity_tv.text = cartItem.quantity.toString()
             if (cartItem.quantity == 0) {
                 itemView.item_cart_add_large_btn.visibility = View.VISIBLE
