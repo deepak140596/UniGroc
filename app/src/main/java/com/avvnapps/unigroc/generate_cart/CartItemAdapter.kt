@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.utils.PriceFormatter
+import com.avvnapps.unigroc.utils.circularProgressDrawable
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -87,6 +88,8 @@ class CartItemAdapter(
         }
 
         fun bindItems(context: Context, cartItem: CartEntity, cartViewModel: CartViewModel) {
+            val circularProgressDrawable = circularProgressDrawable(context)
+
             itemView.item_cart_name_tv.text = cartItem.name
             itemView.item_cart_metric_weight_tv.text = cartItem.metricWeight
             //itemView.item_cart_quantity_tv.text = cartItem.quantity.toString()
@@ -98,12 +101,10 @@ class CartItemAdapter(
 
             val options: RequestOptions = RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.cartempty)
+                .placeholder(circularProgressDrawable)
                 .error(R.drawable.cartempty)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH)
-                .dontAnimate()
-                .dontTransform()
 
             Glide.with(context)
                 .applyDefaultRequestOptions(options)

@@ -3,9 +3,9 @@ package com.avvnapps.unigroc.utils
 import android.app.Activity
 import android.content.Context
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import es.dmoral.toasty.Toasty
 
@@ -25,4 +25,13 @@ fun View.show() {
 
 fun View.hide() {
     visibility = View.GONE
+}
+
+fun circularProgressDrawable(context: Context): CircularProgressDrawable {
+    val circularProgressDrawable = CircularProgressDrawable(context)
+    circularProgressDrawable.strokeWidth = 5f
+    circularProgressDrawable.centerRadius = 30f
+    circularProgressDrawable.start()
+
+    return circularProgressDrawable
 }

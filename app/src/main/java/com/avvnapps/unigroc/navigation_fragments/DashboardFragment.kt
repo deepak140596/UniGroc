@@ -13,27 +13,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
-import com.avvnapps.unigroc.database.SharedPreferencesDB
 import com.avvnapps.unigroc.generate_cart.CartItemAdapter
-import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.generate_cart.SearchItemActivity
-import com.avvnapps.unigroc.utils.LocationUtils
 import com.avvnapps.unigroc.location_address.SavedAddressesActivity
+import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.OrderItem
-import com.avvnapps.unigroc.models.RetailerQuotationItem
-import com.avvnapps.unigroc.order_status.OrderItemAdapter
-import com.avvnapps.unigroc.utils.ApplicationConstants
+import com.avvnapps.unigroc.utils.LocationUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.appbar_dashboard.*
 import kotlinx.android.synthetic.main.appbar_dashboard.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -71,7 +63,7 @@ class DashboardFragment : Fragment() {
         // get user location and pass to geocoder for address
         LocationUtils(activity).getLocation().observe(activity, Observer { loc : Location? ->
             if(loc != null) {
-                location = loc!!
+                location = loc
                 updateAddress()
             }
 
@@ -131,7 +123,7 @@ class DashboardFragment : Fragment() {
         if(requestCode == SET_ADDRESS_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
                 location.latitude = data!!.extras!!.getDouble("latitude")
-                location.longitude = data!!.extras!!.getDouble("longitude")
+                location.longitude = data.extras!!.getDouble("longitude")
                 updateAddress()
             }
         }

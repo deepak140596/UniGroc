@@ -51,7 +51,7 @@
     <!-- activity_my_order_detail.xml -->
     <string name="tv_order_cancle">Cancel Order</string>
     <string name="tv_order_summery">Summary</string>
-    <string name="tv_order_total">Total: Rs.</string>
+    <string name="tv_order_total">Total: </string>
     <string name="tv_order_qty">Qty</string>
     <string name="tv_order_rs">Rs.</string>
 

@@ -11,6 +11,7 @@ import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.models.RetailerQuotationItem
 import com.avvnapps.unigroc.utils.DateTimeUtils
+import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -178,7 +179,7 @@ class OrderItemAdapter(
                 itemView.item_order_retail1_name_tv.text = quotations[0].retailerName
                 itemView.item_order_retailer1_rating_tv.text = quotations[0].rating.toString()
                 itemView.item_order_retail1_quote_price_tv.text =
-                    quotations[0].quotedPrice.toString()
+                    PriceFormatter.getFormattedPrice(context, quotations[0].quotedPrice)
 
                 if (quotations[0].photoUrl != null) {
                     Glide.with(context).load(quotations[0].photoUrl)
@@ -211,7 +212,8 @@ class OrderItemAdapter(
                 itemView.item_order_retail2_name_tv.text = quotations[1].retailerName
                 itemView.item_order_retailer2_rating_tv.text = quotations[1].rating.toString()
                 itemView.item_order_retail2_quote_price_tv.text =
-                    quotations[1].quotedPrice.toString()
+                    PriceFormatter.getFormattedPrice(context, quotations[1].quotedPrice)
+
                 /*itemView.item_order_retailer2_distance_tv.text = LocationUtils.getDistance(
                     context as AppCompatActivity,
                     quotations[1].addressItem
@@ -240,7 +242,8 @@ class OrderItemAdapter(
                 itemView.item_order_retail3_name_tv.text = quotations[2].retailerName
                 itemView.item_order_retailer3_rating_tv.text = quotations[2].rating.toString()
                 itemView.item_order_retail3_quote_price_tv.text =
-                    quotations[2].quotedPrice.toString()
+                    PriceFormatter.getFormattedPrice(context, quotations[2].quotedPrice)
+
                 /*itemView.item_order_retailer3_distance_tv.text = LocationUtils.getDistance(
                     context as AppCompatActivity,
                     quotations[2].addressItem

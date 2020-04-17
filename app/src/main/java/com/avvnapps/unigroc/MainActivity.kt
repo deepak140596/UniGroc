@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 var GeoIpValues = GeoIp(
                     countryName,
-                    currency,
+                    "GBP",
                     country,
                     latitude,
                     longtidue,
