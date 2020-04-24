@@ -62,9 +62,8 @@ class ItemDetailAdapter(
 
         }
 
-        fun getQuantityAndWeight(cartItem: CartEntity): String {
-            var text = "${cartItem.metricWeight} x ${cartItem.quantity}"
-            return text
+        private fun getQuantityAndWeight(cartItem: CartEntity): String {
+            return "${cartItem.metricWeight} x ${cartItem.quantity}"
         }
     }
 

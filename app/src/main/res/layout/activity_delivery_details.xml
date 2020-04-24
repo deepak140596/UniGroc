@@ -134,7 +134,7 @@
                     app:rrbg_dividerColor="@color/black"
                     app:rrbg_dividerSize="1dp"
                     app:rrbg_radius="1dp"
-                    app:rrbg_selectorColor="@color/color_light_green"
+                    app:rrbg_selectorColor="@color/primaryColor"
                     app:rrbg_selectorSize="6dp">
 
                 <co.ceryle.radiorealbutton.RadioRealButton

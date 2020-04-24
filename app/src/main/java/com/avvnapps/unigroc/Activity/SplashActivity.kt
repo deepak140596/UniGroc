@@ -1,32 +1,35 @@
 package com.avvnapps.unigroc.Activity
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.avvnapps.unigroc.R
 import android.content.Intent
-
+import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.avvnapps.unigroc.MainActivity
+import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.authentication.AuthUiActivity
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.ktx.Firebase
 
 
 class SplashActivity : AppCompatActivity() {
+    val TAG = "SPLASH_SCREEN"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val firestore = Firebase.firestore
         // remove title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed(
@@ -39,8 +42,29 @@ class SplashActivity : AppCompatActivity() {
                 // Start your app main activity
                 val auth = FirebaseAuth.getInstance()
                 if (auth.currentUser != null) {
-                    // already signed in
-                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+
+                    FirebaseInstanceId.getInstance().instanceId
+                        .addOnCompleteListener(OnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                Log.w(TAG, "getInstanceId failed", task.exception)
+                                return@OnCompleteListener
+                            }
+
+                            // Get new Instance ID token
+                            val token = task.result?.token.toString()
+                            val data = hashMapOf("deviceToken" to token)
+
+                            firestore.collection("users")
+                                .document(auth.currentUser!!.email.toString())
+                                .set(data, SetOptions.merge())
+                            // Log and toast
+                            Log.d(TAG, "tokenID $token")
+                            // already signed in
+                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+
+                        })
+
+
 
                 } else {
                     // not signed in

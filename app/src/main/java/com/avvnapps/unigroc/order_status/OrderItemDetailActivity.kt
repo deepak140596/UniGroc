@@ -58,7 +58,7 @@ class OrderItemDetailActivity : AppCompatActivity() {
         var orderStatus = orderItem.orderStatus
         setupOrderStatus(orderStatus, orderItem.isPickup)
 
-        btn_order_detail_cancle.setOnClickListener {
+        btn_order_detail_cancel.setOnClickListener {
             showReviewDialog(orderStatus)
 
         }
@@ -68,7 +68,7 @@ class OrderItemDetailActivity : AppCompatActivity() {
 
     private fun showReviewDialog(orderStatus: Int) {
 
-        var dialog = Dialog(this)
+        val dialog = Dialog(this)
         dialog.setContentView(R.layout.item_add_rating)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(true)
