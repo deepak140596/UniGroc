@@ -6,7 +6,10 @@ import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.utils.ApplicationConstants
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import java.util.*
 
 class FirestoreRepository {
@@ -45,6 +48,13 @@ class FirestoreRepository {
     fun deleteAddress(addressItem: AddressItem): Task<Void> {
         var documentReference = firestoreDB.collection("users/$email/saved_addresses")
             .document(addressItem.addressId)
+
+        return documentReference.delete()
+    }
+
+    fun deleteOrderItem(orderItem: OrderItem): Task<Void> {
+        var documentReference = firestoreDB.collection("orders")
+            .document(orderItem.orderId.toString())
 
         return documentReference.delete()
     }

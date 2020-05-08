@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.OrderItem
@@ -62,6 +63,7 @@ class OrderItemAdapter(
 
         }
 
+
         if (orderItem.isPickup)
             holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
         else
@@ -100,7 +102,9 @@ class OrderItemAdapter(
             itemView.item_order_quotations_ll.visibility =
                 if (orderItem.isExpanded) View.VISIBLE else View.GONE
 
-
+            itemView.item_order_cancel_action_tv.setOnClickListener {
+                showDialogBox(context, orderItem, firestoreViewModel)
+            }
 
             var orderStatus = orderItem.orderStatus
             if (orderItem.quotations.isEmpty())
@@ -182,6 +186,26 @@ class OrderItemAdapter(
                 5 -> return orderItem.dateCompleted
             }
             return 0
+        }
+
+        private fun showDialogBox(
+            context: Context,
+            orderItem: OrderItem,
+            firestoreViewModel: FirestoreViewModel
+        ) {
+            var alertDialogBuilder = AlertDialog.Builder(context)
+            alertDialogBuilder.setTitle("Cancel Order?")
+                .setMessage("Do you want to cancel the order?")
+                .setPositiveButton("Yes") { dialog, which ->
+
+                    firestoreViewModel.cancelOrder(orderItem)
+
+                }.setNegativeButton("Cancel") { _, _ ->
+
+                }
+
+            var alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
 
         private fun setupQuotationView(
@@ -286,4 +310,5 @@ class OrderItemAdapter(
         }
 
     }
+
 }

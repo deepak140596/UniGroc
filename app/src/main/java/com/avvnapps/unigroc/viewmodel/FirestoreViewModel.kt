@@ -2,13 +2,13 @@ package com.avvnapps.unigroc.viewmodel
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
-
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.avvnapps.unigroc.database.firestore.FirestoreRepository
-import com.avvnapps.unigroc.generate_cart.DeliveryDetailsActivity
 import com.avvnapps.unigroc.models.*
-import com.avvnapps.unigroc.utils.ApplicationConstants
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.QuerySnapshot
 
 class FirestoreViewModel(application: Application) : AndroidViewModel(application){
 
@@ -92,6 +92,13 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     fun deleteAddress(addressItem: AddressItem){
         firebaseRepository.deleteAddress(addressItem).addOnFailureListener {
             Log.e(TAG,"Failed to delete Address")
+        }
+    }
+
+    // delete an order Item from firebase
+    fun cancelOrder(orderItem: OrderItem) {
+        firebaseRepository.deleteOrderItem(orderItem).addOnFailureListener {
+            Log.e(TAG, "Failed to delete Address")
         }
     }
 
