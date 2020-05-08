@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="8dp"
-        android:foreground="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_marginBottom="4dp"
         app:cardCornerRadius="10dp">
 
@@ -22,8 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
-                android:layout_marginRight="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
+                android:layout_marginRight="@dimen/space_10"
                 android:orientation="vertical">
 
             <LinearLayout
@@ -59,8 +56,8 @@
                         android:gravity="end"
                         android:paddingBottom="@dimen/space_8"
                         android:textColor="@color/colorPrimary"
-                        tools:text="status"
-                        android:textSize="@dimen/text_size_normal" />
+                        android:textSize="@dimen/text_size_normal"
+                        tools:text="status" />
 
             </LinearLayout>
 
@@ -89,8 +86,8 @@
                 <Fonts.LatoBLack
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".5"
                         android:layout_gravity="center"
+                        android:layout_weight=".5"
                         android:gravity="center"
                         android:text="T.items"
                         android:textColor="@color/dark_gray"
@@ -103,14 +100,12 @@
                         android:layout_marginLeft="@dimen/space_4"
                         android:layout_weight="0.6"
                         android:text="items"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="#000" />
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
 
         </LinearLayout>
-
-
 
 
         <LinearLayout
@@ -155,29 +150,97 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/colorPrimary"
-                    android:layout_toLeftOf="@id/item_order_estimated_delivery_tv"
-                    android:src="@mipmap/ic_green_circle" />
+                    android:src="@mipmap/ic_green_circle"
+                    android:tint="@color/colorPrimary" />
 
             <TextView
                     android:id="@+id/item_order_estimated_delivery_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center_vertical"
                     android:text="Delivery, Tomorrow by 9 PM" />
 
-            <TextView
-                    android:id="@+id/item_order_view_action_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="View Quotes"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/color_blue"
-                    android:textSize="16sp" />
 
         </LinearLayout>
+
+        <TextView
+                android:id="@+id/item_order_view_quotes_action_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/dimen_8"
+                android:text="View Quotes"
+                android:textAlignment="center"
+                android:textColor="@color/color_blue"
+                android:textSize="18sp" />
+
+
+        <LinearLayout
+                android:id="@+id/item_order_action_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+            <LinearLayout
+                    android:id="@+id/item_order_cancel_action_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                <TextView
+                        android:id="@+id/item_order_cancel_action_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/ic_close"
+                        android:drawablePadding="@dimen/space_5"
+                        android:focusable="true"
+                        android:padding="@dimen/dimen_16"
+                        android:text="Cancel Order"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="17sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/item_order_view_order_action_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                <TextView
+                        android:id="@+id/item_order_view_order_action_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/ic_check"
+                        android:drawablePadding="@dimen/space_5"
+                        android:focusable="true"
+                        android:padding="@dimen/dimen_16"
+                        android:text="View Order"
+                        android:textAlignment="center"
+                        android:textColor="@color/green"
+                        android:textSize="17sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
 
         <LinearLayout
                 android:id="@+id/item_order_quotations_ll"

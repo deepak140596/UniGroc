@@ -42,16 +42,37 @@ class OrderItemAdapter(
         holder.bindItems(context, orderItem, firestoreViewModel)
 
         //if(orderItem.orderStatus == ApplicationConstants.ORDER_QUOTED)
-        if (!orderItem.quotations.isEmpty())
-            holder.itemView.item_order_view_action_tv.visibility = View.VISIBLE
-        else
-            holder.itemView.item_order_view_action_tv.visibility = View.GONE
+        if (orderItem.quotations.isNotEmpty() && orderItem.orderStatus < 3) {
+            holder.itemView.item_order_view_quotes_action_tv.visibility = View.VISIBLE
+        } else {
+            holder.itemView.item_order_view_quotes_action_tv.visibility = View.GONE
+        }
 
-        holder.itemView.item_order_view_action_tv.setOnClickListener {
+
+        holder.itemView.item_order_view_quotes_action_tv.setOnClickListener {
             var expanded = orderItem.isExpanded
             orderItem.isExpanded = !expanded
             notifyItemChanged(position)
         }
+
+        holder.itemView.item_order_view_order_action_tv.setOnClickListener {
+            val intent = Intent(context, OrderItemDetailActivity::class.java)
+            intent.putExtra("order", orderItem)
+            context.startActivity(intent)
+
+        }
+
+        if (orderItem.isPickup)
+            holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
+        else
+            holder.itemView.item_order_cancel_action_ll.visibility = View.GONE
+
+        if (orderItem.quotations.isEmpty() || orderItem.orderStatus < 3)
+            holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
+        else
+            holder.itemView.item_order_cancel_action_ll.visibility = View.GONE
+
+
     }
 
 
@@ -79,15 +100,7 @@ class OrderItemAdapter(
             itemView.item_order_quotations_ll.visibility =
                 if (orderItem.isExpanded) View.VISIBLE else View.GONE
 
-            itemView.setOnClickListener {
-                if (orderItem.orderStatus ==1) {
-                    
-                } else {
-                    val intent = Intent(context, OrderItemDetailActivity::class.java)
-                    intent.putExtra("order", orderItem)
-                    context.startActivity(intent)
-                }
-            }
+
 
             var orderStatus = orderItem.orderStatus
             if (orderItem.quotations.isEmpty())
@@ -143,6 +156,10 @@ class OrderItemAdapter(
                     itemView.item_order_retail2_place_btn.visibility = View.GONE
                     itemView.item_order_retail3_place_btn.visibility = View.GONE
                     itemView.item_order_status_stepview.visibility = View.GONE
+                    //***********************
+                    itemView.item_order_cancel_action_ll.visibility = View.GONE
+                    itemView.item_order_view_quotes_action_tv.visibility = View.GONE
+
 
                     if (isPickup)
                         status = statusArray[6]
