@@ -75,7 +75,8 @@ class DeliveryDetailsActivity : AppCompatActivity() {
 
 
     }
-    fun setOnCheckedChangedListeners(){
+
+    private fun setOnCheckedChangedListeners() {
         // select day for delivery/pickup
         delivery_details_day_radiogroup.setOnClickedButtonListener{_ , position ->
             if(position == 0)
@@ -125,7 +126,7 @@ class DeliveryDetailsActivity : AppCompatActivity() {
 
     }
 
-    fun setUpDeliveryLocation(){
+    private fun setUpDeliveryLocation() {
         address = SharedPreferencesDB.getSavedAddress(this)
         if(address == null){
             delivery_details_address_name_tv.text = getString(R.string.hint_select_default_address)
@@ -139,7 +140,7 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         }
     }
 
-    fun setUpTimeSlots(){
+    private fun setUpTimeSlots() {
 
         var timeInHr = DateTimeUtils.get24hrTime()
         delivery_details_time_radiogroup.visibility = View.VISIBLE
@@ -195,7 +196,7 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         Log.i(TAG,"TIME SLOT: $timeSlot")
     }
 
-    fun submitOrder(){
+    private fun submitOrder() {
         var order = OrderItem()
         order.cartItems = savedCartItems
         order.isPickup = isPickup

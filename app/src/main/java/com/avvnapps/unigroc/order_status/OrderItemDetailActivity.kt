@@ -35,15 +35,36 @@ class OrderItemDetailActivity : AppCompatActivity() {
         mLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         rv_order_detail.layoutManager = mLayoutManager
 
-        adapter = ItemDetailAdapter(this, orderItem!!.cartItems)
+        adapter = if (orderItem!!.quotations.isNotEmpty())
+            ItemDetailAdapter(this, orderItem!!.quotations[0].cartItems)
+        else
+            ItemDetailAdapter(this, orderItem!!.cartItems)
+
+
+
         rv_order_detail.adapter = adapter
         setViews(orderItem!!)
     }
 
     private fun setViews(orderItem: OrderItem) {
-        tv_order_Detail_total.text =
-            PriceFormatter.getFormattedPrice(this, orderItem.quotations[0].quotedPrice)
-        tv_order_Detail_retailer_name.text = "Retailer : " + orderItem.quotations[0].retailerName
+
+        if (orderItem.quotations.isNotEmpty()) {
+            tv_order_Detail_total.text =
+                PriceFormatter.getFormattedPrice(this, orderItem.quotations[0].quotedPrice)
+            tv_order_Detail_retailer_name.text =
+                "Retailer : " + orderItem.quotations[0].retailerName
+            tv_order_Detail_total_item.text =
+                "Total Items : " + orderItem.quotations[0].cartItems.size.toString()
+
+
+        } else {
+            tv_order_Detail_total_item.text = "Total Items : " + orderItem.cartItems.size.toString()
+
+            tv_order_Detail_total.text =
+                PriceFormatter.getFormattedPrice(this, setupSubtotal(orderItem))
+            tv_order_Detail_retailer_name.text = "Retailer : " + "Not Placed"
+        }
+
 
         var preferredDeliveryTime = "Delivery, " + DateTimeUtils.getPreferredDeliveryDate(
 
@@ -53,7 +74,6 @@ class OrderItemDetailActivity : AppCompatActivity() {
 
         tv_order_delivery_time.text = preferredDeliveryTime
 
-        tv_order_Detail_total_item.text = "Total Items : " + orderItem.cartItems.size.toString()
 
         var orderStatus = orderItem.orderStatus
         setupOrderStatus(orderStatus, orderItem.isPickup)
@@ -65,6 +85,15 @@ class OrderItemDetailActivity : AppCompatActivity() {
 
 
     }
+
+    private fun setupSubtotal(orderItem: OrderItem): Double {
+        var subtotal = 0.0
+        for (cartItem in orderItem.cartItems) {
+            subtotal += cartItem.price!! * cartItem.quantity!!
+        }
+        return subtotal
+    }
+
 
     private fun showReviewDialog(orderStatus: Int) {
 
