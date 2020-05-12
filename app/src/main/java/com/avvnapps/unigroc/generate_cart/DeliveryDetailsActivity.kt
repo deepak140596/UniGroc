@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -14,9 +15,13 @@ import com.avvnapps.unigroc.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.OrderItem
+import com.avvnapps.unigroc.payment.UpiPayment
+import com.avvnapps.unigroc.payment.model.PaymentDetail
+import com.avvnapps.unigroc.payment.model.TransactionDetails
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_delivery_details.*
 import java.util.*
 
@@ -38,6 +43,8 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     lateinit var firestoreViewModel: FirestoreViewModel
     var savedCartItems : List<CartEntity> = emptyList()
 
+    val PAYPAL_REQUEST_CODE = 123
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_delivery_details)
@@ -48,7 +55,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
             savedCartItems = it
             Log.i(TAG,"Saved Cart items size: ${savedCartItems.size}")
         })
-
 
         setOnClickListeners()
         setOnCheckedChangedListeners()
@@ -116,9 +122,12 @@ class DeliveryDetailsActivity : AppCompatActivity() {
             when(checkedId){
                 R.id.delivery_details_delivery_rb ->{
                     isPickup = false
+                    continueBtn.text = "Pay Now"
                 }
                 R.id.delivery_details_pickup_rb ->{
                     isPickup = true
+                    continueBtn.text = "Continue"
+
                 }
             }
             Log.i(TAG,"isPickup: $isPickup")
@@ -219,7 +228,22 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         alertDialogBuilder.setTitle("Place Order?")
             .setMessage("Go ahead and submit order?")
             .setPositiveButton("Yes") { dialog, which ->
-                submitOrder()
+                if (isPickup) {
+                    submitOrder()
+                } else {
+                    var geoipVal = SharedPreferencesDB.getSavedGeoIp(this)
+                    if (geoipVal!!.currency == "EUR") {
+                    }
+                    if (geoipVal.currency == "USD") {
+                    }
+                    if (geoipVal.currency == "GBP") {
+                    }
+                    if (geoipVal.currency == "INR") {
+                        IndianPayment()
+                    }
+
+                }
+
             }.setNegativeButton("Cancel"){ _,_ ->
 
             }
@@ -227,6 +251,51 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         var alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
+
+
+    private fun IndianPayment() {
+        // note: always create new instance of PaymentDetail for every new payment/order
+        var payment = PaymentDetail(
+            vpa = "ibby1561-3@okhdfcbank",
+            name = "Ahraar Alam",
+            payeeMerchantCode = "",       // only if you have merchantCode else pass empty string
+            txnRefId = "",                // if you pass empty string we will generate txnRefId for you
+            description = "description",
+            amount = "1.00"
+        )              // format of amount should be in decimal format x.x (eg 530.00), max. 2 decimal places
+
+        // note: always create new instance of UpiPayment for every new payment/order
+        UpiPayment(this)
+            .setPaymentDetail(payment)
+            .setUpiApps(UpiPayment.UPI_APPS)
+            .setCallBackListener(object : UpiPayment.OnUpiPaymentListener {
+                override fun onSubmitted(data: TransactionDetails) {
+                    //transaction pending: use data to get TransactionDetails
+                    Log.i("UPI_Details : ", data.toString())
+                    submitOrder()
+
+
+                }
+
+                override fun onSuccess(data: TransactionDetails) {
+                    //transaction success: use data to get TransactionDetails
+                    Log.i("UPI_Details : ", data.toString())
+                    submitOrder()
+
+                }
+
+                override fun onError(message: String) {
+
+                    //user backpress or transaction failed
+                    Toasty.info(
+                        this@DeliveryDetailsActivity,
+                        message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }).pay()
+    }
+
 
 
 }
