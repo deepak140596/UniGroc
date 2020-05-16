@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 
-interface IBraintreeAPI {
+interface ICloudFunctions {
     @GET("token")
     fun getToken(): Observable<BraintreeToken?>?
 

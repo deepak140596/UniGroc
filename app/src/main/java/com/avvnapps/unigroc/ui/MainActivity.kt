@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidfung.geoip.GeoIpService
 import com.androidfung.geoip.ServicesManager
 import com.androidfung.geoip.model.GeoIpResponseModel
-import com.avvnapps.unigroc.Activity.*
 import com.avvnapps.unigroc.Fonts.CustomTypefaceSpan
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB

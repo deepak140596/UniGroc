@@ -1,3 +1,6 @@
 package com.avvnapps.unigroc.models
 
-class BraintreeTransaction(var succcess: Boolean, var transaction: Transaction?)
+class BraintreeTransaction {
+    var success: Boolean = false
+    var transaction: Transaction? = null
+}

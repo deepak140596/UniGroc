@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://us-central1-unigroc.cloudfunctions.net/payment/"
 
-object RetrofitClient {
+object RetrofitCloudClient {
     private var ourInstantce: Retrofit? = null
 
     val instance: Retrofit

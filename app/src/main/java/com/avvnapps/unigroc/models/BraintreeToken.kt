@@ -1,3 +1,10 @@
 package com.avvnapps.unigroc.models
 
-class BraintreeToken(var success: Boolean, var clientToken: String?)
+import com.google.gson.annotations.SerializedName
+
+data class BraintreeToken(
+    @SerializedName("error")
+    val error: Boolean,
+    @SerializedName("token")
+    val token: String
+)

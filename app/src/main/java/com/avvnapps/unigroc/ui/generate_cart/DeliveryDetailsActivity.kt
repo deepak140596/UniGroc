@@ -13,8 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB
-import com.avvnapps.unigroc.database.network.IBraintreeAPI
-import com.avvnapps.unigroc.database.network.RetrofitClient
+import com.avvnapps.unigroc.database.network.ICloudFunctions
+import com.avvnapps.unigroc.database.network.RetrofitCloudClient
 import com.avvnapps.unigroc.models.AddressItem
 import com.avvnapps.unigroc.models.BraintreeTransaction
 import com.avvnapps.unigroc.models.CartEntity
@@ -56,7 +56,7 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     private val REQUEST_CODE: Int = 1234
     internal var token: String? = null
     internal var compositeDisposable = CompositeDisposable()
-    internal lateinit var myAPI: IBraintreeAPI
+    internal lateinit var myAPI: ICloudFunctions
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,20 +64,15 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_delivery_details)
 
         // Init
-        myAPI = RetrofitClient.instance.create(IBraintreeAPI::class.java)
+        myAPI = RetrofitCloudClient.instance.create(ICloudFunctions::class.java)
 
         // Load the Token
         compositeDisposable.add(
-            myAPI.token.subscribeOn(Schedulers.io())
+            myAPI.getToken()!!.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ braintreeToken ->
-                    if (braintreeToken.success) {
-                        token = braintreeToken.clientToken
-                        Log.d(TAG, "token started")
-
-                        Log.d(TAG, token)
-
-                    }
+                    token = braintreeToken!!.token
+                    Log.d(TAG, token)
 
                 },
                     { throwable ->
@@ -357,21 +352,25 @@ class DeliveryDetailsActivity : AppCompatActivity() {
                 val result =
                     data!!.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
                 val nonce = result.paymentMethodNonce!!.nonce
-                if (!TextUtils.isEmpty(setupSubtotal().toString())) {
+                if (!TextUtils.isEmpty(
+                        setupSubtotal().toString()
+                    )
+                ) {
                     compositeDisposable.add(
                         myAPI.submitPayment(
-                            setupSubtotal().toString(),
+                            setupSubtotal(),
                             nonce
                         )
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ t: BraintreeTransaction? ->
-                                if (t!!.succcess) {
-                                    Toast.makeText(
-                                        this,
-                                        "" + t.transaction!!.id,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                            ?.subscribeOn(Schedulers.io())
+                            ?.observeOn(AndroidSchedulers.mainThread())
+                            ?.subscribe({ t: BraintreeTransaction? ->
+                                if (t!!.success) {
+                                    submitOrder()
+                                    /* Toast.makeText(
+                                     this,
+                                     "" + t.transaction!!.id,
+                                     Toast.LENGTH_SHORT
+                                 ).show()*/
 
                                     Log.d(TAG, t.transaction!!.toString())
                                 }
@@ -382,7 +381,7 @@ class DeliveryDetailsActivity : AppCompatActivity() {
                                         "" + t!!.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                })
+                                })!!
                     )
                 }
 
