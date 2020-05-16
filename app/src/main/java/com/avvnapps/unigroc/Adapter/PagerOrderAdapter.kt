@@ -3,8 +3,8 @@ package com.avvnapps.unigroc.Adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.avvnapps.unigroc.Fragments.PastOrder
-import com.avvnapps.unigroc.Fragments.Pending
+import com.avvnapps.unigroc.ui.Fragments.PastOrder
+import com.avvnapps.unigroc.ui.Fragments.Pending
 
 class PagerOrderAdapter(fm: FragmentManager) :
     FragmentStatePagerAdapter(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

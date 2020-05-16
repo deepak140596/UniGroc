@@ -3,11 +3,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:gravity="top"
         android:orientation="vertical"
         android:paddingTop="16dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        android:theme="@style/ThemeOverlay.AppCompat.Light">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +51,7 @@
                     android:layout_weight="1.3"
                     android:gravity="center">
 
-                <Fonts.LatoBLack
+                <com.avvnapps.unigroc.Fonts.LatoBLack
                         android:id="@+id/tv_header_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,7 +60,7 @@
                         android:gravity="center"
                         android:text="Hey User"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="#ffffff"
+                        android:textColor="#F8242323"
                         android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
@@ -77,6 +76,7 @@
                         android:id="@+id/Save"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:backgroundTint="#F8242323"
                         android:layout_marginBottom="@dimen/space_2"
                         android:background="@drawable/ic_navigate_next_black_24dp" />
 
@@ -110,13 +110,13 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/order" />
 
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -141,13 +141,13 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/gift" />
 
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -173,13 +173,13 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_account_balance_wallet_black_24dp" />
 
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -205,13 +205,13 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_shopping_cart_black_24dp" />
 
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

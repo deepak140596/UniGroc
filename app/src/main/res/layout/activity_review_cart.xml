@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".generate_cart.ReviewCartActivity">
+        tools:context=".ui.generate_cart.ReviewCartActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/empty_cart" />
 
-        <Fonts.LatoBLack
+        <com.avvnapps.unigroc.Fonts.LatoBLack
                 android:layout_width="348dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -61,7 +61,7 @@
                 tools:layout_editor_absoluteX="10dp"
                 tools:layout_editor_absoluteY="326dp" />
 
-        <Fonts.LatoBLack
+        <com.avvnapps.unigroc.Fonts.LatoBLack
                 android:layout_width="348dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -87,7 +87,7 @@
                 android:background="@drawable/bg_rounded_button"
                 android:padding="12dp">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"

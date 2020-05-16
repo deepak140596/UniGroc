@@ -7,7 +7,7 @@
         android:background="@color/md_grey_100"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        tools:context=".order_status.OrderItemDetailActivity">
+        tools:context=".ui.order_status.OrderItemDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -53,14 +53,14 @@
                 android:orientation="vertical"
                 android:padding="@dimen/space_10">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:id="@+id/tv_order_Detail_retailer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="retailer name"
                     android:textColor="#000" />
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:id="@+id/tv_order_delivery_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                     android:textColor="#000" />
 
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:id="@+id/tv_order_Detail_total_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                 android:background="@drawable/bg_rounded_button"
                 android:padding="12dp">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -116,7 +116,7 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:id="@+id/order_item_status_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                     android:textColor="@color/color_white"
                     android:textSize="18sp" />
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:id="@+id/tv_order_Detail_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

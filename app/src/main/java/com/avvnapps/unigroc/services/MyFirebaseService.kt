@@ -13,9 +13,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.avvnapps.unigroc.MainActivity
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.User
+import com.avvnapps.unigroc.ui.MainActivity
 import com.avvnapps.unigroc.worker.MyWorker
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth

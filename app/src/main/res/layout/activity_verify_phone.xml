@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
-        tools:context=".authentication.VerifyPhoneActivity">
+        tools:context=".ui.authentication.VerifyPhoneActivity">
 
     <RelativeLayout
             android:layout_width="match_parent"

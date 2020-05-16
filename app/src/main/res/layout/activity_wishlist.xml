@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_white"
-        tools:context=".Activity.Wishlist">
+        tools:context=".ui.Activity.Wishlist">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/toolbarwrap"
@@ -20,7 +20,7 @@
                 android:background="@color/colorPrimary"
                 app:titleTextColor="#000">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Wishlist"

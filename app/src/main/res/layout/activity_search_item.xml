@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".generate_cart.SearchItemActivity">
+        tools:context=".ui.generate_cart.SearchItemActivity">
 
     <View
             android:layout_width="match_parent"

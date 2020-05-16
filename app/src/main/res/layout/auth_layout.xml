@@ -13,7 +13,7 @@
             android:src="@drawable/icon" />
 
 
-    <Fonts.LatoBLack
+    <com.avvnapps.unigroc.Fonts.LatoBLack
             android:id="@+id/appname"
             android:layout_width="348dp"
             android:layout_height="wrap_content"
