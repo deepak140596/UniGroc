@@ -30,8 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.androidfung.geoip.GeoIpService
-import com.androidfung.geoip.ServicesManager
+import com.androidfung.geoip.ServicesManager.geoIpService
 import com.androidfung.geoip.model.GeoIpResponseModel
 import com.avvnapps.unigroc.Fonts.CustomTypefaceSpan
 import com.avvnapps.unigroc.R
@@ -104,41 +103,57 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         crashlytics.log("my message")
 
-// To log a message to a crash report, use the following syntax:
+        // To log a message to a crash report, use the following syntax:
 
-        val ipApiService: GeoIpService = ServicesManager.getGeoIpService()
-        ipApiService.geoIp.enqueue(object : Callback<GeoIpResponseModel?> {
+
+        val ipApiService = geoIpService
+        ipApiService.geoIp!!.enqueue(object : Callback<GeoIpResponseModel?> {
             override fun onResponse(
                 call: Call<GeoIpResponseModel?>,
                 response: Response<GeoIpResponseModel?>
             ) {
-                val countryName: String = response.body()!!.countryName
-                val currency: String = response.body()!!.currency
-                val country: String = response.body()!!.country
-                val latitude: Double = response.body()!!.latitude
-                val longtidue: Double = response.body()!!.longitude
-                val isp: String = response.body()!!.ip
+                try {
+                    Log.d(TAG, response.toString())
+                    Log.d(TAG, response.body().toString())
+                    val countryName: String? = response.body()!!.countryName
+                    val currency: String? = response.body()!!.currency
+                    val country: String? = response.body()!!.country
+                    val latitude: Double = response.body()!!.latitude
+                    val longtidue: Double = response.body()!!.longitude
+                    val isp: String? = response.body()!!.ip
+                    var GeoIpValues = GeoIp(
+                        countryName!!,
+                        currency!!,
+                        country!!,
+                        latitude,
+                        longtidue,
+                        isp.toString()
+                    )
 
-                var GeoIpValues = GeoIp(
-                    countryName,
-                    currency,
-                    country,
-                    latitude,
-                    longtidue,
-                    isp
-                )
-                crashlytics.log("E/TAG: Country Currency : $currency")
-                Log.e(TAG, "Country Currency : $currency")
-                SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
+                    SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
+                    if (response.body()!!.isError) {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()!!.reason,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e(TAG, response.body()!!.reason.toString())
+                    }
+                } catch (e: Exception) {
+
+                }
 
             }
 
-            override fun onFailure(call: Call<GeoIpResponseModel?>?, t: Throwable) {
+            override fun onFailure(call: Call<GeoIpResponseModel?>, t: Throwable) {
                 Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_SHORT).show()
+
+                Log.e(TAG, t.toString())
             }
 
 
         })
+
 
         //inflate Navigation Drawer
         inflateNavDrawer()
