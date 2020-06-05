@@ -1,6 +1,7 @@
 package com.avvnapps.unigroc.ui.generate_cart
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.ui.Activity.IndividualProduct
 import com.avvnapps.unigroc.viewmodel.CartViewModel
@@ -63,7 +65,142 @@ class SearchItemActivity : AppCompatActivity() {
 
         })
 
+        setupClickListeners()
 
+    }
+
+    private fun setupClickListeners() {
+
+        cant_find_item_btn.setOnClickListener {
+            if (cant_find_item_btn?.isSelected == true) {
+                cant_find_item_btn?.isSelected = false
+                cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                cant_find_item_btn.setTextColor(Color.parseColor("#455A64"))
+                submit_problem_edit_text.visibility = View.GONE
+                submit_problem_button.isClickable = false
+
+
+            } else {
+                cant_find_item_btn?.isSelected = true
+                cant_find_item_btn.setBackgroundResource(R.drawable.red_btn_bg)
+                cant_find_item_btn.setTextColor(Color.parseColor("#E57373"))
+                submit_problem_edit_text.visibility = View.VISIBLE
+                submit_problem_edit_text.hint = "Which Item could you not find?"
+                submit_problem_button.isClickable = true
+
+
+                prices_high_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                prices_high_btn.setTextColor(Color.parseColor("#455A64"))
+                prices_high_btn.isSelected = false
+
+                too_less_info_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                too_less_info_btn.setTextColor(Color.parseColor("#455A64"))
+                too_less_info_btn.isSelected = false
+
+                others_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                others_btn.setTextColor(Color.parseColor("#455A64"))
+                others_btn.isSelected = false
+            }
+
+        }
+
+        prices_high_btn.setOnClickListener {
+            if (prices_high_btn?.isSelected == true) {
+                prices_high_btn?.isSelected = false
+                prices_high_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                prices_high_btn.setTextColor(Color.parseColor("#455A64"))
+                submit_problem_edit_text.visibility = View.GONE
+                submit_problem_button.isClickable = false
+
+
+            } else {
+                prices_high_btn?.isSelected = true
+                prices_high_btn.setBackgroundResource(R.drawable.red_btn_bg)
+                prices_high_btn.setTextColor(Color.parseColor("#E57373"))
+                submit_problem_edit_text.visibility = View.VISIBLE
+                submit_problem_edit_text.hint = "Which items are priced high?"
+                submit_problem_button.isClickable = true
+
+
+                cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                cant_find_item_btn.setTextColor(Color.parseColor("#455A64"))
+                cant_find_item_btn.isSelected = false
+
+                too_less_info_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                too_less_info_btn.setTextColor(Color.parseColor("#455A64"))
+                too_less_info_btn.isSelected = false
+
+                others_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                others_btn.setTextColor(Color.parseColor("#455A64"))
+                others_btn.isSelected = false
+
+            }
+        }
+
+        too_less_info_btn.setOnClickListener {
+            if (too_less_info_btn?.isSelected == true) {
+                too_less_info_btn?.isSelected = false
+                too_less_info_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                too_less_info_btn.setTextColor(Color.parseColor("#455A64"))
+                submit_problem_edit_text.visibility = View.GONE
+                submit_problem_button.isClickable = false
+
+
+            } else {
+                too_less_info_btn?.isSelected = true
+                too_less_info_btn.setBackgroundResource(R.drawable.red_btn_bg)
+                too_less_info_btn.setTextColor(Color.parseColor("#E57373"))
+                submit_problem_edit_text.visibility = View.VISIBLE
+                submit_problem_edit_text.hint = "Which items information is missing?"
+                submit_problem_button.isClickable = true
+
+
+                cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                cant_find_item_btn.setTextColor(Color.parseColor("#455A64"))
+                cant_find_item_btn.isSelected = false
+
+                prices_high_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                prices_high_btn.setTextColor(Color.parseColor("#455A64"))
+                prices_high_btn.isSelected = false
+
+                others_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                others_btn.setTextColor(Color.parseColor("#455A64"))
+                others_btn.isSelected = false
+
+            }
+        }
+
+        others_btn.setOnClickListener {
+            if (others_btn?.isSelected == true) {
+                others_btn?.isSelected = false
+                others_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                others_btn.setTextColor(Color.parseColor("#455A64"))
+                submit_problem_edit_text.visibility = View.GONE
+                submit_problem_button.isClickable = false
+
+            } else {
+                others_btn?.isSelected = true
+                others_btn.setBackgroundResource(R.drawable.red_btn_bg)
+                others_btn.setTextColor(Color.parseColor("#E57373"))
+                submit_problem_edit_text.visibility = View.VISIBLE
+                submit_problem_edit_text.hint = "Please describe the issue"
+                submit_problem_button.isClickable = true
+
+
+                cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                cant_find_item_btn.setTextColor(Color.parseColor("#455A64"))
+                cant_find_item_btn.isSelected = false
+
+                prices_high_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                prices_high_btn.setTextColor(Color.parseColor("#455A64"))
+                prices_high_btn.isSelected = false
+
+                too_less_info_btn.setBackgroundResource(R.drawable.rectangle_strock)
+                too_less_info_btn.setTextColor(Color.parseColor("#455A64"))
+                too_less_info_btn.isSelected = false
+
+            }
+        }
     }
 
 

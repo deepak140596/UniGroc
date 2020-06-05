@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/activity_search_item_rv"
-                    android:layout_marginTop="@dimen/dimen_8"
+                    android:layout_marginTop="32dp"
                     android:background="@color/color_white">
 
                 <TextView
@@ -57,7 +57,8 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
 
-                    <TextView
+                    <Button
+                            android:id="@+id/cant_find_item_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -67,11 +68,13 @@
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
+                            android:textAllCaps="false"
                             android:text="Can't find my item"
                             android:textAlignment="center"
                             android:textColor="@color/md_blue_grey_700" />
 
-                    <TextView
+                    <Button
+                            android:id="@+id/prices_high_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -81,6 +84,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
+                            android:textAllCaps="false"
                             android:text="Prices are too high"
                             android:textAlignment="center"
                             android:textColor="@color/md_blue_grey_700" />
@@ -94,7 +98,8 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
 
-                    <TextView
+                    <Button
+                            android:id="@+id/too_less_info_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -104,11 +109,13 @@
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
+                            android:textAllCaps="false"
                             android:text="Too less item info"
                             android:textAlignment="center"
                             android:textColor="@color/md_blue_grey_700" />
 
-                    <TextView
+                    <Button
+                            android:id="@+id/others_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -116,6 +123,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="@dimen/space_4"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
                             android:text="Others"
@@ -135,6 +143,7 @@
                         android:id="@+id/submit_problem_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_below="@+id/submit_v"
                         android:layout_margin="@dimen/dimen_8"
                         android:background="@drawable/rectangle_strock"
@@ -146,6 +155,8 @@
                         android:id="@+id/submit_problem_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/corner_button_red"
+                        android:textColor="@color/color_white"
                         android:layout_below="@+id/submit_problem_edit_text"
                         android:layout_margin="@dimen/dimen_8"
                         android:text="Submit" />
