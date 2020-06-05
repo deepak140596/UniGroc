@@ -25,9 +25,9 @@ class SearchItemActivity : AppCompatActivity() {
     val TAG = "SEARCH_ITEM_ACTIVITY"
     lateinit var firestoreViewModel: FirestoreViewModel
     lateinit var cartItemViewModel: CartViewModel
-    lateinit var availableCartItems : List<CartEntity>
-    lateinit var filteredCartItems : List<CartEntity>
-    lateinit var savedCartItems : List<CartEntity>
+    lateinit var availableCartItems: List<CartEntity>
+    lateinit var filteredCartItems: List<CartEntity>
+    lateinit var savedCartItems: List<CartEntity>
     lateinit var cartItemAdapter: CartItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,7 @@ class SearchItemActivity : AppCompatActivity() {
 
         // get available products from firebase
         firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
-        firestoreViewModel.getAvailableCartItems().observe(this,Observer{
+        firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             availableCartItems = it!!
             setSearchBar()
             activity_search_progress_bar.visibility = View.GONE
@@ -83,39 +83,39 @@ class SearchItemActivity : AppCompatActivity() {
             }
         }
 
-       activity_search_floating_search_view.setOnSearchListener(object : FloatingSearchView.OnSearchListener{
-           override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) {
+        activity_search_floating_search_view.setOnSearchListener(object :
+            FloatingSearchView.OnSearchListener {
+            override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) {
 
-               val cartItem = searchSuggestion as CartEntity
-                Log.i(TAG,"Item Clicked: ${cartItem.body}")
-               filteredCartItems = cartItem.name?.let { filterCartItems(availableCartItems, it) }!!
-               updateRecylerView(filteredCartItems)
-               activity_search_floating_search_view.clearSearchFocus()
-           }
+                val cartItem = searchSuggestion as CartEntity
+                Log.i(TAG, "Item Clicked: ${cartItem.body}")
+                filteredCartItems = cartItem.name?.let { filterCartItems(availableCartItems, it) }!!
+                updateRecylerView(filteredCartItems)
+                activity_search_floating_search_view.clearSearchFocus()
+            }
 
-           override fun onSearchAction(currentQuery: String?) {
-               activity_search_floating_search_view.showProgress()
-               // search action
-               filteredCartItems = filterCartItems(availableCartItems,currentQuery!!)
-               activity_search_floating_search_view.swapSuggestions(filteredCartItems)
-               activity_search_floating_search_view.hideProgress()
-               updateRecylerView(filteredCartItems)
-           }
-       })
+            override fun onSearchAction(currentQuery: String?) {
+                activity_search_floating_search_view.showProgress()
+                // search action
+                filteredCartItems = filterCartItems(availableCartItems, currentQuery!!)
+                activity_search_floating_search_view.swapSuggestions(filteredCartItems)
+                activity_search_floating_search_view.hideProgress()
+                updateRecylerView(filteredCartItems)
+            }
+        })
 
 
-        activity_search_floating_search_view.setOnBindSuggestionCallback {
-                suggestionView, leftIcon, textView, item, itemPosition ->
+        activity_search_floating_search_view.setOnBindSuggestionCallback { suggestionView, leftIcon, textView, item, itemPosition ->
             val cartItem = item as CartEntity
             textView!!.text = cartItem.body
             leftIcon.scaleType = ImageView.ScaleType.CENTER_CROP
-            if(cartItem.photoUrl != null)
+            if (cartItem.photoUrl != null)
                 Glide.with(this@SearchItemActivity).load(cartItem.photoUrl).into(leftIcon!!)
 
         }
     }
 
-    fun filterCartItems(cartList : List<CartEntity>, searchQuery:String): List<CartEntity> {
+    fun filterCartItems(cartList: List<CartEntity>, searchQuery: String): List<CartEntity> {
 
 
         val filteredValues = ArrayList<CartEntity>(cartList)
@@ -130,7 +130,7 @@ class SearchItemActivity : AppCompatActivity() {
 
     }
 
-    fun updateRecylerView(cartList: List<CartEntity>){
+    fun updateRecylerView(cartList: List<CartEntity>) {
         cartItemAdapter = CartItemAdapter(
             this,
             cartList,
