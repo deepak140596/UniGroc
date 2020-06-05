@@ -30,13 +30,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.androidfung.geoip.ServicesManager.geoIpService
-import com.androidfung.geoip.model.GeoIpResponseModel
 import com.avvnapps.unigroc.Fonts.CustomTypefaceSpan
 import com.avvnapps.unigroc.R
+import com.avvnapps.unigroc.database.GeoIpServicesManager.geoIpService
 import com.avvnapps.unigroc.database.SharedPreferencesDB
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.GeoIp
+import com.avvnapps.unigroc.models.GeoIpResponseModel
 import com.avvnapps.unigroc.ui.Activity.*
 import com.avvnapps.unigroc.ui.authentication.AuthUiActivity
 import com.avvnapps.unigroc.ui.generate_cart.CartItemAdapter
@@ -101,13 +101,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
         val crashlytics = FirebaseCrashlytics.getInstance()
 
-        crashlytics.log("my message")
 
         // To log a message to a crash report, use the following syntax:
 
 
         val ipApiService = geoIpService
-        ipApiService.geoIp!!.enqueue(object : Callback<GeoIpResponseModel?> {
+        ipApiService.getGeoIp().enqueue(object : Callback<GeoIpResponseModel?> {
             override fun onResponse(
                 call: Call<GeoIpResponseModel?>,
                 response: Response<GeoIpResponseModel?>
@@ -130,15 +129,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         isp.toString()
                     )
 
+
                     SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
-                    if (response.body()!!.isError) {
-                        Toast.makeText(
-                            applicationContext,
-                            response.body()!!.reason,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e(TAG, response.body()!!.reason.toString())
-                    }
+
                 } catch (e: Exception) {
 
                 }

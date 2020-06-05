@@ -67,15 +67,15 @@ class SearchItemActivity : AppCompatActivity() {
     }
 
 
-    fun  setSearchBar(){
-        activity_search_floating_search_view.setOnQueryChangeListener{oldQuery, newQuery ->
+    private fun setSearchBar() {
+        activity_search_floating_search_view.setOnQueryChangeListener { oldQuery, newQuery ->
 
-            if(oldQuery!="" && newQuery == "")
+            if (oldQuery != "" && newQuery == "")
                 activity_search_floating_search_view.clearSuggestions()
-            else{
+            else {
                 activity_search_floating_search_view.showProgress()
                 // search action
-                filteredCartItems = filterCartItems(availableCartItems,newQuery)
+                filteredCartItems = filterCartItems(availableCartItems, newQuery)
                 activity_search_floating_search_view.swapSuggestions(filteredCartItems)
                 activity_search_floating_search_view.hideProgress()
                 updateRecylerView(filteredCartItems)
