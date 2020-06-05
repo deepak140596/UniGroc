@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,9 +17,14 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.ui.Activity.IndividualProduct
+import com.avvnapps.unigroc.ui.MainActivity
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_search_item.*
 
 
@@ -31,7 +37,10 @@ class SearchItemActivity : AppCompatActivity() {
     lateinit var filteredCartItems: List<CartEntity>
     lateinit var savedCartItems: List<CartEntity>
     lateinit var cartItemAdapter: CartItemAdapter
+    var firestoreDB = FirebaseFirestore.getInstance()
+    var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
 
+    var tag = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.avvnapps.unigroc.R.layout.activity_search_item)
@@ -79,6 +88,7 @@ class SearchItemActivity : AppCompatActivity() {
                 submit_problem_edit_text.visibility = View.GONE
                 submit_problem_button.isClickable = false
 
+                tag = ""
 
             } else {
                 cant_find_item_btn?.isSelected = true
@@ -87,6 +97,7 @@ class SearchItemActivity : AppCompatActivity() {
                 submit_problem_edit_text.visibility = View.VISIBLE
                 submit_problem_edit_text.hint = "Which Item could you not find?"
                 submit_problem_button.isClickable = true
+                tag = "cant_find_item"
 
 
                 prices_high_btn.setBackgroundResource(R.drawable.rectangle_strock)
@@ -111,6 +122,7 @@ class SearchItemActivity : AppCompatActivity() {
                 prices_high_btn.setTextColor(Color.parseColor("#455A64"))
                 submit_problem_edit_text.visibility = View.GONE
                 submit_problem_button.isClickable = false
+                tag = " "
 
 
             } else {
@@ -120,6 +132,7 @@ class SearchItemActivity : AppCompatActivity() {
                 submit_problem_edit_text.visibility = View.VISIBLE
                 submit_problem_edit_text.hint = "Which items are priced high?"
                 submit_problem_button.isClickable = true
+                tag = "prices_are_high"
 
 
                 cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
@@ -144,7 +157,7 @@ class SearchItemActivity : AppCompatActivity() {
                 too_less_info_btn.setTextColor(Color.parseColor("#455A64"))
                 submit_problem_edit_text.visibility = View.GONE
                 submit_problem_button.isClickable = false
-
+                tag = " "
 
             } else {
                 too_less_info_btn?.isSelected = true
@@ -154,7 +167,7 @@ class SearchItemActivity : AppCompatActivity() {
                 submit_problem_edit_text.hint = "Which items information is missing?"
                 submit_problem_button.isClickable = true
 
-
+                tag = "too_less_info"
                 cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
                 cant_find_item_btn.setTextColor(Color.parseColor("#455A64"))
                 cant_find_item_btn.isSelected = false
@@ -178,6 +191,8 @@ class SearchItemActivity : AppCompatActivity() {
                 submit_problem_edit_text.visibility = View.GONE
                 submit_problem_button.isClickable = false
 
+                tag = ""
+
             } else {
                 others_btn?.isSelected = true
                 others_btn.setBackgroundResource(R.drawable.red_btn_bg)
@@ -185,7 +200,7 @@ class SearchItemActivity : AppCompatActivity() {
                 submit_problem_edit_text.visibility = View.VISIBLE
                 submit_problem_edit_text.hint = "Please describe the issue"
                 submit_problem_button.isClickable = true
-
+                tag = "others"
 
                 cant_find_item_btn.setBackgroundResource(R.drawable.rectangle_strock)
                 cant_find_item_btn.setTextColor(Color.parseColor("#455A64"))
@@ -198,6 +213,44 @@ class SearchItemActivity : AppCompatActivity() {
                 too_less_info_btn.setBackgroundResource(R.drawable.rectangle_strock)
                 too_less_info_btn.setTextColor(Color.parseColor("#455A64"))
                 too_less_info_btn.isSelected = false
+
+            }
+        }
+
+        submit_problem_button.setOnClickListener {
+            var problemText = submit_problem_edit_text.text.toString()
+            if (submit_problem_edit_text.text.isNullOrEmpty()) {
+                Toasty.warning(applicationContext, "Can not be empty", Toast.LENGTH_LONG).show()
+            } else {
+
+                // Add a new document with a generated id.
+                val data = hashMapOf(
+                    "problem_tag" to tag,
+                    "problem" to problemText,
+                    "by" to email,
+                    "timestamp" to FieldValue.serverTimestamp()
+                )
+
+                firestoreDB.collection("items_problems")
+                    .add(data)
+                    .addOnSuccessListener { documentReference ->
+
+                        startActivity(
+                            Intent(this, MainActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        )
+                        finish()
+
+                        Toasty.success(
+                            applicationContext,
+                            "Thank you for submitting",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
 
             }
         }
