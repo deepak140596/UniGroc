@@ -68,9 +68,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
-                            android:textAllCaps="false"
                             android:text="Can't find my item"
                             android:textAlignment="center"
+                            android:textAllCaps="false"
                             android:textColor="@color/md_blue_grey_700" />
 
                     <Button
@@ -84,9 +84,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
-                            android:textAllCaps="false"
                             android:text="Prices are too high"
                             android:textAlignment="center"
+                            android:textAllCaps="false"
                             android:textColor="@color/md_blue_grey_700" />
                 </LinearLayout>
 
@@ -109,9 +109,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
-                            android:textAllCaps="false"
                             android:text="Too less item info"
                             android:textAlignment="center"
+                            android:textAllCaps="false"
                             android:textColor="@color/md_blue_grey_700" />
 
                     <Button
@@ -123,11 +123,11 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="@dimen/space_4"
                             android:layout_weight="1"
-                            android:textAllCaps="false"
                             android:background="@drawable/rectangle_strock"
                             android:padding="@dimen/space_14"
                             android:text="Others"
                             android:textAlignment="center"
+                            android:textAllCaps="false"
                             android:textColor="@color/md_blue_grey_700" />
                 </LinearLayout>
 
@@ -143,23 +143,23 @@
                         android:id="@+id/submit_problem_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_below="@+id/submit_v"
                         android:layout_margin="@dimen/dimen_8"
                         android:background="@drawable/rectangle_strock"
                         android:hint=""
-                        android:padding="32dp" />
+                        android:padding="32dp"
+                        android:visibility="gone" />
 
 
                 <Button
                         android:id="@+id/submit_problem_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/corner_button_red"
-                        android:textColor="@color/color_white"
                         android:layout_below="@+id/submit_problem_edit_text"
                         android:layout_margin="@dimen/dimen_8"
-                        android:text="Submit" />
+                        android:background="@drawable/corner_button_red"
+                        android:text="Submit"
+                        android:textColor="@color/color_white" />
 
             </RelativeLayout>
 

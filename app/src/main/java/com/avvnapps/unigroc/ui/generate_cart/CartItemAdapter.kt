@@ -70,7 +70,7 @@ class CartItemAdapter(
     }
 
     fun getItem(position: Int): Any {
-        return cartList.get(position)
+        return cartList[position]
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

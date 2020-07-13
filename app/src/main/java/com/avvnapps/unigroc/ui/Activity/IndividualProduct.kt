@@ -25,8 +25,9 @@ class IndividualProduct : AppCompatActivity() {
     var firestoreDB = FirebaseFirestore.getInstance()
     var cartItem: CartEntity? = null
     var user = FirebaseAuth.getInstance().currentUser
-    var collectionReference =
+    private val collectionReference by lazy {
         firestoreDB.collection("users").document(user!!.email.toString()).collection("wishlist")
+    }
     private var flag: Boolean = false
     lateinit var cartViewModel: CartViewModel
 
@@ -40,7 +41,7 @@ class IndividualProduct : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         // initialise cart view model
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
-        cartItem = intent.getParcelableExtra("product") as CartEntity
+        cartItem = intent.getParcelableExtra<CartEntity>("product") as CartEntity
         cartItem!!.quantity = cartViewModel.getQuantity(cartItem!!.itemId)
         if (cartItem!!.quantity == null)
             cartItem!!.quantity = 0
@@ -73,8 +74,6 @@ class IndividualProduct : AppCompatActivity() {
 
             cartItem!!.incrementQuantity()
             cartViewModel.insert(cartItem!!)
-
-
             updateViews(cartItem!!)
         }
 
@@ -82,8 +81,6 @@ class IndividualProduct : AppCompatActivity() {
             cartItem!!.decrementQuantity()
             if (cartItem!!.quantity == 0) {
                 cartViewModel.delete(cartItem!!)
-
-
             } else {
                 cartViewModel.setQuantity(cartItem!!.itemId, cartItem!!.quantity!!)
             }

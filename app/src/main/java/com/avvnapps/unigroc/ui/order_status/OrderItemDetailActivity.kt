@@ -29,7 +29,7 @@ class OrderItemDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
         setToolBar()
-        orderItem = intent.getParcelableExtra("order") as OrderItem
+        orderItem = intent.getParcelableExtra<OrderItem>("order") as OrderItem
 
         orderItems = ArrayList<CartEntity>()
         mLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)

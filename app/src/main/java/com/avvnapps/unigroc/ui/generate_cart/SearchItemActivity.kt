@@ -43,7 +43,7 @@ class SearchItemActivity : AppCompatActivity() {
     var tag = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.avvnapps.unigroc.R.layout.activity_search_item)
+        setContentView(R.layout.activity_search_item)
 
         activity_search_progress_bar.visibility = View.VISIBLE
         activity_search_item_rv.layoutManager = LinearLayoutManager(this)

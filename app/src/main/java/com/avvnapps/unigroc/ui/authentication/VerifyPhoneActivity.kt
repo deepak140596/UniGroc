@@ -64,7 +64,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
         // activity_verify_otp_btn
         activity_verify_otp_btn.setOnClickListener {
-            var code = activity_verify_pinView.text.toString()
+            val code = activity_verify_pinView.text.toString()
             verifyPhoneNumberWithCode(storedVerificationId, code)
         }
 
@@ -76,7 +76,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
     }
 
-    fun sendOtpAction() {
+    private fun sendOtpAction() {
         var valid = true
 
 
@@ -102,7 +102,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.invalid_phone_number, Toast.LENGTH_SHORT).show()
     }
 
-    fun verifiedOtpAction() {
+    private fun verifiedOtpAction() {
         Toasty.success(this@VerifyPhoneActivity, "Phone Verified!", Toast.LENGTH_SHORT).show()
         layout1.visibility = View.GONE
         layout2.visibility = View.GONE
@@ -111,7 +111,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
         activity_verify_done_btn.requestFocus()
     }
 
-    fun sendOtp(phoneNumber: String) {
+    private fun sendOtp(phoneNumber: String) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             phoneNumber,
             60,
@@ -122,7 +122,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
         activity_verify_pinView.setText("")
     }
 
-    fun incrementStepCount() {
+    private fun incrementStepCount() {
         if (currentStep < step_view.stepCount - 1) {
             currentStep++
             step_view.go(currentStep, true)
@@ -138,11 +138,11 @@ class VerifyPhoneActivity : AppCompatActivity() {
         currentStep = 0
     }
 
-    fun verifyPhoneNumberWithCode(verificationID: String?, code: String) {
-        Log.i(TAG, "code: " + code)
+    private fun verifyPhoneNumberWithCode(verificationID: String?, code: String) {
+        Log.i(TAG, "code: $code")
         try {
             val credential = PhoneAuthProvider.getCredential(verificationID!!, code)
-            Log.i(TAG, "Credential: " + credential)
+            Log.i(TAG, "Credential: $credential")
             linkPhoneAuthWithCredential(credential)
         } catch (e: Exception) {
             Log.e(TAG, "Error verifying")
@@ -152,7 +152,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
     }
 
 
-    fun initializeOtpCallback() {
+    private fun initializeOtpCallback() {
         getOtpCallback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 Log.d(TAG, "Phone Verified! $credential")
@@ -166,13 +166,11 @@ class VerifyPhoneActivity : AppCompatActivity() {
                 Log.e(TAG, "onVerificationFailed $p0")
                 if (p0 is FirebaseAuthInvalidCredentialsException) {
                     // Invalid request
-                    // ...
                     Toasty.error(this@VerifyPhoneActivity, "Invalid Phone Number. Try Again!")
                         .show()
                     gotoStepOne()
                 } else if (p0 is FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
-                    // ...
                     Toasty.error(this@VerifyPhoneActivity, "Please try after some time!").show()
                 }
             }
@@ -191,7 +189,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
     fun linkPhoneAuthWithCredential(credential: PhoneAuthCredential) {
         activity_verify_progress_bar.visibility = View.VISIBLE
-        var auth = FirebaseAuth.getInstance()
+        val auth = FirebaseAuth.getInstance()
         auth.currentUser!!.linkWithCredential(credential)
             .addOnSuccessListener {
                 verifiedOtpAction()

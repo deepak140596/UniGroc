@@ -5,7 +5,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
@@ -19,7 +18,10 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -55,7 +57,6 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -64,28 +65,40 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-@Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     var toolbar: Toolbar? = null
     var navigationView: NavigationView? = null
-    private var nav_menu: Menu? = null
-    internal var My_Order: LinearLayout? = null
-    internal var My_Reward: LinearLayout? = null
-    internal var My_Walllet: LinearLayout? = null
-    internal var My_Cart: LinearLayout? = null
-    private var iv_profile: ImageView? = null
-    private var tv_name: TextView? = null
+    private var navMenu: Menu? = null
+    private var myOrder: LinearLayout? = null
+    private var myReward: LinearLayout? = null
+    private var myWallet: LinearLayout? = null
+    private var myCart: LinearLayout? = null
+    private var ivProfile: ImageView? = null
+    private var tvName: TextView? = null
     internal var padding = 0
 
     var TAG = "Main_ACTIVITY"
-    val SET_ADDRESS_REQUEST_CODE = 100
+    private val SET_ADDRESS_REQUEST_CODE = 100
     lateinit var location: Location
-    lateinit var cartViewModel: CartViewModel
-    lateinit var firestoreViewModel: FirestoreViewModel
+
+    private val cartViewModel by lazy {
+        ViewModelProvider(this).get(CartViewModel::class.java)
+    }
+
+    private val firestoreViewModel by lazy {
+        ViewModelProvider(this).get(FirestoreViewModel::class.java)
+    }
+    private val cartItemAdapter by lazy {
+        CartItemAdapter(
+            this,
+            savedCartItems,
+            cartViewModel
+        )
+    }
+
     var savedCartItems: List<CartEntity> = emptyList()
-    lateinit var adapter: CartItemAdapter
     var user = FirebaseAuth.getInstance().currentUser
 
     private lateinit var gpsUtils: GpsUtils
@@ -98,12 +111,55 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         askForPermissions()
 
         gpsUtils = GpsUtils(this)
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
-        val crashlytics = FirebaseCrashlytics.getInstance()
+
+        getGeoIpAddress()
+
+        //inflate Navigation Drawer
+        inflateNavDrawer()
+        init()
+        //inflate Slides
+        inflateSLider()
+        cartViewModel.cartList.observe(this, Observer {
+            savedCartItems = it
+            updateCartImageView(savedCartItems)
+        })
+
+        // initialise firebase view model
+        initialiseFirebaseViewModel()
+        // set up divider in recycler view
+        top_selling_recycler.apply {
+            layoutManager =
+                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
+            adapter = cartItemAdapter
+        }
+
+        rv_deal_of_the_day.apply {
+            layoutManager =
+                LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
+            adapter = cartItemAdapter
+
+        }
 
 
-        // To log a message to a crash report, use the following syntax:
+        cartItemAdapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
+            override fun onClick(pos: Int, aView: View) {
+                val cartItem: CartEntity = cartItemAdapter.getItem(pos) as CartEntity
+                val intent = Intent(this@MainActivity, IndividualProduct::class.java)
+                intent.putExtra("product", cartItem)
+                startActivity(intent)
 
+            }
+        })
+
+        view_all_topselling.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(this, Products::class.java)
+            )
+        })
+        handleNetworkChanges()
+    }
+
+    private fun getGeoIpAddress() {
 
         val ipApiService = geoIpService
         ipApiService.getGeoIp().enqueue(object : Callback<GeoIpResponseModel?> {
@@ -120,7 +176,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     val latitude: Double = response.body()!!.latitude
                     val longtidue: Double = response.body()!!.longitude
                     val isp: String? = response.body()!!.ip
-                    var GeoIpValues = GeoIp(
+                    val GeoIpValues = GeoIp(
                         countryName!!,
                         currency!!,
                         country!!,
@@ -133,84 +189,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
 
                 } catch (e: Exception) {
-
+                    e.printStackTrace()
                 }
 
             }
 
             override fun onFailure(call: Call<GeoIpResponseModel?>, t: Throwable) {
-                Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_SHORT).show()
-
+                // Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_SHORT).show()
                 Log.e(TAG, t.toString())
             }
-
-
         })
-
-
-        //inflate Navigation Drawer
-        inflateNavDrawer()
-        init()
-        //inflate Slides
-        inflateSLider()
-        // initialise cart view model
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
-        cartViewModel.cartList.observe(this, Observer {
-            savedCartItems = it
-            updateCartImageView(savedCartItems)
-        })
-        Log.i(
-            TAG,
-            "Name: ${user!!.displayName}  Email: ${user!!.email}  Phone: ${user!!.phoneNumber}"
-        )
-
-        getLocation()
-
-        // get user location and pass to geocoder for address
-        /*  LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
-              if (loc != null) {
-                  location = loc
-                  //updateAddress()
-                  getLocation()
-              }
-
-          })*/
-
-        // initialise firebase view model
-        initialiseFirebaseViewModel()
-        // set up divider in recycler view
-        top_selling_recycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        rv_deal_of_the_day.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        adapter = CartItemAdapter(
-            this,
-            savedCartItems,
-            cartViewModel
-        )
-        top_selling_recycler.adapter = adapter
-        rv_deal_of_the_day.adapter = adapter
-        adapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
-            override fun onClick(pos: Int, aView: View) {
-                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity
-                val intent = Intent(this@MainActivity, IndividualProduct::class.java)
-                intent.putExtra("product", cartItem)
-                startActivity(intent)
-
-            }
-        })
-
-        view_all_topselling.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(this, Products::class.java)
-            )
-        })
-
-        handleNetworkChanges()
-
-
     }
 
     companion object {
@@ -249,38 +237,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var id = item.itemId
-        if (id == R.id.nav_shop_now) {
-        } else if (id == R.id.nav_my_profile) {
-            startActivity(
-                Intent(this, ProfileActivity::class.java)
-            )
+        val id = item.itemId
+        when (id) {
+            R.id.nav_shop_now -> {
+            }
+            R.id.nav_my_profile -> {
+                startActivity(
+                    Intent(this, ProfileActivity::class.java)
+                )
 
-        } else if (id == R.id.nav_wishlist) {
-            startActivity(
-                Intent(this, Wishlist::class.java)
-            )
-        } else if (id == R.id.nav_aboutus) {
+            }
+            R.id.nav_wishlist -> {
+                startActivity(
+                    Intent(this, Wishlist::class.java)
+                )
+            }
+            R.id.nav_aboutus -> {
 
-        } else if (id == R.id.nav_policy) {
+            }
+            R.id.nav_policy -> {
 
-        } else if (id == R.id.nav_review) {
-            reviewOnApp()
-        } else if (id == R.id.nav_contact) {
-            startActivity(
-                Intent(this, ContactUs::class.java)
-            )
-        } else if (id == R.id.nav_share) {
-            shareApp()
-        } else if (id == R.id.nav_logout) {
-            signOut()
-        } else if (id == R.id.nav_powerd) {
-            // stripUnderlines(textView);
-            val url = "https://www.google.com/"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
-            finish()
+            }
+            R.id.nav_review -> {
+                this.openAppInGooglePlay()
+            }
+            R.id.nav_contact -> {
+                startActivity(
+                    Intent(this, ContactUs::class.java)
+                )
+            }
+            R.id.nav_share -> {
+                shareApp()
+            }
+            R.id.nav_logout -> {
+                signOut()
+            }
+            R.id.nav_powerd -> {
+                // stripUnderlines(textView);
+                val url = "https://www.google.com/"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+                finish()
+            }
         }
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
@@ -372,12 +371,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
-
-                    //isPermissionAcquired = true
-                    gpsUtils.onProgressUpdate = { show ->
-                        // updateLocation()
-
-                    }
                     getLocation()
 
                 } else {
@@ -394,11 +387,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun getLocation() {
         gpsUtils.getLatLong { lat, long ->
             Log.i(TAG, "location is $lat + $long")
-            val address = LocationUtils.getAddress(this, lat, long)
-            if (address != null) {
-                Log.i(TAG, address)
-                appbar_dashboard_set_delivery_location_tv.text = address
+            try {
+                val address = LocationUtils.getAddress(this, lat, long)
+                if (address != null) {
+                    Log.i(TAG, address)
+                    appbar_dashboard_set_delivery_location_tv.text = address
+                } else {
+                    appbar_dashboard_set_delivery_location_tv.text = "Select Address"
+
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+
         }
 
 
@@ -447,9 +448,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         navigationView!!.setNavigationItemSelectedListener(this)
-        nav_menu = navigationView!!.menu
+        navMenu = navigationView!!.menu
         val header = (findViewById<NavigationView>(R.id.nav_view)).getHeaderView(0)
-        iv_profile = header.findViewById(R.id.iv_header_img) as CircleImageView
+        ivProfile = header.findViewById(R.id.iv_header_img) as CircleImageView
 
         val options: RequestOptions = RequestOptions()
             .centerCrop()
@@ -463,22 +464,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Glide.with(this)
             .applyDefaultRequestOptions(options)
             .load(user!!.photoUrl)
-            .into(iv_profile as CircleImageView)
+            .into(ivProfile as CircleImageView)
 
-        tv_name = header.findViewById(R.id.tv_header_name) as TextView
-        tv_name!!.text = user!!.displayName.toString()
-        My_Order = header.findViewById(R.id.my_orders) as LinearLayout
-        My_Reward = header.findViewById(R.id.my_reward) as LinearLayout
-        My_Walllet = header.findViewById(R.id.my_wallet) as LinearLayout
-        My_Cart = header.findViewById(R.id.my_cart) as LinearLayout
+        tvName = header.findViewById(R.id.tv_header_name) as TextView
+        tvName!!.text = user!!.displayName.toString()
+        myOrder = header.findViewById(R.id.my_orders) as LinearLayout
+        myReward = header.findViewById(R.id.my_reward) as LinearLayout
+        myWallet = header.findViewById(R.id.my_wallet) as LinearLayout
+        myCart = header.findViewById(R.id.my_cart) as LinearLayout
 
-        My_Order!!.setOnClickListener(View.OnClickListener {
+        myOrder!!.setOnClickListener(View.OnClickListener {
             startActivity(
                 Intent(this, Order::class.java)
             )
         })
 
-        My_Cart!!.setOnClickListener(View.OnClickListener {
+        myCart!!.setOnClickListener(View.OnClickListener {
             startActivity(Intent(this, ReviewCartActivity::class.java))
         })
 
@@ -512,17 +513,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun initialiseFirebaseViewModel() {
-
-        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Order Size: ${savedCartItems.size}")
-            adapter.cartList = savedCartItems
-            adapter.notifyDataSetChanged()
+            cartItemAdapter.cartList = savedCartItems
+            cartItemAdapter.notifyDataSetChanged()
         })
     }
 
-    fun signOut() {
+    private fun signOut() {
 
         val builder = AlertDialog.Builder(this)
         val itemView = LayoutInflater.from(this).inflate(R.layout.layout_sign_out, null)
@@ -553,43 +552,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         btn_back.setOnClickListener {
             shows.dismiss()
         }
-
         shows.show()
-
-
     }
 
-    fun shareApp() {
+    private fun shareApp() {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(
             Intent.EXTRA_TEXT,
-            "Hi friends i am using ." + " http://play.google.com/store/apps/details?id=" + packageName + " APP"
+            "Hi friends i am using . http://play.google.com/store/apps/details?id=$packageName APP"
         )
         sendIntent.type = "text/plain"
         startActivity(sendIntent)
-    }
-
-
-    fun reviewOnApp() {
-        val uri = Uri.parse("market://details?id=" + packageName)
-        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        goToMarket.addFlags(
-            Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
-        )
-        try {
-            startActivity(goToMarket)
-        } catch (e: ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)
-                )
-            )
-        }
-
     }
 
     override fun onResume() {

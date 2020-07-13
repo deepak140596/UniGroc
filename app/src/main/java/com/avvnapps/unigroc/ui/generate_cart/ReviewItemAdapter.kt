@@ -78,6 +78,7 @@ class ReviewItemAdapter(var context: Context, var cartList: List<CartEntity>,
                     )
                 }
 
+
             if (cartItem.photoUrl != null) {
                 Glide.with(context).load(cartItem.photoUrl)
                     .transition(withCrossFade())

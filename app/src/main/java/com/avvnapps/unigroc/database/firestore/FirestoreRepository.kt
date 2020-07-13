@@ -21,7 +21,7 @@ class FirestoreRepository {
 
     // get availbale cart items
     fun getAvailableCartItems(): Task<QuerySnapshot> {
-        var collectionReference = firestoreDB.collection("available_cart_items")
+        var collectionReference = firestoreDB.collection("available_cart_items").limit(10)
         return collectionReference.get()
     }
 
