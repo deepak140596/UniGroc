@@ -27,7 +27,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 class MyFirebaseService : FirebaseMessagingService() {
     private val TAG = "MyFirebaseService"
-    val user = FirebaseAuth.getInstance().currentUser.let { User(it!!) }
+    val user = FirebaseAuth.getInstance().currentUser.let { it?.let { it1 -> User(it1) } }
 
     val firestore = Firebase.firestore
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -47,8 +47,8 @@ class MyFirebaseService : FirebaseMessagingService() {
                 handleNow()
             }
         }
-        if (remoteMessage.notification != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+        remoteMessage.notification?.let {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body)
 
         }
     }
@@ -74,11 +74,11 @@ class MyFirebaseService : FirebaseMessagingService() {
     private fun sendRegistrationToServer(token: String?): Task<Void> {
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
 
-        user.deviceToken = token
+        user?.deviceToken = token
 
         return firestore.runTransaction { transaction ->
             val userRef = firestore.collection("users")
-                .document(user.email!!)
+                .document(user?.email!!)
 
             transaction.set(userRef, user, SetOptions.merge())
             null

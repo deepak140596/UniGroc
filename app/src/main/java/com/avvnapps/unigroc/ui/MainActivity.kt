@@ -90,13 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val firestoreViewModel by lazy {
         ViewModelProvider(this).get(FirestoreViewModel::class.java)
     }
-    private val cartItemAdapter by lazy {
-        CartItemAdapter(
-            this,
-            savedCartItems,
-            cartViewModel
-        )
-    }
+    var cartItemAdapter: CartItemAdapter? = null
 
     var savedCartItems: List<CartEntity> = emptyList()
     var user = FirebaseAuth.getInstance().currentUser
@@ -127,6 +121,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // initialise firebase view model
         initialiseFirebaseViewModel()
         // set up divider in recycler view
+        cartItemAdapter = CartItemAdapter(this@MainActivity, savedCartItems, cartViewModel)
+
+
         top_selling_recycler.apply {
             layoutManager =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
@@ -140,10 +137,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
-
-        cartItemAdapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
+        cartItemAdapter?.setOnItemClickListener(object : CartItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
-                val cartItem: CartEntity = cartItemAdapter.getItem(pos) as CartEntity
+                val cartItem: CartEntity = cartItemAdapter?.getItem(pos) as CartEntity
                 val intent = Intent(this@MainActivity, IndividualProduct::class.java)
                 intent.putExtra("product", cartItem)
                 startActivity(intent)
@@ -184,8 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         longtidue,
                         isp.toString()
                     )
-
-
+                    
                     SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
 
                 } catch (e: Exception) {
@@ -516,8 +511,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Order Size: ${savedCartItems.size}")
-            cartItemAdapter.cartList = savedCartItems
-            cartItemAdapter.notifyDataSetChanged()
+            cartItemAdapter?.cartList = savedCartItems
+            cartItemAdapter?.notifyDataSetChanged()
         })
     }
 

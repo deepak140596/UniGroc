@@ -11,47 +11,49 @@ import com.avvnapps.unigroc.ui.MainActivity
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.ktx.Firebase
 
-
-/**
- * Created by Deepak Prasad on 11-02-2019.
- */
 class AuthUiActivity : AppCompatActivity() {
 
-    val RC_SIGN_IN = 1
-    val TAG = "AUTH_UI"
-    var mAuth: FirebaseAuth? = null
+    private val RC_SIGN_IN = 1
+    private val TAG = "AUTH_UI"
+    private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
         title = "Sign In"
-
         mAuth = FirebaseAuth.getInstance()
-
-        //signOut()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mAuth = FirebaseAuth.getInstance()
-        var user = mAuth!!.currentUser
+        val user = mAuth!!.currentUser
         if (user == null)
             chooseAuthProviders()
         else
             startPhoneAuthActivity(user)
     }
 
-    var customLayout = AuthMethodPickerLayout.Builder(R.layout.auth_layout)
-    .setGoogleButtonId(R.id.g_plus)
-    .setEmailButtonId(R.id.emailAuth)
-    .build()
+    override fun onResume() {
+        super.onResume()
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth!!.currentUser
+        if (user == null)
+            chooseAuthProviders()
+        else
+            startPhoneAuthActivity(user)
+    }
 
-    fun chooseAuthProviders() {
+    private var customLayout = AuthMethodPickerLayout.Builder(R.layout.auth_layout)
+        .setGoogleButtonId(R.id.g_plus)
+        .setEmailButtonId(R.id.emailAuth)
+        .build()
+
+    private fun chooseAuthProviders() {
         // Choose authentication providers
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -82,35 +84,45 @@ class AuthUiActivity : AppCompatActivity() {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
                 startPhoneAuthActivity(user)
-                // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
-                // ...
-                Log.e(TAG, "Sign In Failed. " + response!!.error)
+                FirebaseCrashlytics.getInstance().setCustomKey(TAG, response!!.error.toString())
+                Log.e(TAG, "Sign In Failed. " + response.error)
             }
         }
     }
 
 
-    fun signOut() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                // ...
-            }
-    }
-
-    fun startPhoneAuthActivity(user: FirebaseUser? = null) {
+    private fun startPhoneAuthActivity(user: FirebaseUser? = null) {
         if (user != null) {
             Log.i(TAG, "Phone Number: ${user.phoneNumber}")
             //Toast.makeText(this,"Signed In",Toast.LENGTH_SHORT).show()
-            if (user.phoneNumber == null || user.phoneNumber.toString().length == 0)
+            if (user.phoneNumber == null || user.phoneNumber.toString().isEmpty())
                 startActivity(Intent(this, VerifyPhoneActivity::class.java))
-            else
-                startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            else {
+                val firestore = Firebase.firestore
+                FirebaseInstanceId.getInstance().instanceId
+                    .addOnCompleteListener(OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            Log.w(TAG, "getInstanceId failed", task.exception)
+                            return@OnCompleteListener
+                        }
+                        // Get new Instance ID token
+                        val token = task.result?.token.toString()
+                        val data = hashMapOf("deviceToken" to token)
+
+                        firestore.collection("users")
+                            .document(user.email.toString())
+                            .set(data, SetOptions.merge())
+                        // Log and toast
+                        //Log.d(TAG, "tokenID $token")
+                        // already signed in
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    })
+            }
         }
     }
 

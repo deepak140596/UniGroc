@@ -3,19 +3,11 @@ package com.avvnapps.unigroc.ui.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.avvnapps.unigroc.R
-import com.avvnapps.unigroc.ui.MainActivity
 import com.avvnapps.unigroc.ui.authentication.AuthUiActivity
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.ktx.Firebase
 
 
 class SplashActivity : AppCompatActivity() {
@@ -23,7 +15,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val firestore = Firebase.firestore
         // remove title
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
@@ -40,38 +31,7 @@ class SplashActivity : AppCompatActivity() {
             {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                val auth = FirebaseAuth.getInstance()
-                if (auth.currentUser != null) {
-
-
-                    FirebaseInstanceId.getInstance().instanceId
-                        .addOnCompleteListener(OnCompleteListener { task ->
-                            if (!task.isSuccessful) {
-                                Log.w(TAG, "getInstanceId failed", task.exception)
-                                return@OnCompleteListener
-                            }
-
-                            // Get new Instance ID token
-                            val token = task.result?.token.toString()
-                            val data = hashMapOf("deviceToken" to token)
-
-                            firestore.collection("users")
-                                .document(auth.currentUser!!.email.toString())
-                                .set(data, SetOptions.merge())
-                            // Log and toast
-                            Log.d(TAG, "tokenID $token")
-                            // already signed in
-                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-
-                        })
-
-
-
-                } else {
-                    // not signed in
-                    startActivity(Intent(this@SplashActivity, AuthUiActivity::class.java))
-
-                }
+                startActivity(Intent(this@SplashActivity, AuthUiActivity::class.java))
                 finish()
             }, 2500
         )

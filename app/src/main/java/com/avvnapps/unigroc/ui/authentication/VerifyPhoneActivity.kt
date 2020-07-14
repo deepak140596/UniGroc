@@ -81,7 +81,6 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
 
         if (!phone_input_layout.isValid) {
-            Toasty.error(this, getString(R.string.invalid_phone_number)).show()
             valid = false
         }
 
@@ -99,7 +98,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
             activity_verify_pinView.requestFocus()
 
         } else
-            Toast.makeText(this, R.string.invalid_phone_number, Toast.LENGTH_SHORT).show()
+            Toasty.error(this, getString(R.string.invalid_phone_number)).show()
     }
 
     private fun verifiedOtpAction() {
@@ -145,7 +144,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
             Log.i(TAG, "Credential: $credential")
             linkPhoneAuthWithCredential(credential)
         } catch (e: Exception) {
-            Log.e(TAG, "Error verifying")
+            Log.e(TAG, "Error verifying $e")
         }
 
 
@@ -196,12 +195,12 @@ class VerifyPhoneActivity : AppCompatActivity() {
                 activity_verify_progress_bar.visibility = View.GONE
             }
             .addOnFailureListener {
-                Log.e(TAG, "Failed to verify Phone!")
+                Log.e(TAG, it.message.toString())
                 gotoStepOne()
                 activity_verify_progress_bar.visibility = View.GONE
                 Toasty.error(
                     this@VerifyPhoneActivity,
-                    "Verification Failed! Try Again!",
+                    it.message.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
             }
