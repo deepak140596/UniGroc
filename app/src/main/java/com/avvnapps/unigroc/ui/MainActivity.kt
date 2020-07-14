@@ -120,9 +120,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // initialise firebase view model
         initialiseFirebaseViewModel()
-        // set up divider in recycler view
-        cartItemAdapter = CartItemAdapter(this@MainActivity, savedCartItems, cartViewModel)
 
+
+        view_all_topselling.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(this, Products::class.java)
+            )
+        })
+        handleNetworkChanges()
+    }
+
+    private fun setupRecyclerView() {
+        cartItemAdapter = CartItemAdapter(this@MainActivity, savedCartItems, cartViewModel)
 
         top_selling_recycler.apply {
             layoutManager =
@@ -146,13 +155,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         })
-
-        view_all_topselling.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(this, Products::class.java)
-            )
-        })
-        handleNetworkChanges()
     }
 
     private fun getGeoIpAddress() {
@@ -180,9 +182,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         longtidue,
                         isp.toString()
                     )
-                    
                     SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
-
+                    // set up divider in recycler view
+                    setupRecyclerView()
+                    
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

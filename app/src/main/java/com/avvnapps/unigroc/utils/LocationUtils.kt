@@ -4,18 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
-import android.telephony.TelephonyManager
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.avvnapps.unigroc.models.AddressItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.type.LatLng
 import java.io.IOException
-import java.lang.Exception
 import java.util.*
 
 class LocationUtils(context: Context){
@@ -49,8 +44,6 @@ class LocationUtils(context: Context){
 
 
     companion object {
-        var TAG = "Main_ACTIVITY"
-
         fun getAddress(activity: AppCompatActivity, lat: Double, lng: Double): String? {
 
             //Log.d(TAG, "get Address for LAT: $lat  LON: $lng")
@@ -78,12 +71,12 @@ class LocationUtils(context: Context){
         }
 
         fun getDistance(activity: AppCompatActivity, addressItem: AddressItem): Float {
-            var loc1 = Location("Location1")
+            val loc1 = Location("Location1")
             loc1.longitude = addressItem.longitude
             loc1.latitude = addressItem.latitude
 
-            var loc2 = Location("Location2")
-            var l = LocationUtils(activity).location.value
+            val loc2 = Location("Location2")
+            val l = LocationUtils(activity).location.value
             loc2.longitude = l!!.longitude
             loc2.latitude = l.latitude
             return loc1.distanceTo(loc2)
