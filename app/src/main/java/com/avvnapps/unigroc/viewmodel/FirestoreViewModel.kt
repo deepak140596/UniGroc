@@ -134,24 +134,26 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getQuotedOrders(): MutableLiveData<List<OrderItem>> {
-        firebaseRepository.getQuotedOrders().addOnSuccessListener {
-            var qOrders : MutableList<OrderItem> = mutableListOf()
-            for ( doc in it){
-                var orderItem = doc.toObject(OrderItem::class.java)
+
+        firebaseRepository.getQuotedOrders().addSnapshotListener { value, e ->
+            if (e != null) {
+                Log.e(TAG, "Failed to retrieve quoted prices, $e")
+                quotedOrdersList.value = null
+                return@addSnapshotListener
+            }
+            val qOrders: MutableList<OrderItem> = mutableListOf()
+            for (doc in value!!) {
+                val orderItem = doc.toObject(OrderItem::class.java)
                 qOrders.add(orderItem)
             }
             quotedOrdersList.value = qOrders
-        }.addOnFailureListener {
-            Log.e(TAG,"Failed to retrieve quoted prices",it)
-            quotedOrdersList.value = null
         }
-
         return quotedOrdersList
     }
 
     fun getOrdersHistory(): MutableLiveData<List<OrderItem>> {
         firebaseRepository.getOrderHistory().addOnSuccessListener {
-            var qOrders : MutableList<OrderItem> = mutableListOf()
+            val qOrders: MutableList<OrderItem> = mutableListOf()
             for ( doc in it){
                 var orderItem = doc.toObject(OrderItem::class.java)
                 qOrders.add(orderItem)

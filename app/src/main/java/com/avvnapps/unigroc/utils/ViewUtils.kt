@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.view.animation.OvershootInterpolator
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
@@ -16,12 +17,21 @@ import com.avvnapps.unigroc.BuildConfig
 import com.google.android.material.snackbar.Snackbar
 import es.dmoral.toasty.Toasty
 
-fun View.showSnackBar(message: String) {
-    Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
+fun View.snackBar(message: String) {
+    Snackbar.make(this, message, Snackbar.LENGTH_LONG).also { snackbar ->
+        snackbar.setAction("Ok") {
+            snackbar.dismiss()
+        }
+    }.show()
 }
 
-fun Context.SuccessToast(message: String) {
+fun Context.successToast(message: String) {
     Toasty.success(this, message).show()
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun Activity.getColorRes(@ColorRes id: Int) = ContextCompat.getColor(applicationContext, id)

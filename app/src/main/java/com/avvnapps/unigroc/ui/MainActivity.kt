@@ -93,7 +93,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var cartItemAdapter: CartItemAdapter? = null
 
     var savedCartItems: List<CartEntity> = emptyList()
-    var user = FirebaseAuth.getInstance().currentUser
+
+    val user by lazy { FirebaseAuth.getInstance().currentUser }
 
     private lateinit var gpsUtils: GpsUtils
 
@@ -146,6 +147,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
+
+        shimmerTopSelling.stopShimmer()
+        shimmerTopSelling.animateVisibility(View.GONE)
+        shimmerDealDay.stopShimmer()
+        shimmerDealDay.animateVisibility(View.GONE)
+        top_selling_recycler.show()
+        rv_deal_of_the_day.show()
+
         cartItemAdapter?.setOnItemClickListener(object : CartItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
                 val cartItem: CartEntity = cartItemAdapter?.getItem(pos) as CartEntity
@@ -185,7 +194,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     SharedPreferencesDB.savePreferredGeoIp(this@MainActivity, GeoIpValues)
                     // set up divider in recycler view
                     setupRecyclerView()
-                    
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -564,9 +573,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(sendIntent)
     }
 
+
     override fun onResume() {
         super.onResume()
         initialiseFirebaseViewModel()
+        shimmerTopSelling.startShimmer()
+        shimmerDealDay.startShimmer()
+    }
+
+    override fun onPause() {
+        shimmerTopSelling.stopShimmer()
+        shimmerDealDay.stopShimmer()
+        super.onPause()
     }
 
 }

@@ -37,40 +37,39 @@ import java.util.*
 
 class DeliveryDetailsActivity : AppCompatActivity() {
 
-    val SET_ADDRESS_REQUEST_CODE = 100
+    private val SET_ADDRESS_REQUEST_CODE = 100
     val TAG = "DELIVERY_DETAILS"
 
-    val TODAY = 0
-    val TOMORROW = 1
-    var DAY_IN_MIL = 1000 * 60 * 60 * 24
+    private val TODAY = 0
+    private val TOMORROW = 1
+    private var DAY_IN_MIL = 1000 * 60 * 60 * 24
 
-    var deliveryDay = TODAY
+    private var deliveryDay = TODAY
     var timeSlot = 0
     var isPickup = true
     var address: AddressItem? = null
 
-    lateinit var cartViewModel: CartViewModel
-    lateinit var firestoreViewModel: FirestoreViewModel
-    var savedCartItems: List<CartEntity> = emptyList()
+
+    private var savedCartItems: List<CartEntity> = emptyList()
 
     private val REQUEST_CODE: Int = 1234
-    internal var token: String? = null
-    internal var compositeDisposable = CompositeDisposable()
-    internal lateinit var myAPI: ICloudFunctions
+    private var token: String? = null
+    private var compositeDisposable = CompositeDisposable()
 
+    private val myAPI by lazy { RetrofitCloudClient.instance.create(ICloudFunctions::class.java) }
+    private val firestoreViewModel by lazy { ViewModelProvider(this).get(FirestoreViewModel::class.java) }
+    private val cartViewModel by lazy { ViewModelProvider(this).get(CartViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_delivery_details)
 
-        // Init
-        myAPI = RetrofitCloudClient.instance.create(ICloudFunctions::class.java)
-
         // Load the Token
         compositeDisposable.add(
             myAPI.getToken()!!.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ braintreeToken ->
+                .subscribe(
+                    { braintreeToken ->
                     token = braintreeToken!!.token
                     Log.d(TAG, token)
 
@@ -80,11 +79,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
                     })
         )
 
-
-
-
-        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Saved Cart items size: ${savedCartItems.size}")
@@ -115,9 +109,9 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         return subtotal
     }
 
-    fun setOnClickListeners() {
+    private fun setOnClickListeners() {
         delivery_details_change_address_btn.setOnClickListener {
-            var intent = Intent(this@DeliveryDetailsActivity, SavedAddressesActivity::class.java)
+            val intent = Intent(this@DeliveryDetailsActivity, SavedAddressesActivity::class.java)
             intent.putExtra("is_selectable_action", true)
             startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
         }
@@ -199,7 +193,7 @@ class DeliveryDetailsActivity : AppCompatActivity() {
 
     private fun setUpTimeSlots() {
 
-        var timeInHr = DateTimeUtils.get24hrTime()
+        val timeInHr = DateTimeUtils.get24hrTime()
         delivery_details_time_radiogroup.visibility = View.VISIBLE
         delivery_details_no_slots_available_hint_tv.visibility = View.GONE
 
@@ -219,42 +213,49 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         }
 
         // if delivery day is today
-        if (timeInHr < 11) {
-            delivery_details_7_11_rb.isChecked = true
-            timeSlot = 0
-        } else if (timeInHr in 11..12) {
-            delivery_details_7_11_rb.visibility = View.GONE
-            delivery_details_11_1_rb.isChecked = true
-            timeSlot = 1
-        } else if (timeInHr in 13..16) {
-            delivery_details_7_11_rb.visibility = View.GONE
-            delivery_details_11_1_rb.visibility = View.GONE
-            delivery_details_1_5_rb.isChecked = true
-            timeSlot = 2
-        } else if (timeInHr in 17..18) {
-            delivery_details_7_11_rb.visibility = View.GONE
-            delivery_details_11_1_rb.visibility = View.GONE
-            delivery_details_1_5_rb.visibility = View.GONE
-            delivery_details_5_7_rb.isChecked = true
-            timeSlot = 3
-        } else if (timeInHr in 19..20) {
-            delivery_details_7_11_rb.visibility = View.GONE
-            delivery_details_11_1_rb.visibility = View.GONE
-            delivery_details_1_5_rb.visibility = View.GONE
-            delivery_details_5_7_rb.visibility = View.GONE
-            delivery_details_7_9_rb.isChecked = true
-            timeSlot = 4
-        } else {
-            delivery_details_time_radiogroup.visibility = View.GONE
-            delivery_details_no_slots_available_hint_tv.visibility = View.VISIBLE
-            timeSlot = -1
+        when {
+            timeInHr < 11 -> {
+                delivery_details_7_11_rb.isChecked = true
+                timeSlot = 0
+            }
+            timeInHr in 11..12 -> {
+                delivery_details_7_11_rb.visibility = View.GONE
+                delivery_details_11_1_rb.isChecked = true
+                timeSlot = 1
+            }
+            timeInHr in 13..16 -> {
+                delivery_details_7_11_rb.visibility = View.GONE
+                delivery_details_11_1_rb.visibility = View.GONE
+                delivery_details_1_5_rb.isChecked = true
+                timeSlot = 2
+            }
+            timeInHr in 17..18 -> {
+                delivery_details_7_11_rb.visibility = View.GONE
+                delivery_details_11_1_rb.visibility = View.GONE
+                delivery_details_1_5_rb.visibility = View.GONE
+                delivery_details_5_7_rb.isChecked = true
+                timeSlot = 3
+            }
+            timeInHr in 19..20 -> {
+                delivery_details_7_11_rb.visibility = View.GONE
+                delivery_details_11_1_rb.visibility = View.GONE
+                delivery_details_1_5_rb.visibility = View.GONE
+                delivery_details_5_7_rb.visibility = View.GONE
+                delivery_details_7_9_rb.isChecked = true
+                timeSlot = 4
+            }
+            else -> {
+                delivery_details_time_radiogroup.visibility = View.GONE
+                delivery_details_no_slots_available_hint_tv.visibility = View.VISIBLE
+                timeSlot = -1
+            }
         }
 
         Log.i(TAG, "TIME SLOT: $timeSlot")
     }
 
     private fun submitOrder() {
-        var order = OrderItem()
+        val order = OrderItem()
         order.cartItems = savedCartItems
         order.isPickup = isPickup
         order.preferredDate = Date().time + deliveryDay * DAY_IN_MIL
@@ -272,19 +273,23 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     }
 
     private fun showDialogBox() {
-        var alertDialogBuilder = AlertDialog.Builder(this)
+        val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setTitle("Place Order?")
             .setMessage("Go ahead and submit order?")
             .setPositiveButton("Yes") { dialog, which ->
                 if (isPickup) {
                     submitOrder()
                 } else {
-                    var geoipVal = SharedPreferencesDB.getSavedGeoIp(this)
+                    val geoipVal = SharedPreferencesDB.getSavedGeoIp(this)
                     if (geoipVal!!.currency == "EUR") {
+                        submitPayment()
                     }
                     if (geoipVal.currency == "USD") {
+                        submitPayment()
+
                     }
                     if (geoipVal.currency == "GBP") {
+                        submitPayment()
                     }
                     if (geoipVal.currency == "INR") {
                         submitPayment()
@@ -297,14 +302,14 @@ class DeliveryDetailsActivity : AppCompatActivity() {
 
             }
 
-        var alertDialog = alertDialogBuilder.create()
+        val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
 
 
     private fun IndianPayment() {
         // note: always create new instance of PaymentDetail for every new payment/order
-        var payment = PaymentDetail(
+        val payment = PaymentDetail(
             vpa = "ibby1561-3@okhdfcbank",
             name = "Ahraar Alam",
             payeeMerchantCode = "",       // only if you have merchantCode else pass empty string

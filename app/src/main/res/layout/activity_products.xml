@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,14 +31,14 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:orientation="horizontal">
 
                 <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="15dp"
                         android:contentDescription="Notification"
                         android:src="@drawable/notification"
                         android:tint="@color/color_white" />
@@ -61,11 +62,56 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerProducts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbarwrap"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:shimmer_duration="1500">
+
+        <!-- Adding 15 rows of placeholders -->
+        <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_8"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_marginEnd="@dimen/dimen_8"
+                android:columnCount="2"
+                android:rowCount="2">
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+            <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+
+        </GridLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/products_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbarwrap" />
+            android:layout_below="@+id/toolbarwrap"
+            android:visibility="gone" />
 
 
 </RelativeLayout>

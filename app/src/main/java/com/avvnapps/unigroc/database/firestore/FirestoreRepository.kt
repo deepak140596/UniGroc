@@ -70,16 +70,16 @@ class FirestoreRepository {
             .collection("quotations")
     }
 
-    fun getQuotedOrders(): Task<QuerySnapshot> {
+    fun getQuotedOrders(): Query {
         var collectionReference = firestoreDB.collection("orders")
-            .whereLessThan("orderStatus",ApplicationConstants.ORDER_PICKED_DELIVERED)
+            .whereLessThan("orderStatus", ApplicationConstants.ORDER_PICKED_DELIVERED)
             .whereEqualTo("customerId", email)
 
-        return collectionReference.get()
+        return collectionReference
     }
 
     fun getOrderHistory(): Task<QuerySnapshot> {
-        var collectionReference = firestoreDB.collection("orders")
+        val collectionReference = firestoreDB.collection("orders")
             .whereEqualTo("customerId", email)
             .whereEqualTo("orderStatus", ApplicationConstants.ORDER_PICKED_DELIVERED)
 
@@ -87,7 +87,7 @@ class FirestoreRepository {
     }
 
     fun getAllOrders(): Query {
-        var collectionReference = firestoreDB.collection("orders")
+        val collectionReference = firestoreDB.collection("orders")
             .whereEqualTo("customerId", email)
         return collectionReference
     }

@@ -51,7 +51,7 @@ class OrderItemAdapter(
 
 
         holder.itemView.item_order_view_quotes_action_tv.setOnClickListener {
-            var expanded = orderItem.isExpanded
+            val expanded = orderItem.isExpanded
             orderItem.isExpanded = !expanded
             notifyItemChanged(position)
         }
@@ -89,7 +89,7 @@ class OrderItemAdapter(
         ) {
             this.context = context
 
-            var preferredDeliveryTime = DateTimeUtils.getPreferredDeliveryDate(
+            val preferredDeliveryTime = DateTimeUtils.getPreferredDeliveryDate(
                 orderItem.preferredDate,
                 orderItem.preferredTimeSlot
             )
@@ -125,7 +125,7 @@ class OrderItemAdapter(
             var formattedDate = DateTimeUtils.dateTimeFormatter.format(time)
             if (time == 0L)
                 formattedDate = ""
-            var statusArray = context.resources.getStringArray(R.array.order_status_labels)
+            val statusArray = context.resources.getStringArray(R.array.order_status_labels)
             var status = ""
 
             when (orderStatus) {

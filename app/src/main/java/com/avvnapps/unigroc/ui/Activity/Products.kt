@@ -11,8 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
-import com.avvnapps.unigroc.ui.MainActivity
 import com.avvnapps.unigroc.ui.generate_cart.CartItemAdapter
+import com.avvnapps.unigroc.utils.animateVisibility
+import com.avvnapps.unigroc.utils.show
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_products.*
@@ -21,48 +22,50 @@ import kotlinx.android.synthetic.main.activity_products.*
 class Products : AppCompatActivity() {
     var TAG = "PRODUCTS_ACTIVITY"
 
-    lateinit var cartViewModel: CartViewModel
-    lateinit var firestoreViewModel: FirestoreViewModel
+    private val cartViewModel by lazy {
+        ViewModelProvider(this).get(CartViewModel::class.java)
+    }
+
+    private val firestoreViewModel by lazy {
+        ViewModelProvider(this).get(FirestoreViewModel::class.java)
+    }
+
     var savedCartItems: List<CartEntity> = emptyList()
-    lateinit var adapter: CartItemAdapter
-    private var mLayoutManager: StaggeredGridLayoutManager? = null
+    var cartItemAdapter: CartItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
 
         val toolbar = findViewById<Toolbar>(R.id.products_toolbar)
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar.apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+        }
 
         // initialise cart view model
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
-
         })
 
         // initialise firebase view model
         initialiseFirebaseViewModel()
-        //using staggered grid pattern in recyclerview
-        mLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        products_recycler_view.layoutManager = mLayoutManager
-        adapter = CartItemAdapter(
-            this,
-            savedCartItems,
-            cartViewModel
-        )
-        products_recycler_view.adapter = adapter
+        cartItemAdapter = CartItemAdapter(this, savedCartItems, cartViewModel)
+        products_recycler_view.apply {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = cartItemAdapter
+        }.run {
+            shimmerProducts.animateVisibility(View.GONE)
+            products_recycler_view.show()
+        }
 
-        adapter.setOnItemClickListener(object : CartItemAdapter.ClickListener {
+        cartItemAdapter?.setOnItemClickListener(object : CartItemAdapter.ClickListener {
             override fun onClick(pos: Int, aView: View) {
-                val cartItem: CartEntity = adapter.getItem(pos) as CartEntity
+                val cartItem: CartEntity = cartItemAdapter?.getItem(pos) as CartEntity
                 val intent = Intent(this@Products, IndividualProduct::class.java)
                 intent.putExtra("product", cartItem)
                 startActivity(intent)
-
             }
         })
 
@@ -71,25 +74,27 @@ class Products : AppCompatActivity() {
 
 
     private fun initialiseFirebaseViewModel() {
-
-        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Order Size: ${savedCartItems.size}")
-            adapter.cartList = savedCartItems
-            adapter.notifyDataSetChanged()
+            cartItemAdapter?.cartList = savedCartItems
+            cartItemAdapter?.notifyDataSetChanged()
         })
     }
 
     override fun onResume() {
         super.onResume()
         initialiseFirebaseViewModel()
+        shimmerProducts.startShimmer()
+    }
+
+    override fun onPause() {
+        shimmerProducts.stopShimmer()
+        super.onPause()
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        onBackPressed()
         return true
     }
 }
