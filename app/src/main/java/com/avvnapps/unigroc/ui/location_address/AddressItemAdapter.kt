@@ -58,16 +58,15 @@ class AddressItemAdapter(
 
             itemView.item_address_options_tv.setOnClickListener { view ->
                 Log.i(TAG, "Options clicked!")
-                var popupMenu = PopupMenu(context, view.item_address_options_tv)
+                val popupMenu = PopupMenu(context, view.item_address_options_tv)
                 popupMenu.inflate(R.menu.menu_item_address)
 
                 // action on menu items in each row
                 popupMenu.setOnMenuItemClickListener {
                     when (it.itemId) {
-
                         R.id.menu_item_add_edit -> {
                             Log.i(TAG, "EDIT")
-                            var intent = Intent(context, CreateAddressActivity::class.java)
+                            val intent = Intent(context, CreateAddressActivity::class.java)
                             intent.putExtra("address_item", addressItem)
                             context.startActivity(intent)
                             return@setOnMenuItemClickListener true
@@ -87,7 +86,7 @@ class AddressItemAdapter(
 
             itemView.item_saved_add_body.setOnClickListener {
 
-                var resultIntent = Intent()
+                val resultIntent = Intent()
                 resultIntent.putExtra("latitude", addressItem.latitude)
                 resultIntent.putExtra("longitude", addressItem.longitude)
                 Log.i(TAG, "latitude : " + addressItem.latitude)
@@ -96,7 +95,8 @@ class AddressItemAdapter(
 
 
                 context.setResult(Activity.RESULT_OK, resultIntent)
-                if (isSelectableAction) { // if address acitivity is opened to select address
+                if (isSelectableAction) {
+                    // if address activity is opened to select address
                     // save the selected address as default
                     SharedPreferencesDB.savePreferredAddress(context, addressItem)
                     context.finish()

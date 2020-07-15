@@ -19,15 +19,15 @@ class FirestoreRepository {
     var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
 
 
-    // get availbale cart items
+    // get available cart items
     fun getAvailableCartItems(): Task<QuerySnapshot> {
-        var collectionReference = firestoreDB.collection("available_cart_items").limit(10)
+        val collectionReference = firestoreDB.collection("available_cart_items").limit(10)
         return collectionReference.get()
     }
 
     //get Wishlist Items
     fun getWishlistItems(): Task<QuerySnapshot> {
-        var collectionReference = firestoreDB.collection("users").document(email)
+        val collectionReference = firestoreDB.collection("users").document(email)
             .collection("wishlist")
         return collectionReference.get()
     }
@@ -35,7 +35,7 @@ class FirestoreRepository {
     // save address to firebase
     fun saveAddressItem(addressItem: AddressItem): Task<Void> {
         //var
-        var documentReference = firestoreDB.collection("users").document(email)
+        val documentReference = firestoreDB.collection("users").document(email)
             .collection("saved_addresses").document(addressItem.addressId)
         return documentReference.set(addressItem)
     }
@@ -46,21 +46,21 @@ class FirestoreRepository {
     }
 
     fun deleteAddress(addressItem: AddressItem): Task<Void> {
-        var documentReference = firestoreDB.collection("users/$email/saved_addresses")
+        val documentReference = firestoreDB.collection("users/$email/saved_addresses")
             .document(addressItem.addressId)
 
         return documentReference.delete()
     }
 
     fun deleteOrderItem(orderItem: OrderItem): Task<Void> {
-        var documentReference = firestoreDB.collection("orders")
+        val documentReference = firestoreDB.collection("orders")
             .document(orderItem.orderId.toString())
 
         return documentReference.delete()
     }
 
     fun submitOrder(orderItem: OrderItem): Task<Void> {
-        var documentReference =
+        val documentReference =
             firestoreDB.collection("orders").document(orderItem.orderId.toString())
         return documentReference.set(orderItem)
     }
@@ -71,11 +71,9 @@ class FirestoreRepository {
     }
 
     fun getQuotedOrders(): Query {
-        var collectionReference = firestoreDB.collection("orders")
+        return firestoreDB.collection("orders")
             .whereLessThan("orderStatus", ApplicationConstants.ORDER_PICKED_DELIVERED)
             .whereEqualTo("customerId", email)
-
-        return collectionReference
     }
 
     fun getOrderHistory(): Task<QuerySnapshot> {
@@ -87,9 +85,8 @@ class FirestoreRepository {
     }
 
     fun getAllOrders(): Query {
-        val collectionReference = firestoreDB.collection("orders")
+        return firestoreDB.collection("orders")
             .whereEqualTo("customerId", email)
-        return collectionReference
     }
 
     fun placeOrder(

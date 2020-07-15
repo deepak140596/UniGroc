@@ -55,17 +55,17 @@ class NavigationActivity : AppCompatActivity() {
         return@OnNavigationItemSelectedListener true
     }
 
-    fun startFragment(fragment : Fragment){
-        if(fragment != null){
-            val fragmentManager = supportFragmentManager
-            fragmentManager.beginTransaction().replace(R.id.activity_nav_frame_layout,fragment,"").commit()
-        }
+    private fun startFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction().replace(R.id.activity_nav_frame_layout, fragment, "")
+            .commit()
     }
 
     // upload 15 sample items to firebase
-    fun addAvailableCartItems(){
+    fun addAvailableCartItems() {
         var i = 0
-        val db :CollectionReference = FirebaseFirestore.getInstance().collection("available_cart_items")
+        val db: CollectionReference =
+            FirebaseFirestore.getInstance().collection("available_cart_items")
         do {
 
 
@@ -83,8 +83,6 @@ class NavigationActivity : AppCompatActivity() {
     private fun updateLocation() {
 
         LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
-
-
             if(loc != null) {
                 location = loc
                 Log.i(TAG,"Location: ${location.latitude}  ${location.longitude}")

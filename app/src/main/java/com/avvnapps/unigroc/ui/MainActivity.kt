@@ -98,6 +98,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var gpsUtils: GpsUtils
 
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,9 +113,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //inflate Navigation Drawer
         inflateNavDrawer()
-        init()
         //inflate Slides
-        inflateSLider()
+        inflateSlider()
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
             updateCartImageView(savedCartItems)
@@ -122,18 +123,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // initialise firebase view model
         initialiseFirebaseViewModel()
 
+        handleNetworkChanges()
+        setOnclickListeners()
+    }
+
+    private fun setOnclickListeners() {
+
+        appbar_dashboard_cart_iv.setOnClickListener {
+            startActivity(Intent(this, ReviewCartActivity::class.java))
+        }
+        home_search_ll.setOnClickListener {
+            startActivity(Intent(this, SearchItemActivity::class.java))
+        }
+        appbar_dashboard_set_delivery_location_tv.setOnClickListener {
+            val intent = Intent(this, SavedAddressesActivity::class.java)
+            intent.putExtra("is_selectable_action", true)
+            startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
+        }
+
 
         view_all_topselling.setOnClickListener(View.OnClickListener {
             startActivity(
                 Intent(this, Products::class.java)
             )
         })
-        handleNetworkChanges()
     }
 
     private fun setupRecyclerView() {
         cartItemAdapter = CartItemAdapter(this@MainActivity, savedCartItems, cartViewModel)
-
         top_selling_recycler.apply {
             layoutManager =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
@@ -144,7 +161,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             layoutManager =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
             adapter = cartItemAdapter
-
         }
 
 
@@ -301,25 +317,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             appbar_dashboard_cart_no_tv.visibility = View.GONE
     }
 
-    private fun init() {
-        appbar_dashboard_cart_iv.setOnClickListener {
-            startActivity(Intent(this, ReviewCartActivity::class.java))
-        }
-        home_search_ll.setOnClickListener {
-            startActivity(Intent(this, SearchItemActivity::class.java))
-        }
-        appbar_dashboard_set_delivery_location_tv.setOnClickListener {
-            val intent = Intent(this, SavedAddressesActivity::class.java)
-            intent.putExtra("is_selectable_action", true)
-            startActivity(intent)
-            startActivityForResult(intent, SET_ADDRESS_REQUEST_CODE)
-        }
-
-
-    }
 
     //Image Slider
-    private fun inflateSLider() {
+    private fun inflateSlider() {
         val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
 
         val listURL = ArrayList<SlideModel>()
@@ -336,25 +336,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     // observe on location and update accordingly
-    fun updateLocation() {
+    private fun updateLocation() {
 
-        LocationUtils(this).getLocation().observe(this, Observer { loc: Location? ->
+        val addressData = SharedPreferencesDB.getSavedAddress(this)
 
-            if (loc != null) {
-                location = loc
-                Log.i(TAG, "Location: ${location.latitude}  ${location.longitude}")
-                gpsUtils.getLatLong { lat, long ->
+        if (latitude == 0.0 && longitude == 0.0) {
 
-                    val address = LocationUtils.getAddress(this, lat, long)
-                    if (address != null) {
-                        Log.i(TAG, address)
-                        appbar_dashboard_set_delivery_location_tv.text = address
+            if (addressData == null) {
+                appbar_dashboard_set_delivery_location_tv.text = "Select Address"
+            } else {
+                val address =
+                    LocationUtils.getAddress(this, addressData.latitude, addressData.longitude)
+                if (address != null) {
+                    Log.i(TAG, address)
+                    appbar_dashboard_set_delivery_location_tv.text = address
 
-                    }
                 }
+            }
+
+        } else {
+            val address = LocationUtils.getAddress(this, latitude, longitude)
+            if (address != null) {
+                Log.i(TAG, address)
+                appbar_dashboard_set_delivery_location_tv.text = address
 
             }
-        })
+        }
+
+
     }
 
     private fun askForPermissions() {
@@ -378,13 +387,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
-                    getLocation()
-
+                    //getLocation()
+                    updateLocation()
                 } else {
                     // permission was denied
                     // isPermissionAcquired = false
                     Toasty.error(this, "Permission Denied").show()
-                    // set empty list view
                 }
             }
 
@@ -401,7 +409,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     appbar_dashboard_set_delivery_location_tv.text = address
                 } else {
                     appbar_dashboard_set_delivery_location_tv.text = "Select Address"
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -511,10 +518,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (requestCode == SET_ADDRESS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                //  location.latitude = data!!.extras!!.getDouble("latitude")
-                // location.longitude = data!!.extras!!.getDouble("longitude")
-                //updateLocation()
-                getLocation()
+                latitude = data!!.extras!!.getDouble("latitude")
+                longitude = data.extras!!.getDouble("longitude")
+                updateLocation()
+                //getLocation()
             }
         }
     }

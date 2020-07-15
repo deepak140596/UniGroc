@@ -29,9 +29,9 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
         availableCartItems = MutableLiveData()
         firebaseRepository.getAvailableCartItems().addOnSuccessListener {documents ->
-            var availableCartList : MutableList<CartEntity> = mutableListOf()
+            val availableCartList: MutableList<CartEntity> = mutableListOf()
             for(doc in documents){
-                var cartItem = doc.toObject(CartEntity::class.java)
+                val cartItem = doc.toObject(CartEntity::class.java)
                 availableCartList.add(cartItem)
             }
 
@@ -48,9 +48,9 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     fun getWishListItem() : LiveData<List<wishlistItems>>{
         wishListItems = MutableLiveData()
         firebaseRepository.getWishlistItems().addOnSuccessListener { document->
-            var wishlistItemsList : MutableList<wishlistItems> = mutableListOf()
+            val wishlistItemsList: MutableList<wishlistItems> = mutableListOf()
             for (doc in document){
-                var wishlistItem = doc.toObject(wishlistItems::class.java)
+                val wishlistItem = doc.toObject(wishlistItems::class.java)
                 wishlistItemsList.add(wishlistItem)
             }
             wishListItems.value = wishlistItemsList
@@ -79,7 +79,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
             var savedAddressList : MutableList<AddressItem> = mutableListOf()
             for (doc in value!!) {
-                var addressItem = doc.toObject(AddressItem::class.java)
+                val addressItem = doc.toObject(AddressItem::class.java)
                 savedAddressList.add(addressItem)
             }
             savedAddresses.value = savedAddressList
@@ -124,7 +124,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
             var qPrices : MutableList<RetailerQuotationItem> = mutableListOf()
             for(doc in value!!){
-                var quotationItem = doc.toObject(RetailerQuotationItem::class.java)
+                val quotationItem = doc.toObject(RetailerQuotationItem::class.java)
                 qPrices.add(quotationItem)
             }
             quotedPrices.value = qPrices

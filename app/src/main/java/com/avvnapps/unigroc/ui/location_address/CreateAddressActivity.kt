@@ -22,13 +22,16 @@ import java.util.*
 
 class CreateAddressActivity : AppCompatActivity() {
     val TAG = "CREATE_ADDRESS"
-    val PLACE_PICKER_REQUEST = 1
-    var latitutde : Double ?= null
-    var longitude : Double ?= null
-    var firestoreViewModel : FirestoreViewModel ?=null
-    var addressItem: AddressItem?=null
+    private val PLACE_PICKER_REQUEST = 1
+    private var latitude: Double? = null
+    var longitude: Double? = null
+    private val firestoreViewModel by lazy {
+        ViewModelProvider(this).get(FirestoreViewModel::class.java)
+    }
 
-    lateinit var fields:List<Place.Field>
+    var addressItem: AddressItem? = null
+
+    lateinit var fields: List<Place.Field>
 
     private lateinit var gpsUtils: GpsUtils
 
@@ -38,14 +41,14 @@ class CreateAddressActivity : AppCompatActivity() {
         gpsUtils = GpsUtils(this)
 
 
-        var data = intent.getSerializableExtra("address_item")
-        if(data != null )
+        val data = intent.getSerializableExtra("address_item")
+
+        if (data != null)
             addressItem = data as AddressItem
-        if(addressItem != null){
+        if (addressItem != null) {
             setupViews()
         }
 
-        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         getLocation()
 
         create_address_set_location_btn.setOnClickListener {
@@ -54,16 +57,16 @@ class CreateAddressActivity : AppCompatActivity() {
 
         create_address_done_fab.setOnClickListener {
             if(isFormValid()){
-                var addressItem = AddressItem(
+                val addressItem = AddressItem(
                     create_address_name_edit_text.text.toString(),
                     create_address_name_edit_text.text.toString(),
                     create_address_house_name_edit_text.text.toString(),
                     create_address_locality_edit_text.text.toString(),
                     create_address_landmark_edit_text.text.toString(),
-                    latitutde!!, longitude!!
+                    latitude!!, longitude!!
                 )
 
-                firestoreViewModel!!.saveAddressToFirebase(addressItem)
+                firestoreViewModel.saveAddressToFirebase(addressItem)
                 // save the selected address as default
                 SharedPreferencesDB.savePreferredAddress(this@CreateAddressActivity,addressItem)
                 finish()
@@ -79,17 +82,17 @@ class CreateAddressActivity : AppCompatActivity() {
 
     }
 
-    fun setupViews(){
+    private fun setupViews() {
         create_address_house_name_edit_text.setText(addressItem!!.houseName)
         create_address_locality_edit_text.setText(addressItem!!.locality)
-        create_address_landmark_edit_text.setText( addressItem!!.landmark)
-        create_address_name_edit_text.setText( addressItem!!.addressName)
-        latitutde = addressItem!!.latitude
+        create_address_landmark_edit_text.setText(addressItem!!.landmark)
+        create_address_name_edit_text.setText(addressItem!!.addressName)
+        latitude = addressItem!!.latitude
         longitude = addressItem!!.longitude
         create_address_is_location_set_cb.isChecked = true
     }
 
-    fun isFormValid() : Boolean{
+    private fun isFormValid(): Boolean {
 
         if (create_address_house_name_edit_text.text.toString().trim().isEmpty()) {
             create_address_house_name_input_layout.error = "Enter House Name"
@@ -99,16 +102,16 @@ class CreateAddressActivity : AppCompatActivity() {
             create_address_locality_input_layout.error = "Enter Locality"
             return false
         }
-        if(create_address_landmark_edit_text.text.toString().trim().length == 0){
+        if (create_address_landmark_edit_text.text.toString().trim().isEmpty()) {
             create_address_landmark_input_layout.error = "Enter Landmark"
             return false
         }
-        if(create_address_name_edit_text.text.toString().trim().length == 0){
+        if (create_address_name_edit_text.text.toString().trim().isEmpty()) {
             create_address_name_input_layout.error = "Save address as"
             return false
         }
-        if(latitutde == null || longitude == null){
-            Toasty.error(this,"Please select location on Map!").show()
+        if (latitude == null || longitude == null) {
+            Toasty.error(this, "Please select location on Map!").show()
             return false
         }
         return true
@@ -120,7 +123,7 @@ class CreateAddressActivity : AppCompatActivity() {
 
         gpsUtils.getLatLong { lat, long ->
             Log.i(TAG, "location is $lat + $long")
-            latitutde = lat
+            latitude = lat
             longitude = long
 
             create_address_is_location_set_cb.isChecked = true
@@ -128,17 +131,17 @@ class CreateAddressActivity : AppCompatActivity() {
     }
 
 
-    fun createPlacePicker(){
+    private fun createPlacePicker() {
 
-    /*    val builder = PlacePicker.IntentBuilder()
-        try {
-            Log.d(TAG, "opening startActivityforResult")
-            startActivityForResult(builder.build(this@CreateAddressActivity), PLACE_PICKER_REQUEST)
-        } catch (e: GooglePlayServicesRepairableException) {
-            e.printStackTrace()
-        } catch (e: GooglePlayServicesNotAvailableException) {
-            e.printStackTrace()
-        }*/
+        /*    val builder = PlacePicker.IntentBuilder()
+            try {
+                Log.d(TAG, "opening startActivityforResult")
+                startActivityForResult(builder.build(this@CreateAddressActivity), PLACE_PICKER_REQUEST)
+            } catch (e: GooglePlayServicesRepairableException) {
+                e.printStackTrace()
+            } catch (e: GooglePlayServicesNotAvailableException) {
+                e.printStackTrace()
+            }*/
         var intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN,fields)
             .build(this)
         startActivityForResult(intent,PLACE_PICKER_REQUEST)
@@ -154,7 +157,7 @@ class CreateAddressActivity : AppCompatActivity() {
                 val place = data?.let { Autocomplete.getPlaceFromIntent(it) }
                 val latLng = place?.latLng
                 Log.d(TAG, "LatLng: $latLng")
-                latitutde = latLng?.latitude
+                latitude = latLng?.latitude
                 longitude = latLng?.longitude
 
                 create_address_is_location_set_cb.isChecked = true
