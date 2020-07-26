@@ -8,7 +8,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
@@ -81,8 +80,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var TAG = "Main_ACTIVITY"
     private val SET_ADDRESS_REQUEST_CODE = 100
-    lateinit var location: Location
-
     private val cartViewModel by lazy {
         ViewModelProvider(this).get(CartViewModel::class.java)
     }
@@ -362,8 +359,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         }
-
-
     }
 
     private fun askForPermissions() {
