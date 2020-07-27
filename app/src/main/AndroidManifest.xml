@@ -17,7 +17,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-
+        <activity
+                android:name=".ui.Activity.AddReviewActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
                 android:launchMode="singleTask">
@@ -30,13 +32,9 @@
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
         </activity>
-
-
         <activity
-                android:name="com.avvnapps.unigroc.ui.order_status.OrderItemDetailActivity"
-                android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+                android:name=".ui.order_status.OrderItemDetailActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".ui.Activity.Order"
                 android:theme="@style/AppTheme.NoActionBar" />
@@ -98,6 +96,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/primaryColor" />

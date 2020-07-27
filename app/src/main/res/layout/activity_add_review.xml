@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        tools:context=".ui.Activity.AddReviewActivity">
+
+    <LinearLayout
+            android:id="@+id/toolbar_review"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_16"
+                android:drawableStart="@drawable/ic_close_black_24dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Add Review"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/rateTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar_review"
+            android:background="@color/colorWhite"
+            android:paddingStart="@dimen/dimen_16"
+            android:text="Rate your experience"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rateTv">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:id="@+id/ratingLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+
+                <hyogeun.github.com.colorratingbarlib.ColorRatingBar
+                        android:id="@+id/RatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_16"
+                        android:layout_marginTop="@dimen/dimen_8"
+                        android:rating="0"
+                        app:changeable="true"
+                        app:empty_color="@color/grey_light"
+                        app:progress_color="@color/md_amber_A700" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/space_2"
+                        android:background="@color/grey_light" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/ratingLL"
+                    android:background="@color/colorWhite">
+
+
+                <ImageView
+                        android:id="@+id/ratingImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="80dp"
+                        android:layout_marginTop="80dp"
+                        android:layout_marginEnd="80dp"
+                        android:layout_marginBottom="@dimen/dimen_16"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/rating" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ratingImage"
+                        android:layout_marginStart="@dimen/dimen_16"
+                        android:layout_marginEnd="@dimen/dimen_16"
+                        android:text="Your ratings and reviews helps people in going a long way in deciding where to buy"
+                        android:textAlignment="center" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

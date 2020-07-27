@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     var cartItemAdapter: CartItemAdapter? = null
 
-    var savedCartItems: List<CartEntity> = emptyList()
+    private var savedCartItems: List<CartEntity> = emptyList()
 
     val user by lazy { FirebaseAuth.getInstance().currentUser }
 

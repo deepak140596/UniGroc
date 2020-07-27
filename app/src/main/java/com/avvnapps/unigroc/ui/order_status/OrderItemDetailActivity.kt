@@ -1,28 +1,34 @@
 package com.avvnapps.unigroc.ui.order_status
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.OrderItem
-import com.avvnapps.unigroc.utils.DateTimeUtils
-import com.avvnapps.unigroc.utils.PriceFormatter
+import com.avvnapps.unigroc.ui.Activity.AddReviewActivity
+import com.avvnapps.unigroc.utils.*
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_order_details.*
-import kotlinx.android.synthetic.main.item_add_rating.*
 
 class OrderItemDetailActivity : AppCompatActivity() {
 
-    lateinit var firestoreViewModel: FirestoreViewModel
+    private val firestoreViewModel by lazy {
+        ViewModelProvider(this).get(FirestoreViewModel::class.java)
+    }
     var orderItems: List<CartEntity> = emptyList()
-    lateinit var adapter: ItemDetailAdapter
+    private lateinit var itemDetailAdapter: ItemDetailAdapter
     var orderItem: OrderItem? = null
-    private var mLayoutManager: StaggeredGridLayoutManager? = null
+    private val mLayoutManager by lazy {
+        StaggeredGridLayoutManager(
+            1,
+            StaggeredGridLayoutManager.VERTICAL
+        )
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,31 +36,55 @@ class OrderItemDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order_details)
         setToolBar()
         orderItem = intent.getParcelableExtra<OrderItem>("order") as OrderItem
-
         orderItems = ArrayList<CartEntity>()
-        mLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        rv_order_detail.layoutManager = mLayoutManager
 
-        adapter = if (orderItem!!.quotations.isNotEmpty())
+        itemDetailAdapter = if (orderItem!!.quotations.isNotEmpty()) {
+            ll_order_summary_retailer.show()
             ItemDetailAdapter(this, orderItem!!.quotations[0].cartItems)
-        else
+        } else {
+            ll_order_summary_retailer.hide()
             ItemDetailAdapter(this, orderItem!!.cartItems)
+        }
 
+        rv_order_detail.apply {
+            layoutManager = mLayoutManager
+            adapter = itemDetailAdapter
+        }
 
-
-        rv_order_detail.adapter = adapter
         setViews(orderItem!!)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setViews(orderItem: OrderItem) {
 
         if (orderItem.quotations.isNotEmpty()) {
             tv_order_Detail_total.text =
                 PriceFormatter.getFormattedPrice(this, orderItem.quotations[0].quotedPrice)
             tv_order_Detail_retailer_name.text =
-                "Retailer : " + orderItem.quotations[0].retailerName
+                "Retailer : ${orderItem.quotations[0].retailerName}"
             tv_order_Detail_total_item.text =
                 "Total Items : " + orderItem.quotations[0].cartItems.size.toString()
+
+
+            tv_order_summary_retailer_name.text = orderItem.quotations[0].retailerName
+            val address = LocationUtils.getAddress(
+                this,
+                orderItem.quotations[0].addressItem.latitude,
+                orderItem.quotations[0].addressItem.longitude
+            )
+            if (address != null) {
+                tv_order_summary_retailer_address.text = address
+            } else {
+                tv_order_summary_retailer_address.text = "Select Address"
+            }
+
+            if (orderItem.isPickup) {
+                tv_order_summary_retailer_order_done.text =
+                    "This order with ${orderItem.quotations[0].retailerName} was picked"
+            } else {
+                tv_order_summary_retailer_order_done.text =
+                    "This order with ${orderItem.quotations[0].retailerName} was delivered"
+            }
 
 
         } else {
@@ -66,7 +96,7 @@ class OrderItemDetailActivity : AppCompatActivity() {
         }
 
 
-        var preferredDeliveryTime = "Delivery, " + DateTimeUtils.getPreferredDeliveryDate(
+        val preferredDeliveryTime = "Delivery, " + DateTimeUtils.getPreferredDeliveryDate(
 
             orderItem.preferredDate,
             orderItem.preferredTimeSlot
@@ -75,12 +105,11 @@ class OrderItemDetailActivity : AppCompatActivity() {
         tv_order_delivery_time.text = preferredDeliveryTime
 
 
-        var orderStatus = orderItem.orderStatus
+        val orderStatus = orderItem.orderStatus
         setupOrderStatus(orderStatus, orderItem.isPickup)
 
-        btn_order_detail_cancel.setOnClickListener {
-            showReviewDialog(orderStatus)
-
+        btn_order_detail_review.setOnClickListener {
+            startActivity(Intent(this, AddReviewActivity::class.java))
         }
 
 
@@ -95,20 +124,8 @@ class OrderItemDetailActivity : AppCompatActivity() {
     }
 
 
-    private fun showReviewDialog(orderStatus: Int) {
-
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.item_add_rating)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.addBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
     private fun setupOrderStatus(orderStatus: Int, isPickup: Boolean) {
-        var statusArray = resources.getStringArray(R.array.order_status_labels)
+        val statusArray = resources.getStringArray(R.array.order_status_labels)
         var status = ""
 
         when (orderStatus) {
@@ -127,10 +144,13 @@ class OrderItemDetailActivity : AppCompatActivity() {
                     status = statusArray[5]
             }
             5 -> {
-                if (isPickup)
+                if (isPickup) {
+                    btn_order_detail_review.show()
                     status = statusArray[6]
-                else
+                } else {
                     status = statusArray[7]
+                }
+
             }
         }
 
@@ -139,9 +159,8 @@ class OrderItemDetailActivity : AppCompatActivity() {
 
     private fun setToolBar() {
         val toolbar = findViewById<Toolbar>(R.id.orderToolBar)
-        toolbar.title = "Order Details"
+        toolbar.title = "Order Summary"
         setSupportActionBar(toolbar)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
