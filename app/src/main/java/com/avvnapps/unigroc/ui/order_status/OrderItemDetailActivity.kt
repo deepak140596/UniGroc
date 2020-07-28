@@ -91,6 +91,7 @@ class OrderItemDetailActivity : AppCompatActivity() {
             }
 
 
+
         } else {
             tv_order_Detail_total_item.text = "Total Items : " + orderItem.cartItems.size.toString()
 
@@ -113,7 +114,9 @@ class OrderItemDetailActivity : AppCompatActivity() {
         setupOrderStatus(orderStatus, orderItem.isPickup)
 
         btn_order_detail_review.setOnClickListener {
-            startActivity(Intent(this, AddReviewActivity::class.java))
+            startActivity(Intent(this, AddReviewActivity::class.java).apply {
+                putExtra("retailerName", orderItem.retailerId)
+            })
         }
 
 
