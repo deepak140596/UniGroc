@@ -15,13 +15,21 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
-        <TextView
-                android:layout_width="match_parent"
+        <ImageButton
+                android:id="@+id/close_add_review_activity"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_16"
-                android:drawableStart="@drawable/ic_close_black_24dp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/ic_close_black_24dp" />
+
+
+        <TextView
+                android:id="@+id/toolbar_review_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
+                android:paddingEnd="@dimen/dimen_16"
                 android:text="Add Review"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -57,17 +65,27 @@
                     android:background="@color/colorWhite"
                     android:orientation="vertical">
 
-
-                <hyogeun.github.com.colorratingbarlib.ColorRatingBar
+                <com.willy.ratingbar.ScaleRatingBar
                         android:id="@+id/RatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen_16"
                         android:layout_marginTop="@dimen/dimen_8"
-                        android:rating="0"
-                        app:changeable="true"
-                        app:empty_color="@color/grey_light"
-                        app:progress_color="@color/md_amber_A700" />
+                        app:srb_clearRatingEnabled="true"
+                        app:srb_clickable="true"
+                        app:srb_drawableEmpty="@drawable/empty_star"
+                        app:srb_drawableFilled="@drawable/filled_star"
+                        app:srb_isIndicator="false"
+                        app:srb_minimumStars="0"
+                        app:srb_numStars="5"
+                        app:srb_rating="0"
+                        app:srb_scrollable="true"
+                        app:srb_starHeight="35dp"
+                        app:srb_starPadding="@dimen/space_10"
+                        app:srb_starWidth="35dp"
+                        app:srb_stepSize="0.5">
+
+                </com.willy.ratingbar.ScaleRatingBar>
 
                 <View
                         android:layout_width="match_parent"
@@ -77,6 +95,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                    android:id="@+id/imageReviewRL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/ratingLL"

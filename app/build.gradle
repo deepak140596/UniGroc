@@ -147,7 +147,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // Rating view
-    implementation 'hyogeun.github.com.colorratingbar:ColorRatingBar:1.0.1'
+    implementation   'com.github.ome450901:SimpleRatingBar:1.5.0'
+
 
     //Lottie
     implementation 'com.airbnb.android:lottie:3.4.0'
