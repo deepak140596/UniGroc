@@ -92,7 +92,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="SHOP NOW"
-                    android:textColor="#fff"
                     android:textSize="@dimen/text_size_small" />
 
 

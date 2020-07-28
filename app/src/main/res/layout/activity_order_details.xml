@@ -19,9 +19,10 @@
                 android:id="@+id/orderToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/primaryColor"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleTextAppearance="@style/RobotoBoldTextAppearance">
+                app:titleTextAppearance="@style/RobotoBoldTextAppearance"
+                app:titleTextColor="@color/colorWhite">
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -33,6 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_bar"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical"
             android:paddingTop="@dimen/dimen_4"
             android:paddingBottom="@dimen/dimen_8">
@@ -63,15 +67,39 @@
                 android:layout_marginTop="@dimen/dimen_4"
                 android:layout_marginEnd="@dimen/space_10"
                 android:layout_marginBottom="@dimen/dimen_4"
-                android:background="@color/grey_light" />
+                android:background="@color/md_grey_100" />
 
         <TextView
                 android:id="@+id/tv_order_summary_retailer_order_done"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/space_10"
                 android:text="order done with" />
     </LinearLayout>
+
+    <TextView
+            android:id="@+id/yourOrderTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_order_summary_retailer"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:paddingStart="@dimen/space_10"
+            android:text="Your Order"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+    <View
+            android:id="@+id/yourOrderView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_1"
+            android:layout_below="@+id/yourOrderTv"
+            android:layout_marginStart="@dimen/space_10"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:layout_marginEnd="@dimen/space_10"
+            android:layout_marginBottom="@dimen/dimen_4"
+            android:background="@color/md_grey_100" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -79,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/textDateTimeView"
-            android:layout_below="@+id/ll_order_summary_retailer" />
+            android:layout_below="@+id/yourOrderView" />
 
     <LinearLayout
             android:id="@+id/textDateTimeView"
@@ -128,14 +156,15 @@
                 android:layout_margin="12dp"
                 android:background="@drawable/bg_rounded_button"
                 android:padding="12dp"
-                android:visibility="visible">
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Add Review"
-                    android:textColor="#fff"
                     android:textSize="@dimen/text_size_small" />
 
 

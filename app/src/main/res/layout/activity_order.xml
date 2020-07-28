@@ -38,6 +38,7 @@
             app:tabPaddingStart="0dp"
             app:tabMode="fixed"
             android:elevation="0dp"
+            app:tabTextColor="@color/colorWhite"
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="5dp"
             android:minHeight="?attr/actionBarSize"

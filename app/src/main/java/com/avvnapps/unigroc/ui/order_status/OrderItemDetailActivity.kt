@@ -78,12 +78,16 @@ class OrderItemDetailActivity : AppCompatActivity() {
                 tv_order_summary_retailer_address.text = "Select Address"
             }
 
-            if (orderItem.isPickup) {
-                tv_order_summary_retailer_order_done.text =
-                    "This order with ${orderItem.quotations[0].retailerName} was picked"
-            } else {
-                tv_order_summary_retailer_order_done.text =
-                    "This order with ${orderItem.quotations[0].retailerName} was delivered"
+            if (orderItem.orderStatus > 4) {
+                tv_order_summary_retailer_order_done.show()
+                btn_order_detail_review.show()
+                if (orderItem.isPickup) {
+                    tv_order_summary_retailer_order_done.text =
+                        "This order with ${orderItem.quotations[0].retailerName} was picked"
+                } else {
+                    tv_order_summary_retailer_order_done.text =
+                        "This order with ${orderItem.quotations[0].retailerName} was delivered"
+                }
             }
 
 
@@ -145,7 +149,6 @@ class OrderItemDetailActivity : AppCompatActivity() {
             }
             5 -> {
                 if (isPickup) {
-                    btn_order_detail_review.show()
                     status = statusArray[6]
                 } else {
                     status = statusArray[7]
