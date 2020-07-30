@@ -18,6 +18,9 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
+                android:name=".ui.Activity.RetailerInfoActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
                 android:name=".ui.Activity.AddReviewActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity

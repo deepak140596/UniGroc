@@ -11,6 +11,7 @@ import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.ui.Activity.AddReviewActivity
+import com.avvnapps.unigroc.ui.Activity.RetailerInfoActivity
 import com.avvnapps.unigroc.utils.*
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_order_details.*
@@ -90,6 +91,9 @@ class OrderItemDetailActivity : AppCompatActivity() {
                 }
             }
 
+            ll_order_summary_retailer.setOnClickListener {
+                startActivity(Intent(this, RetailerInfoActivity::class.java))
+            }
 
 
         } else {
