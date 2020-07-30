@@ -92,7 +92,9 @@ class OrderItemDetailActivity : AppCompatActivity() {
             }
 
             ll_order_summary_retailer.setOnClickListener {
-                startActivity(Intent(this, RetailerInfoActivity::class.java))
+                startActivity(Intent(this, RetailerInfoActivity::class.java).apply {
+                    putExtra("retailerID", orderItem.retailerId)
+                })
             }
 
 

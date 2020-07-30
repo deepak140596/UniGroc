@@ -94,7 +94,7 @@ class FirestoreRepository {
         retailerId: String,
         cartItems: List<CartEntity>
     ): Task<Void> {
-        var documentReference =
+        val documentReference =
             firestoreDB.collection("orders").document(orderItem.orderId.toString())
         return documentReference.update(
             "retailerId", retailerId,
@@ -102,6 +102,11 @@ class FirestoreRepository {
             "orderStatus", ApplicationConstants.ORDER_PREPARING,
             "datePlaced", Date().time
         )
+    }
+
+    // get reviews  from firebase
+    fun getReviews(retailerId: String): CollectionReference {
+        return firestoreDB.collection("retailers/$retailerId/reviews")
     }
 
 }

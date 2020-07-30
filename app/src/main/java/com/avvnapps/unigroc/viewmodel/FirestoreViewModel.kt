@@ -14,23 +14,26 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
     val TAG = "FIRESTORE_VIEW_MODEL"
     var firebaseRepository = FirestoreRepository()
-    var availableCartItems : MutableLiveData<List<CartEntity>> = MutableLiveData()
-    var savedAddresses : MutableLiveData<List<AddressItem>> = MutableLiveData()
-    var quotedPrices : MutableLiveData<List<RetailerQuotationItem>> = MutableLiveData()
-    var allOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
-    var wishListItems : MutableLiveData<List<wishlistItems>> = MutableLiveData()
+    var availableCartItems: MutableLiveData<List<CartEntity>> = MutableLiveData()
+    var savedAddresses: MutableLiveData<List<AddressItem>> = MutableLiveData()
+    var quotedPrices: MutableLiveData<List<RetailerQuotationItem>> = MutableLiveData()
+    var allOrdersList: MutableLiveData<List<OrderItem>> = MutableLiveData()
+    var wishListItems: MutableLiveData<List<wishlistItems>> = MutableLiveData()
+
     //Orders
-    var quotedOrdersList : MutableLiveData<List<OrderItem>> = MutableLiveData()
-    var orderHistoryList : MutableLiveData<List<OrderItem>> = MutableLiveData()
+    var quotedOrdersList: MutableLiveData<List<OrderItem>> = MutableLiveData()
+    var orderHistoryList: MutableLiveData<List<OrderItem>> = MutableLiveData()
+
+    var retailerReviews: MutableLiveData<List<Review>> = MutableLiveData()
 
 
     // get available cart items from firestore
-    fun getAvailableCartItems() : LiveData<List<CartEntity>>{
+    fun getAvailableCartItems(): LiveData<List<CartEntity>> {
 
         availableCartItems = MutableLiveData()
-        firebaseRepository.getAvailableCartItems().addOnSuccessListener {documents ->
+        firebaseRepository.getAvailableCartItems().addOnSuccessListener { documents ->
             val availableCartList: MutableList<CartEntity> = mutableListOf()
-            for(doc in documents){
+            for (doc in documents) {
                 val cartItem = doc.toObject(CartEntity::class.java)
                 availableCartList.add(cartItem)
             }
@@ -186,10 +189,31 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
         return allOrdersList
     }
 
-    fun placeOrder(orderItem: OrderItem,retailerId: String,cartItems: List<CartEntity>){
-        firebaseRepository.placeOrder(orderItem,retailerId,cartItems).addOnFailureListener {
-            Log.e(TAG,"Order Placing Failed! : $it")
+    fun placeOrder(orderItem: OrderItem, retailerId: String, cartItems: List<CartEntity>) {
+        firebaseRepository.placeOrder(orderItem, retailerId, cartItems).addOnFailureListener {
+            Log.e(TAG, "Order Placing Failed! : $it")
         }
+    }
+
+    // get realtime updates from firebase regarding reviews
+    fun getReviews(retailerId: String): LiveData<List<Review>> {
+        firebaseRepository.getReviews(retailerId)
+            .addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e)
+                    savedAddresses.value = null
+                    return@EventListener
+                }
+
+                val retailerReviewsList: MutableList<Review> = mutableListOf()
+                for (doc in value!!) {
+                    val addressItem = doc.toObject(Review::class.java)
+                    retailerReviewsList.add(addressItem)
+                }
+                retailerReviews.value = retailerReviewsList
+            })
+
+        return retailerReviews
     }
 
 }
