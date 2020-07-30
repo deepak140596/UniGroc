@@ -8,44 +8,29 @@
 
 
     <ImageView
-            android:id="@+id/background"
+            android:id="@+id/retailerBackgroundImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@color/primaryDarkColor"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/user"
-            app:civ_border_color="#FFFFFF"
-            app:civ_border_width="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/background" />
-
-
     <TextView
-            android:id="@+id/textName"
+            android:id="@+id/retailerShopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:text="Ahraar Alam"
-            android:textColor="#222222"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintHorizontal_bias="0.500"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/retailerBackgroundImage" />
 
     <TextView
-            android:id="@+id/textDescription"
+            android:id="@+id/retailerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
@@ -55,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textName" />
+            app:layout_constraintTop_toBottomOf="@+id/retailerShopName" />
 
 
     <LinearLayout
@@ -64,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/textDescription">
+            app:layout_constraintTop_toBottomOf="@+id/retailerAddress">
 
         <include layout="@layout/acount_info_layout" />
 
