@@ -9,7 +9,7 @@
             motion:motionInterpolator="linear">
         <OnSwipe
                 motion:dragDirection="dragUp"
-                motion:touchAnchorId="@+id/recyclerView"
+                motion:touchAnchorId="@+id/review_recyclerView"
                 motion:touchAnchorSide="bottom" />
     </Transition>
 

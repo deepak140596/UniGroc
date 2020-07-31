@@ -76,7 +76,6 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         })
 
-
     }
 
     override fun onRefresh() {

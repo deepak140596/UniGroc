@@ -120,6 +120,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         tools:visibility="gone">
 
                     <LinearLayout
+                            android:id="@+id/positive_reviewLL"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -153,6 +154,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                             android:textColor="@color/black" />
 
                     <LinearLayout
+                            android:id="@+id/negative_reviewLL"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen_8"
