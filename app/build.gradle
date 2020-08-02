@@ -163,6 +163,6 @@ dependencies {
     /*Anko*/
     implementation "org.jetbrains.anko:anko:0.10.8"
     // GravitySnapHelper
-    implementation 'com.github.rubensousa:gravitysnaphelper:2.2.0'
+    implementation 'com.github.rubensousa:gravitysnaphelper:2.2.1'
 }
 

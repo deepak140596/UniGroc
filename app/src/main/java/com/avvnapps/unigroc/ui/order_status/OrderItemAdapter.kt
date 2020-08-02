@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.models.RetailerQuotationItem
+import com.avvnapps.unigroc.ui.retailerInfo.RetailerInfoActivity
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
@@ -63,6 +64,23 @@ class OrderItemAdapter(
 
         }
 
+        holder.itemView.item_order_retail1_img.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[0].retailerId)
+            context.startActivity(intent)
+        }
+
+        holder.itemView.item_order_retail2_iv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[1].retailerId)
+            context.startActivity(intent)
+        }
+
+        holder.itemView.item_order_retail3_iv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[2].retailerId)
+            context.startActivity(intent)
+        }
 
         if (orderItem.isPickup)
             holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE

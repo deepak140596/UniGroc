@@ -103,7 +103,7 @@ class RetailerInfoActivity : AppCompatActivity() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH)
 
-            Glide.with(this)
+            Glide.with(applicationContext)
                 .applyDefaultRequestOptions(options)
                 .load(it)
                 .into(retailerBackgroundImage)
