@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.Review
+import com.avvnapps.unigroc.utils.bindView
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.activity_retailer_info.*
 
@@ -18,6 +20,11 @@ class RetailerInfoActivity : AppCompatActivity() {
     private val firestoreViewModel by lazy {
         ViewModelProvider(this).get(FirestoreViewModel::class.java)
     }
+    var animationPlaybackSpeed: Double = 0.8
+
+    private val recyclerView: RecyclerView by bindView(R.id.review_recyclerView)
+    private val loadingDuration: Long
+        get() = (resources.getInteger(R.integer.loadingAnimDuration) / animationPlaybackSpeed).toLong()
 
 
     var reviewList: List<Review> = emptyList()
@@ -32,6 +39,8 @@ class RetailerInfoActivity : AppCompatActivity() {
 
         retailerId = intent.getStringExtra("retailerID")
 
+        getRetailersDetail()
+
         initialiseFirestoreViewModel(retailerId)
 
         reviewAdapter = ReviewAdapter(this@RetailerInfoActivity, reviewList)
@@ -39,8 +48,15 @@ class RetailerInfoActivity : AppCompatActivity() {
         review_recyclerView.apply {
             layoutManager = LinearLayoutManager(this@RetailerInfoActivity)
             adapter = reviewAdapter
+            setHasFixedSize(true)
+        }.also {
+            updateRecyclerViewAnimDuration()
         }
 
+
+    }
+
+    private fun getRetailersDetail() {
 
     }
 
@@ -57,6 +73,13 @@ class RetailerInfoActivity : AppCompatActivity() {
 
                 })
         }
+    }
 
+    /**
+     * Update RecyclerView Item Animation Durations
+     */
+    private fun updateRecyclerViewAnimDuration() = recyclerView.itemAnimator?.run {
+        removeDuration = loadingDuration * 60 / 100
+        addDuration = loadingDuration
     }
 }

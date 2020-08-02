@@ -80,11 +80,11 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         android:layout_marginStart="@dimen/space_4"
                         android:layout_marginTop="4dp"
                         android:layout_toEndOf="@id/userProfile"
-                        app:srb_clearRatingEnabled="true"
+                        app:srb_clearRatingEnabled="false"
                         app:srb_clickable="false"
                         app:srb_drawableEmpty="@drawable/empty_star"
                         app:srb_drawableFilled="@drawable/filled_star"
-                        app:srb_isIndicator="false"
+                        app:srb_isIndicator="true"
                         app:srb_minimumStars="0"
                         app:srb_numStars="5"
                         app:srb_rating="0"
@@ -116,7 +116,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         tools:visibility="gone">
 
                     <LinearLayout

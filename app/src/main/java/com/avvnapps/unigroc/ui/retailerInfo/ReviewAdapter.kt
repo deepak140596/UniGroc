@@ -104,9 +104,8 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
                 expand, listItemExpandDuration, AccelerateDecelerateInterpolator()
             ) { progress -> setExpandProgress(holder, progress) }
 
-            if (expand) animator.doOnStart { holder.expandView.isVisible = true }
-            else animator.doOnEnd { holder.expandView.isVisible = false }
-
+            if (expand) animator.doOnStart { holder.expandView.show() }
+            else animator.doOnEnd { holder.expandView.hide() }
             animator.start()
         } else {
 
@@ -130,7 +129,7 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
                 // (doOnPreDraw) and hide it immediately. We use onPreDraw because
                 // it's called after layout is done. doOnNextLayout is called during
                 // layout phase which causes issues with hiding expandView.
-                holder.expandView.isVisible = true
+                holder.expandView.show()
                 view.doOnPreDraw {
                     expandedHeight = view.height
                     holder.expandView.isVisible = false

@@ -86,6 +86,12 @@ private class Lazy<T, V>(private val initializer: (T, KProperty<*>) -> V) : Read
 private val RecyclerView.ViewHolder.viewFinder: RecyclerView.ViewHolder.(Int) -> View?
     get() = { itemView.findViewById(it) }
 
+private val Activity.viewFinder: Activity.(Int) -> View?
+    get() = { findViewById(it) }
+
+fun <V : View> Activity.bindView(id: Int)
+        : ReadOnlyProperty<Activity, V> = required(id, viewFinder)
+
 fun View.snackBar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_LONG).also { snackbar ->
         snackbar.setAction("Ok") {

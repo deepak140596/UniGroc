@@ -125,7 +125,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
                 return@EventListener
             }
 
-            var qPrices : MutableList<RetailerQuotationItem> = mutableListOf()
+            val qPrices: MutableList<RetailerQuotationItem> = mutableListOf()
             for(doc in value!!){
                 val quotationItem = doc.toObject(RetailerQuotationItem::class.java)
                 qPrices.add(quotationItem)
@@ -158,7 +158,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
         firebaseRepository.getOrderHistory().addOnSuccessListener {
             val qOrders: MutableList<OrderItem> = mutableListOf()
             for ( doc in it){
-                var orderItem = doc.toObject(OrderItem::class.java)
+                val orderItem = doc.toObject(OrderItem::class.java)
                 qOrders.add(orderItem)
             }
             orderHistoryList.value = qOrders
