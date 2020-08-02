@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_height="match_parent">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
         <LinearLayout
@@ -19,16 +21,18 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="280"
+                    android:text="4"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="posts"
+                    android:text="Delivery Reviews"
                     android:textSize="13sp" />
         </LinearLayout>
+
 
         <LinearLayout
                 android:layout_width="0dp"
@@ -37,38 +41,33 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-            <TextView
+            <com.willy.ratingbar.BaseRatingBar
+                    android:id="@+id/RetailerRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2.8M"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="4dp"
+                    app:srb_clearRatingEnabled="false"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/empty_star"
+                    app:srb_drawableFilled="@drawable/filled_star"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="0"
+                    app:srb_numStars="5"
+                    app:srb_rating="0"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="25dp"
+                    app:srb_starPadding="@dimen/space_1"
+                    app:srb_starWidth="25dp"
+                    app:srb_stepSize="0.5">
+
+            </com.willy.ratingbar.BaseRatingBar>
 
             <TextView
+                    android:id="@+id/retailerRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="followers"
-                    android:textSize="13sp" />
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="28"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="following"
+                    android:text="rating"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>

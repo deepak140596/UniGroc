@@ -83,7 +83,7 @@
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".ui.generate_cart.SearchItemActivity"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".ui.authentication.AuthUiActivity"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />

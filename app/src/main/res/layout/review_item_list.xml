@@ -116,7 +116,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         tools:visibility="gone">
 
                     <LinearLayout

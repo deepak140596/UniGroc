@@ -14,9 +14,9 @@ import java.util.*
 
 class FirestoreRepository {
 
-    val TAG = "FIREBASE_REPOSITORY"
-    var firestoreDB = FirebaseFirestore.getInstance()
-    var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
+    val TAG by lazy { "FIREBASE_REPOSITORY" }
+    private val firestoreDB by lazy { FirebaseFirestore.getInstance() }
+    val email by lazy { FirebaseAuth.getInstance().currentUser!!.email.toString() }
 
 
     // get available cart items

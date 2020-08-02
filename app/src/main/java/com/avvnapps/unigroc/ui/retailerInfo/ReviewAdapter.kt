@@ -41,7 +41,7 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
     private val expandedWidth = context.screenWidth - 24.dp
     private var originalHeight = -1 // will be calculated dynamically
     private var expandedHeight = -1 // will be calculated dynamically
-    var animationPlaybackSpeed: Double = 0.8
+    private var animationPlaybackSpeed: Double = 0.8
 
     private val listItemExpandDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -131,7 +131,7 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
                 // layout phase which causes issues with hiding expandView.
                 holder.expandView.show()
                 view.doOnPreDraw {
-                    expandedHeight = view.height
+                    expandedHeight = it.height
                     holder.expandView.isVisible = false
                 }
             }
