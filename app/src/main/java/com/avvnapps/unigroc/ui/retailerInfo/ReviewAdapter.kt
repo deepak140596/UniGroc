@@ -67,10 +67,9 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val model = reviewList[position]
 
-        holder.bindItems(context, model)
-
         expandItem(holder, model == expandedModel, animate = false)
         scaleDownItem(holder, position, isScaledDown)
+        holder.bindItems(context, model)
 
         holder.cardContainer.setOnClickListener {
             if (expandedModel == null) {
@@ -96,6 +95,7 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
                 expandedModel = model
             }
         }
+
     }
 
     private fun expandItem(holder: ListViewHolder, expand: Boolean, animate: Boolean) {
@@ -129,7 +129,7 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
                 // (doOnPreDraw) and hide it immediately. We use onPreDraw because
                 // it's called after layout is done. doOnNextLayout is called during
                 // layout phase which causes issues with hiding expandView.
-                holder.expandView.show()
+                holder.expandView.isVisible = true
                 view.doOnPreDraw {
                     expandedHeight = it.height
                     holder.expandView.isVisible = false
@@ -239,7 +239,7 @@ class ReviewAdapter(var context: Context, var reviewList: List<Review>) :
             itemView.RatingBar.rating = model.rating!!
 
 
-            val dateSubmitted: Long = model.dateSubmitted.toLong()
+            val dateSubmitted: Long = model.dateSubmitted
 
             val lastSeenTime: String = getTimeAgo(dateSubmitted, context).toString()
             itemView.getTimeAgo.text = lastSeenTime

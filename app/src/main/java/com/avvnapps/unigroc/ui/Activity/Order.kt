@@ -1,7 +1,5 @@
 package com.avvnapps.unigroc.ui.Activity
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.avvnapps.unigroc.Adapter.PagerOrderAdapter
 import com.avvnapps.unigroc.R
-import com.avvnapps.unigroc.ui.MainActivity
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_order.*
 
@@ -19,13 +16,15 @@ class Order : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = "Order"
+        toolbar.apply {
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = "Order"
+        }
+
         toolbar.setNavigationOnClickListener(View.OnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
             overridePendingTransition(0, 0)
             finish()
         })
@@ -60,7 +59,12 @@ class Order : AppCompatActivity() {
         })
 
     }
-    fun wrapTabIndicatorToTitle(tabLayout: TabLayout, externalMargin: Int, internalMargin: Int) {
+
+    private fun wrapTabIndicatorToTitle(
+        tabLayout: TabLayout,
+        externalMargin: Int,
+        internalMargin: Int
+    ) {
         val tabStrip = tabLayout.getChildAt(0)
         if (tabStrip is ViewGroup) {
             val childCount = tabStrip.childCount
@@ -70,12 +74,16 @@ class Order : AppCompatActivity() {
                 tabView.setPadding(0, tabView.paddingTop, 0, tabView.paddingBottom)
                 if (tabView.layoutParams is ViewGroup.MarginLayoutParams) {
                     val layoutParams = tabView.layoutParams as ViewGroup.MarginLayoutParams
-                    if (i == 0) {
-                        setMargin(layoutParams, externalMargin, internalMargin)
-                    } else if (i == childCount - 1) {
-                        setMargin(layoutParams, internalMargin, externalMargin)
-                    } else {
-                        setMargin(layoutParams, internalMargin, internalMargin)
+                    when (i) {
+                        0 -> {
+                            setMargin(layoutParams, externalMargin, internalMargin)
+                        }
+                        childCount - 1 -> {
+                            setMargin(layoutParams, internalMargin, externalMargin)
+                        }
+                        else -> {
+                            setMargin(layoutParams, internalMargin, internalMargin)
+                        }
                     }
                 }
             }
@@ -85,12 +93,7 @@ class Order : AppCompatActivity() {
     }
 
     private fun setMargin(layoutParams: ViewGroup.MarginLayoutParams, start: Int, end: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            layoutParams.marginStart = start
-            layoutParams.marginEnd = end
-        } else {
-            layoutParams.leftMargin = start
-            layoutParams.rightMargin = end
-        }
+        layoutParams.marginStart = start
+        layoutParams.marginEnd = end
     }
 }

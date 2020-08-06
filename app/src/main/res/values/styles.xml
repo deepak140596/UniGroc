@@ -10,7 +10,6 @@
         <item name="materialButtonStyle">@style/AppButton</item>
         <item name="textInputStyle">@style/AppTextField</item>
         <item name="android:textColorLink">@color/colorPrimaryDark</item>
-        <item name="fontFamily">@font/bold</item>
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
 
@@ -73,6 +72,10 @@
     <style name="StatusTextView">
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="textStyle">
+        <item name="fontFamily">@font/bold</item>
     </style>
 
     <style name="StatusView">

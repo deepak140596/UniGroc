@@ -1,5 +1,6 @@
 package com.avvnapps.unigroc.ui.retailerInfo
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -144,4 +145,10 @@ class RetailerInfoActivity : AppCompatActivity() {
         removeDuration = loadingDuration * 60 / 100
         addDuration = loadingDuration
     }
+
+    /**
+     * Called from FiltersLayout to get adapter scale down animator
+     */
+    fun getAdapterScaleDownAnimator(isScaledDown: Boolean): ValueAnimator =
+        reviewAdapter.getScaleDownAnimator(isScaledDown)
 }

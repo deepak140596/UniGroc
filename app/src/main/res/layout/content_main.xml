@@ -60,7 +60,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:src="@mipmap/ic_search_primarycolor"
-                    android:tint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimary" />
 
             <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="match_parent"
@@ -453,7 +453,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/call_answer"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -469,7 +469,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/mywhatsapp"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -485,7 +485,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:src="@drawable/reviews"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -501,7 +501,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/share_via"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 

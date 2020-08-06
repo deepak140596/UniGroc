@@ -50,8 +50,8 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/userProfile"
                         android:layout_marginEnd="8dp"
-                        android:tint="@color/title_color"
-                        app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
+                        app:srcCompat="@drawable/ic_baseline_chevron_right_24"
+                        app:tint="@color/title_color" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/userProfile"
@@ -62,7 +62,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
 
                 <TextView
                         android:id="@+id/userName"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/userProfile"
                         android:paddingStart="@dimen/dimen_16"
@@ -74,10 +74,10 @@ too. layout_gravity="center_horizontal" is a lot simpler.
 
                 <com.willy.ratingbar.BaseRatingBar
                         android:id="@+id/RatingBar"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/userName"
-                        android:layout_marginStart="@dimen/space_4"
+                        android:layout_marginStart="@dimen/dimen_16"
                         android:layout_marginTop="4dp"
                         android:layout_toEndOf="@id/userProfile"
                         app:srb_clearRatingEnabled="false"
@@ -89,9 +89,9 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         app:srb_numStars="5"
                         app:srb_rating="0"
                         app:srb_scrollable="true"
-                        app:srb_starHeight="25dp"
+                        app:srb_starHeight="20dp"
                         app:srb_starPadding="@dimen/space_1"
-                        app:srb_starWidth="25dp"
+                        app:srb_starWidth="20dp"
                         app:srb_stepSize="0.5">
 
                 </com.willy.ratingbar.BaseRatingBar>
@@ -102,6 +102,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/RatingBar"
                         android:layout_toEndOf="@id/userProfile"
+                        android:layout_marginEnd="@dimen/dimen_8"
                         android:paddingTop="@dimen/space_4"
                         android:text="few mints ago"
                         android:textAlignment="textEnd" />
@@ -117,11 +118,11 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical"
                         android:visibility="gone"
-                        tools:visibility="gone">
+                        tools:visibility="visible">
 
                     <LinearLayout
                             android:id="@+id/positive_reviewLL"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
@@ -136,7 +137,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                                 android:transformPivotX="0dp" />
 
                         <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="positive"
@@ -146,7 +147,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
 
                     <TextView
                             android:id="@+id/positive_review"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="46dp"
                             android:background="#E7F7F7"
@@ -155,7 +156,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
 
                     <LinearLayout
                             android:id="@+id/negative_reviewLL"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen_8"
                             android:orientation="horizontal">
@@ -171,7 +172,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                                 android:transformPivotX="0dp" />
 
                         <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="Negative"
@@ -181,7 +182,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
 
                     <TextView
                             android:id="@+id/negative_review"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="46dp"
                             android:background="#E7F7F7"
@@ -190,7 +191,7 @@ too. layout_gravity="center_horizontal" is a lot simpler.
 
                     <TextView
                             android:id="@+id/main_review"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="@dimen/dimen_16"
