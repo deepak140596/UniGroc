@@ -8,6 +8,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginStart="@dimen/dimen_16"
+            android:layout_marginEnd="@dimen/dimen_16"
+            android:background="@drawable/bg"
+            android:padding="@dimen/dimen_8"
             android:baselineAligned="false"
             android:orientation="horizontal">
 

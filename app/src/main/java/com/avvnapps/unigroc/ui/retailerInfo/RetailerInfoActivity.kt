@@ -1,6 +1,5 @@
 package com.avvnapps.unigroc.ui.retailerInfo
 
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -32,12 +31,7 @@ class RetailerInfoActivity : AppCompatActivity() {
 
     private val firestoreDB by lazy { FirebaseFirestore.getInstance() }
 
-    var animationPlaybackSpeed: Double = 0.8
-
     private val recyclerView: RecyclerView by bindView(R.id.review_recyclerView)
-    private val loadingDuration: Long
-        get() = (resources.getInteger(R.integer.loadingAnimDuration) / animationPlaybackSpeed).toLong()
-
 
     var reviewList: List<Review> = emptyList()
     lateinit var reviewAdapter: ReviewAdapter
@@ -60,12 +54,8 @@ class RetailerInfoActivity : AppCompatActivity() {
             layoutManager =
                 LinearLayoutManager(this@RetailerInfoActivity, RecyclerView.VERTICAL, false)
             adapter = reviewAdapter
-            recycledViewPool.setMaxRecycledViews(0, 0)
 
-        }.run {
-            updateRecyclerViewAnimDuration()
         }
-
 
     }
 
@@ -85,7 +75,6 @@ class RetailerInfoActivity : AppCompatActivity() {
                 Log.d(TAG, "Current data: null")
             }
         }
-
     }
 
     private fun setRetailerData(retailerData: DocumentSnapshot?) {
@@ -138,17 +127,5 @@ class RetailerInfoActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Update RecyclerView Item Animation Durations
-     */
-    private fun updateRecyclerViewAnimDuration() = recyclerView.itemAnimator?.run {
-        removeDuration = loadingDuration * 60 / 100
-        addDuration = loadingDuration
-    }
 
-    /**
-     * Called from FiltersLayout to get adapter scale down animator
-     */
-    fun getAdapterScaleDownAnimator(isScaledDown: Boolean): ValueAnimator =
-        reviewAdapter.getScaleDownAnimator(isScaledDown)
 }

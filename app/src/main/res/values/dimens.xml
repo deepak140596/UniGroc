@@ -18,8 +18,8 @@
     <dimen name="text_size_XX_large">34sp</dimen>
 
     <dimen name="nav_view_textview_size">15sp</dimen>
-    <dimen name="list_item_vertical_padding">24dp</dimen>
-    <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="list_item_vertical_padding">8dp</dimen>
+    <dimen name="list_item_horizontal_padding">8dp</dimen>
 
     <dimen name="space_1">1dp</dimen>
     <dimen name="space_2">2dp</dimen>

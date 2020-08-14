@@ -70,9 +70,19 @@ class OrderItemAdapter(
             context.startActivity(intent)
         }
 
+        holder.itemView.item_order_retail1_name_tv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[0].retailerId)
+            context.startActivity(intent)
+        }
         holder.itemView.item_order_retail2_iv.setOnClickListener {
             val intent = Intent(context, RetailerInfoActivity::class.java)
             intent.putExtra("retailerID", orderItem.quotations[1].retailerId)
+            context.startActivity(intent)
+        }
+        holder.itemView.item_order_retail2_name_tv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[0].retailerId)
             context.startActivity(intent)
         }
 
@@ -82,6 +92,11 @@ class OrderItemAdapter(
             context.startActivity(intent)
         }
 
+        holder.itemView.item_order_retail3_name_tv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[2].retailerId)
+            context.startActivity(intent)
+        }
         if (orderItem.isPickup)
             holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
         else
@@ -211,18 +226,18 @@ class OrderItemAdapter(
             orderItem: OrderItem,
             firestoreViewModel: FirestoreViewModel
         ) {
-            var alertDialogBuilder = AlertDialog.Builder(context)
+            val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("Cancel Order?")
                 .setMessage("Do you want to cancel the order?")
                 .setPositiveButton("Yes") { dialog, which ->
 
                     firestoreViewModel.cancelOrder(orderItem)
 
-                }.setNegativeButton("Cancel") { _, _ ->
+                }.setNegativeButton("No") { _, _ ->
 
                 }
 
-            var alertDialog = alertDialogBuilder.create()
+            val alertDialog = alertDialogBuilder.create()
             alertDialog.show()
         }
 
@@ -230,7 +245,7 @@ class OrderItemAdapter(
             orderItem: OrderItem,
             firestoreViewModel: FirestoreViewModel
         ) {
-            var quotations = orderItem.quotations
+            val quotations = orderItem.quotations
             Collections.sort(quotations, RetailerQuotationItem.compareByRating)
             Log.i(TAG, "Quotations: ${quotations.size}")
 

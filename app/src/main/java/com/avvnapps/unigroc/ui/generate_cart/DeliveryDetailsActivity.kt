@@ -22,6 +22,7 @@ import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.payment.UpiPayment
 import com.avvnapps.unigroc.payment.model.PaymentDetail
 import com.avvnapps.unigroc.payment.model.TransactionDetails
+import com.avvnapps.unigroc.ui.MainActivity
 import com.avvnapps.unigroc.ui.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
@@ -268,6 +269,10 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         firestoreViewModel.submitOrder(order, cartViewModel)
         cartViewModel.deleteAll()
         //addQuotations(order.orderId.toString())
+        startActivity(
+            Intent(this, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
         finish()
 
     }
