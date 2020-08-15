@@ -56,8 +56,8 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     private val REQUEST_CODE: Int = 1234
     private var token: String? = null
     private var compositeDisposable = CompositeDisposable()
-
     private val myAPI by lazy { RetrofitCloudClient.instance.create(ICloudFunctions::class.java) }
+
     private val firestoreViewModel by lazy { ViewModelProvider(this).get(FirestoreViewModel::class.java) }
     private val cartViewModel by lazy { ViewModelProvider(this).get(CartViewModel::class.java) }
 

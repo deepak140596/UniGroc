@@ -23,21 +23,20 @@ import java.util.*
 
 class OrderItemAdapter(
     var context: Context, var orderList: List<OrderItem>,
-    var firestoreViewModel: FirestoreViewModel
+    var firestoreViewModel: FirestoreViewModel,
+    private val itemClickAction: (OrderItem) -> Unit = {}
 ) : RecyclerView.Adapter<OrderItemAdapter.ViewHolder>() {
     var TAG = "CART_ITEM_ADAPTER"
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_order, parent, false),
+            itemClickAction
+        )
 
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_order, parent, false)
 
-        return ViewHolder(itemView)
-    }
+    override fun getItemCount(): Int = orderList.size
 
-    override fun getItemCount(): Int {
-        return orderList.size
-    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val orderItem = orderList[position]
@@ -97,10 +96,6 @@ class OrderItemAdapter(
             intent.putExtra("retailerID", orderItem.quotations[2].retailerId)
             context.startActivity(intent)
         }
-        if (orderItem.isPickup)
-            holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
-        else
-            holder.itemView.item_order_cancel_action_ll.visibility = View.GONE
 
         if (orderItem.quotations.isEmpty() || orderItem.orderStatus < 3)
             holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
@@ -111,7 +106,8 @@ class OrderItemAdapter(
     }
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, val placeOrderClickAction: (OrderItem) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
         var TAG = "CART_ITEM_ADAPTER"
         lateinit var context: Context
 
@@ -255,8 +251,8 @@ class OrderItemAdapter(
                 itemView.item_order_retail1_quote_price_tv.text =
                     PriceFormatter.getFormattedPrice(context, quotations[0].quotedPrice)
 
-                if (quotations[0].photoUrl != null) {
-                    Glide.with(context).load(quotations[0].photoUrl)
+                quotations[0].photoUrl.let {
+                    Glide.with(context).load(it)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .dontAnimate().into(itemView.item_order_retail1_img)
                 }
@@ -268,13 +264,7 @@ class OrderItemAdapter(
                 ).toString()*/
 
                 itemView.item_order_retail1_place_btn.setOnClickListener {
-
-                    firestoreViewModel.placeOrder(
-                        orderItem,
-                        quotations[0].retailerId,
-                        quotations[0].cartItems
-                    )
-
+                    placeOrderClickAction(orderItem)
                 }
             } else {
                 itemView.item_order_retail1_details_ll.visibility = View.GONE
@@ -300,12 +290,7 @@ class OrderItemAdapter(
                 }
 
                 itemView.item_order_retail2_place_btn.setOnClickListener {
-
-                    firestoreViewModel.placeOrder(
-                        orderItem,
-                        quotations[1].retailerId,
-                        quotations[1].cartItems
-                    )
+                    placeOrderClickAction(orderItem)
                 }
             } else {
                 itemView.item_order_retail2_details_ll.visibility = View.GONE
@@ -330,12 +315,7 @@ class OrderItemAdapter(
                 }
 
                 itemView.item_order_retail3_place_btn.setOnClickListener {
-
-                    firestoreViewModel.placeOrder(
-                        orderItem,
-                        quotations[2].retailerId,
-                        quotations[2].cartItems
-                    )
+                    placeOrderClickAction(orderItem)
                 }
             } else {
                 itemView.item_order_retail3_details_ll.visibility = View.GONE

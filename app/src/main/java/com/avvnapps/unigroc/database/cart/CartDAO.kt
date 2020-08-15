@@ -29,5 +29,4 @@ interface CartDAO {
     @Query("SELECT quantity FROM cart_table WHERE item_id = :id")
     fun getQuantity(id: String): Int
 
-
 }

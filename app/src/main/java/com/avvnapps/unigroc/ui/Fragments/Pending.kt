@@ -26,7 +26,10 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     lateinit var activity: AppCompatActivity
 
     var submittedOrders: List<OrderItem> = emptyList()
-    lateinit var firestoreViewModel: FirestoreViewModel
+    private val firestoreViewModel by lazy {
+        ViewModelProvider(this).get(FirestoreViewModel::class.java)
+    }
+
     lateinit var adapter: OrderItemAdapter
 
     override fun onCreateView(
@@ -43,26 +46,57 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         super.onViewCreated(view, savedInstanceState)
         // initialise Firestore VM
         activity_pending_progress_bar.visibility = View.VISIBLE
-
-        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
         initialiseFirestoreViewModel()
 
         fragment_pending_recycler_view.layoutManager = LinearLayoutManager(activity)
 
-        adapter = OrderItemAdapter(activity, submittedOrders,firestoreViewModel)
+        adapter = OrderItemAdapter(
+            activity,
+            submittedOrders,
+            firestoreViewModel
+        ) { orderItem -> placeOrder(orderItem) }
+
         fragment_pending_recycler_view.adapter = adapter
 
         fragment_pending_swipe_layout.setOnRefreshListener(this)
+    }
+
+    private fun placeOrder(orderItem: OrderItem) {
+        val quotations = orderItem.quotations
+
+        if (quotations.size > 0) {
+            firestoreViewModel.placeOrder(
+                orderItem,
+                quotations[0].retailerId,
+                quotations[0].cartItems
+            )
+        }
+
+        if (quotations.size > 1) {
+            firestoreViewModel.placeOrder(
+                orderItem,
+                quotations[1].retailerId,
+                quotations[1].cartItems
+            )
+        }
+
+        if (quotations.size > 2) {
+            firestoreViewModel.placeOrder(
+                orderItem,
+                quotations[2].retailerId,
+                quotations[2].cartItems
+            )
+        }
     }
 
     private fun initialiseFirestoreViewModel() {
         firestoreViewModel.getQuotedOrders().observe(viewLifecycleOwner, Observer { orders ->
             Log.i(TAG, "OrdersSize: ${orders.size}")
             submittedOrders = orders
-            if (submittedOrders.isNullOrEmpty()){
+            if (submittedOrders.isNullOrEmpty()) {
                 empty_cart.visibility = View.VISIBLE
                 fragment_pending_recycler_view.visibility = View.GONE
-            }else{
+            } else {
                 empty_cart.visibility = View.GONE
                 fragment_pending_recycler_view.visibility = View.VISIBLE
             }
