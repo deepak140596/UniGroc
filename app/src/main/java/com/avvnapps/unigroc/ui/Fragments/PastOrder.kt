@@ -19,7 +19,8 @@ import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import kotlinx.android.synthetic.main.fragment_past_order.*
 
 
-class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+    OrderItemAdapter.onItemClickListener {
 
     val TAG = "PAST_ORDERS"
 
@@ -48,7 +49,7 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         fragment_past_order_recycler_view.layoutManager = LinearLayoutManager(activity)
 
-        adapter = OrderItemAdapter(activity, ordersHistory,firestoreViewModel)
+        adapter = OrderItemAdapter(activity, ordersHistory, firestoreViewModel, this)
         fragment_past_order_recycler_view.adapter = adapter
 
         fragment_past_order_swipe_layout.setOnRefreshListener(this)
@@ -90,6 +91,18 @@ class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onResume() {
         super.onResume()
         initialiseFirestoreViewModel()
+    }
+
+    override fun retailerOnePlaceOrder(orderItem: OrderItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun retailerTwoPlaceOrder(orderItem: OrderItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun retailerThreePlaceOrder(orderItem: OrderItem) {
+        TODO("Not yet implemented")
     }
 
 }

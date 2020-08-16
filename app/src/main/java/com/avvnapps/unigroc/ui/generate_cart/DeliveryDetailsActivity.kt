@@ -402,7 +402,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     override fun onDestroy() {
         compositeDisposable.clear()
         super.onDestroy()
-
     }
 
 }

@@ -24,14 +24,15 @@ import java.util.*
 class OrderItemAdapter(
     var context: Context, var orderList: List<OrderItem>,
     var firestoreViewModel: FirestoreViewModel,
-    private val itemClickAction: (OrderItem) -> Unit = {}
+    val listener: onItemClickListener
 ) : RecyclerView.Adapter<OrderItemAdapter.ViewHolder>() {
     var TAG = "CART_ITEM_ADAPTER"
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(context).inflate(R.layout.item_order, parent, false),
-            itemClickAction
+            listener
         )
 
 
@@ -81,7 +82,7 @@ class OrderItemAdapter(
         }
         holder.itemView.item_order_retail2_name_tv.setOnClickListener {
             val intent = Intent(context, RetailerInfoActivity::class.java)
-            intent.putExtra("retailerID", orderItem.quotations[0].retailerId)
+            intent.putExtra("retailerID", orderItem.quotations[1].retailerId)
             context.startActivity(intent)
         }
 
@@ -106,7 +107,7 @@ class OrderItemAdapter(
     }
 
 
-    class ViewHolder(itemView: View, val placeOrderClickAction: (OrderItem) -> Unit) :
+    class ViewHolder(itemView: View, val placeOrderClickAction: onItemClickListener) :
         RecyclerView.ViewHolder(itemView) {
         var TAG = "CART_ITEM_ADAPTER"
         lateinit var context: Context
@@ -141,7 +142,7 @@ class OrderItemAdapter(
 
 
             setupStepView(orderStatus)
-            setupQuotationView(orderItem, firestoreViewModel)
+            setupQuotationView(orderItem, firestoreViewModel, placeOrderClickAction)
             setupOrderStatus(orderStatus, getTime(orderStatus, orderItem), orderItem.isPickup)
 
         }
@@ -239,7 +240,8 @@ class OrderItemAdapter(
 
         private fun setupQuotationView(
             orderItem: OrderItem,
-            firestoreViewModel: FirestoreViewModel
+            firestoreViewModel: FirestoreViewModel,
+            placeOrderClickAction: onItemClickListener
         ) {
             val quotations = orderItem.quotations
             Collections.sort(quotations, RetailerQuotationItem.compareByRating)
@@ -264,7 +266,7 @@ class OrderItemAdapter(
                 ).toString()*/
 
                 itemView.item_order_retail1_place_btn.setOnClickListener {
-                    placeOrderClickAction(orderItem)
+                    placeOrderClickAction.retailerOnePlaceOrder(orderItem)
                 }
             } else {
                 itemView.item_order_retail1_details_ll.visibility = View.GONE
@@ -290,7 +292,7 @@ class OrderItemAdapter(
                 }
 
                 itemView.item_order_retail2_place_btn.setOnClickListener {
-                    placeOrderClickAction(orderItem)
+                    placeOrderClickAction.retailerTwoPlaceOrder(orderItem)
                 }
             } else {
                 itemView.item_order_retail2_details_ll.visibility = View.GONE
@@ -315,12 +317,22 @@ class OrderItemAdapter(
                 }
 
                 itemView.item_order_retail3_place_btn.setOnClickListener {
-                    placeOrderClickAction(orderItem)
+                    placeOrderClickAction.retailerThreePlaceOrder(orderItem)
                 }
             } else {
                 itemView.item_order_retail3_details_ll.visibility = View.GONE
             }
         }
+
+    }
+
+    interface onItemClickListener {
+
+        fun retailerOnePlaceOrder(orderItem: OrderItem)
+
+        fun retailerTwoPlaceOrder(orderItem: OrderItem)
+
+        fun retailerThreePlaceOrder(orderItem: OrderItem)
 
     }
 
