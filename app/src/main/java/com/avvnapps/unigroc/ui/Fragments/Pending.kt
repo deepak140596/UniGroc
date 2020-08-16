@@ -48,7 +48,7 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private var token: String? = null
     private var compositeDisposable = CompositeDisposable()
     private val myAPI by lazy { RetrofitCloudClient.instance.create(ICloudFunctions::class.java) }
-    private val subTotalPrice: Double? = 0.0
+    private var subTotalPrice: Double? = 0.0
 
     private var orderItemData: OrderItem? = null
     private var retailerCode = 0
@@ -206,9 +206,9 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 val result =
                     data!!.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
                 val nonce = result.paymentMethodNonce!!.nonce
-
-                subTotalPrice?.let {
-                    compositeDisposable.add(
+                
+                compositeDisposable.add(
+                    subTotalPrice?.let {
                         myAPI.submitPayment(
                             it,
                             nonce
@@ -218,10 +218,10 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                                 if (t!!.success) {
                                     placeOrder()
                                     /* Toast.makeText(
-                                     this,
-                                     "" + t.transaction!!.id,
-                                     Toast.LENGTH_SHORT
-                                 ).show()*/
+                                                         this,
+                                                         "" + t.transaction!!.id,
+                                                         Toast.LENGTH_SHORT
+                                                     ).show()*/
 
                                     Log.d(TAG, t.transaction!!.toString())
                                 }
@@ -232,9 +232,9 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                                         "" + t!!.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                })!!
-                    )
-                }
+                                })
+                    }!!
+                )
 
 
             }
@@ -258,18 +258,22 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     override fun retailerOnePlaceOrder(orderItem: OrderItem) {
         orderItemData = orderItem
         retailerCode = 1
+        subTotalPrice = orderItem.quotations[0].quotedPrice
         showPayDialogBox(orderItem, 1)
     }
 
     override fun retailerTwoPlaceOrder(orderItem: OrderItem) {
         orderItemData = orderItem
         retailerCode = 2
+        subTotalPrice = orderItem.quotations[1].quotedPrice
         showPayDialogBox(orderItem, 2)
     }
 
     override fun retailerThreePlaceOrder(orderItem: OrderItem) {
         orderItemData = orderItem
         retailerCode = 3
+        subTotalPrice = orderItem.quotations[2].quotedPrice
+
         showPayDialogBox(orderItem, 3)
     }
 
