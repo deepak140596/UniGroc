@@ -55,8 +55,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Home"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/bold"
+                            android:textSize="16sp" />
 
                     <TextView
                             android:id="@+id/delivery_details_address_one_tv"
@@ -229,6 +229,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:text="Continue"
+                android:fontFamily="@font/bold"
                 android:textAlignment="center"
                 android:textColor="@color/color_white"
                 android:textSize="18sp"

@@ -1,9 +1,7 @@
 package com.avvnapps.unigroc.ui.generate_cart
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -13,10 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.database.SharedPreferencesDB
-import com.avvnapps.unigroc.database.network.ICloudFunctions
-import com.avvnapps.unigroc.database.network.RetrofitCloudClient
 import com.avvnapps.unigroc.models.AddressItem
-import com.avvnapps.unigroc.models.BraintreeTransaction
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.payment.UpiPayment
@@ -27,12 +22,7 @@ import com.avvnapps.unigroc.ui.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.viewmodel.CartViewModel
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
-import com.braintreepayments.api.dropin.DropInRequest
-import com.braintreepayments.api.dropin.DropInResult
 import es.dmoral.toasty.Toasty
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_delivery_details.*
 import java.util.*
 
@@ -53,10 +43,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
 
     private var savedCartItems: List<CartEntity> = emptyList()
 
-    private val REQUEST_CODE: Int = 1234
-    private var token: String? = null
-    private var compositeDisposable = CompositeDisposable()
-    private val myAPI by lazy { RetrofitCloudClient.instance.create(ICloudFunctions::class.java) }
 
     private val firestoreViewModel by lazy { ViewModelProvider(this).get(FirestoreViewModel::class.java) }
     private val cartViewModel by lazy { ViewModelProvider(this).get(CartViewModel::class.java) }
@@ -64,21 +50,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_delivery_details)
-
-        // Load the Token
-        compositeDisposable.add(
-            myAPI.getToken()!!.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { braintreeToken ->
-                    token = braintreeToken!!.token
-                    Log.d(TAG, token)
-
-                },
-                    { throwable ->
-                        Toast.makeText(this, "" + throwable.message, Toast.LENGTH_SHORT).show()
-                    })
-        )
 
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
@@ -94,11 +65,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setUpDeliveryLocation()
-    }
-
-    private fun submitPayment() {
-        val dropInRequest = DropInRequest().clientToken(token)
-        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE)
     }
 
     private fun setupSubtotal(): Double {
@@ -118,7 +84,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         }
 
         delivery_details_continue_ll.setOnClickListener {
-            //submitOrder()
             showDialogBox()
         }
 
@@ -165,11 +130,9 @@ class DeliveryDetailsActivity : AppCompatActivity() {
             when (checkedId) {
                 R.id.delivery_details_delivery_rb -> {
                     isPickup = false
-                    continueBtn.text = "Pay Now"
                 }
                 R.id.delivery_details_pickup_rb -> {
                     isPickup = true
-                    continueBtn.text = "Continue"
 
                 }
             }
@@ -282,28 +245,8 @@ class DeliveryDetailsActivity : AppCompatActivity() {
         alertDialogBuilder.setTitle("Place Order?")
             .setMessage("Go ahead and submit order?")
             .setPositiveButton("Yes") { dialog, which ->
-                if (isPickup) {
-                    submitOrder()
-                } else {
-                    val geoipVal = SharedPreferencesDB.getSavedGeoIp(this)
-                    if (geoipVal!!.currency == "EUR") {
-                        submitPayment()
-                    }
-                    if (geoipVal.currency == "USD") {
-                        submitPayment()
-
-                    }
-                    if (geoipVal.currency == "GBP") {
-                        submitPayment()
-                    }
-                    if (geoipVal.currency == "INR") {
-                        submitPayment()
-                        // IndianPayment()
-                    }
-
-                }
-
-            }.setNegativeButton("Cancel") { _, _ ->
+                submitOrder()
+            }.setNegativeButton("No") { _, _ ->
 
             }
 
@@ -355,53 +298,6 @@ class DeliveryDetailsActivity : AppCompatActivity() {
             }).pay()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                val result =
-                    data!!.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
-                val nonce = result.paymentMethodNonce!!.nonce
-                if (!TextUtils.isEmpty(
-                        setupSubtotal().toString()
-                    )
-                ) {
-                    compositeDisposable.add(
-                        myAPI.submitPayment(
-                            setupSubtotal(),
-                            nonce
-                        )
-                            ?.subscribeOn(Schedulers.io())
-                            ?.observeOn(AndroidSchedulers.mainThread())
-                            ?.subscribe({ t: BraintreeTransaction? ->
-                                if (t!!.success) {
-                                    submitOrder()
-                                    /* Toast.makeText(
-                                     this,
-                                     "" + t.transaction!!.id,
-                                     Toast.LENGTH_SHORT
-                                 ).show()*/
 
-                                    Log.d(TAG, t.transaction!!.toString())
-                                }
-                            },
-                                { t: Throwable? ->
-                                    Toast.makeText(
-                                        this,
-                                        "" + t!!.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                })!!
-                    )
-                }
-
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        compositeDisposable.clear()
-        super.onDestroy()
-    }
 
 }

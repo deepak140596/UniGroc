@@ -73,7 +73,7 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 .subscribe(
                     { braintreeToken ->
                         token = braintreeToken!!.token
-                        Log.d(TAG, token)
+                        //Log.d(TAG, token)
 
                     },
                     { throwable ->
@@ -206,7 +206,7 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 val result =
                     data!!.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
                 val nonce = result.paymentMethodNonce!!.nonce
-                
+
                 compositeDisposable.add(
                     subTotalPrice?.let {
                         myAPI.submitPayment(
@@ -273,7 +273,6 @@ class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         orderItemData = orderItem
         retailerCode = 3
         subTotalPrice = orderItem.quotations[2].quotedPrice
-
         showPayDialogBox(orderItem, 3)
     }
 
