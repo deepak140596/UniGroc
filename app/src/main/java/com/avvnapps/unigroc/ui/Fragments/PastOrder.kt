@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_past_order.*
 
 
 class PastOrder : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    OrderItemAdapter.onItemClickListener {
+    OrderItemAdapter.OnItemClickListener {
 
     val TAG = "PAST_ORDERS"
 

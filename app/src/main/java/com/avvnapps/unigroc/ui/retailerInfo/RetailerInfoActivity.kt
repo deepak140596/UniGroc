@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.Review
-import com.avvnapps.unigroc.utils.bindView
 import com.avvnapps.unigroc.utils.circularProgressDrawable
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
 import com.bumptech.glide.Glide
@@ -30,8 +29,6 @@ class RetailerInfoActivity : AppCompatActivity() {
     }
 
     private val firestoreDB by lazy { FirebaseFirestore.getInstance() }
-
-    private val recyclerView: RecyclerView by bindView(R.id.review_recyclerView)
 
     var reviewList: List<Review> = emptyList()
     lateinit var reviewAdapter: ReviewAdapter
@@ -117,6 +114,11 @@ class RetailerInfoActivity : AppCompatActivity() {
             firestoreViewModel.getReviews(it)
                 .observe(this@RetailerInfoActivity, Observer { orders ->
                     Log.i(TAG, "OrdersSize: ${orders.size}")
+                    if (orders.isNullOrEmpty()) {
+                        noOfReviews.text = "0"
+                    } else {
+                        noOfReviews.text = orders.size.toString()
+                    }
                     reviewList = orders
 
                     reviewAdapter.reviewList = reviewList

@@ -24,7 +24,7 @@ import java.util.*
 class OrderItemAdapter(
     var context: Context, var orderList: List<OrderItem>,
     var firestoreViewModel: FirestoreViewModel,
-    val listener: onItemClickListener
+    val listener: OnItemClickListener
 ) : RecyclerView.Adapter<OrderItemAdapter.ViewHolder>() {
     var TAG = "CART_ITEM_ADAPTER"
 
@@ -107,7 +107,7 @@ class OrderItemAdapter(
     }
 
 
-    class ViewHolder(itemView: View, val placeOrderClickAction: onItemClickListener) :
+    class ViewHolder(itemView: View, val placeOrderClickAction: OnItemClickListener) :
         RecyclerView.ViewHolder(itemView) {
         var TAG = "CART_ITEM_ADAPTER"
         lateinit var context: Context
@@ -241,7 +241,7 @@ class OrderItemAdapter(
         private fun setupQuotationView(
             orderItem: OrderItem,
             firestoreViewModel: FirestoreViewModel,
-            placeOrderClickAction: onItemClickListener
+            placeOrderClickAction: OnItemClickListener
         ) {
             val quotations = orderItem.quotations
             Collections.sort(quotations, RetailerQuotationItem.compareByRating)
@@ -326,7 +326,7 @@ class OrderItemAdapter(
 
     }
 
-    interface onItemClickListener {
+    interface OnItemClickListener {
 
         fun retailerOnePlaceOrder(orderItem: OrderItem)
 

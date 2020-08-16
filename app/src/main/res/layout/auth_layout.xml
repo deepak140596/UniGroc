@@ -45,7 +45,7 @@
             android:paddingTop="16dp"
             android:paddingEnd="40dp">
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/g_plus"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -63,7 +63,7 @@
                 android:textColor="@color/color_white"
                 android:textSize="16sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/emailAuth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

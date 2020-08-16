@@ -57,7 +57,7 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/cant_find_item_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/md_blue_grey_700" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/prices_high_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/too_less_info_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/md_blue_grey_700" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/others_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

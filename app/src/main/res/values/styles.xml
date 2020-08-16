@@ -35,6 +35,10 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="tooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
     <style name="MyShapeAppearance">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>

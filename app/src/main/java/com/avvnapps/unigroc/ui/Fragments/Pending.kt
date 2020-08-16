@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.fragment_pending.*
 
 
 class Pending : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    OrderItemAdapter.onItemClickListener {
+    OrderItemAdapter.OnItemClickListener {
 
     val TAG = "PENDING_ORDERS"
 

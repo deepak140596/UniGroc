@@ -29,14 +29,14 @@
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp">
 
                 <Button
                         android:id="@+id/delivery_details_change_address_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/bold"
                         android:layout_margin="16dp"
@@ -47,7 +47,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/delivery_details_change_address_btn"
+                        android:layout_toStartOf="@id/delivery_details_change_address_btn"
                         android:orientation="vertical">
 
                     <com.avvnapps.unigroc.Fonts.LatoBLack
@@ -80,7 +80,7 @@
             <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="Select"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -117,7 +117,7 @@
             <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Choose Slot"
                     android:textSize="18sp"
