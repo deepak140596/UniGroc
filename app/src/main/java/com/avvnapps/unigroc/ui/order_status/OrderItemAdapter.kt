@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.avvnapps.unigroc.R
 import com.avvnapps.unigroc.models.OrderItem
 import com.avvnapps.unigroc.models.RetailerQuotationItem
+import com.avvnapps.unigroc.ui.retailerInfo.RetailerInfoActivity
 import com.avvnapps.unigroc.utils.DateTimeUtils
 import com.avvnapps.unigroc.utils.PriceFormatter
 import com.avvnapps.unigroc.viewmodel.FirestoreViewModel
@@ -22,21 +23,21 @@ import java.util.*
 
 class OrderItemAdapter(
     var context: Context, var orderList: List<OrderItem>,
-    var firestoreViewModel: FirestoreViewModel
+    var firestoreViewModel: FirestoreViewModel,
+    val listener: OnItemClickListener
 ) : RecyclerView.Adapter<OrderItemAdapter.ViewHolder>() {
     var TAG = "CART_ITEM_ADAPTER"
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_order, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_order, parent, false),
+            listener
+        )
 
-        return ViewHolder(itemView)
-    }
 
-    override fun getItemCount(): Int {
-        return orderList.size
-    }
+    override fun getItemCount(): Int = orderList.size
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val orderItem = orderList[position]
@@ -63,11 +64,39 @@ class OrderItemAdapter(
 
         }
 
+        holder.itemView.item_order_retail1_img.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[0].retailerId)
+            context.startActivity(intent)
+        }
 
-        if (orderItem.isPickup)
-            holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
-        else
-            holder.itemView.item_order_cancel_action_ll.visibility = View.GONE
+        holder.itemView.item_order_retail1_name_tv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[0].retailerId)
+            context.startActivity(intent)
+        }
+        holder.itemView.item_order_retail2_iv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[1].retailerId)
+            context.startActivity(intent)
+        }
+        holder.itemView.item_order_retail2_name_tv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[1].retailerId)
+            context.startActivity(intent)
+        }
+
+        holder.itemView.item_order_retail3_iv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[2].retailerId)
+            context.startActivity(intent)
+        }
+
+        holder.itemView.item_order_retail3_name_tv.setOnClickListener {
+            val intent = Intent(context, RetailerInfoActivity::class.java)
+            intent.putExtra("retailerID", orderItem.quotations[2].retailerId)
+            context.startActivity(intent)
+        }
 
         if (orderItem.quotations.isEmpty() || orderItem.orderStatus < 3)
             holder.itemView.item_order_cancel_action_ll.visibility = View.VISIBLE
@@ -78,7 +107,8 @@ class OrderItemAdapter(
     }
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, val placeOrderClickAction: OnItemClickListener) :
+        RecyclerView.ViewHolder(itemView) {
         var TAG = "CART_ITEM_ADAPTER"
         lateinit var context: Context
 
@@ -112,7 +142,7 @@ class OrderItemAdapter(
 
 
             setupStepView(orderStatus)
-            setupQuotationView(orderItem, firestoreViewModel)
+            setupQuotationView(orderItem, firestoreViewModel, placeOrderClickAction)
             setupOrderStatus(orderStatus, getTime(orderStatus, orderItem), orderItem.isPickup)
 
         }
@@ -193,26 +223,27 @@ class OrderItemAdapter(
             orderItem: OrderItem,
             firestoreViewModel: FirestoreViewModel
         ) {
-            var alertDialogBuilder = AlertDialog.Builder(context)
+            val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("Cancel Order?")
                 .setMessage("Do you want to cancel the order?")
                 .setPositiveButton("Yes") { dialog, which ->
 
                     firestoreViewModel.cancelOrder(orderItem)
 
-                }.setNegativeButton("Cancel") { _, _ ->
+                }.setNegativeButton("No") { _, _ ->
 
                 }
 
-            var alertDialog = alertDialogBuilder.create()
+            val alertDialog = alertDialogBuilder.create()
             alertDialog.show()
         }
 
         private fun setupQuotationView(
             orderItem: OrderItem,
-            firestoreViewModel: FirestoreViewModel
+            firestoreViewModel: FirestoreViewModel,
+            placeOrderClickAction: OnItemClickListener
         ) {
-            var quotations = orderItem.quotations
+            val quotations = orderItem.quotations
             Collections.sort(quotations, RetailerQuotationItem.compareByRating)
             Log.i(TAG, "Quotations: ${quotations.size}")
 
@@ -222,8 +253,8 @@ class OrderItemAdapter(
                 itemView.item_order_retail1_quote_price_tv.text =
                     PriceFormatter.getFormattedPrice(context, quotations[0].quotedPrice)
 
-                if (quotations[0].photoUrl != null) {
-                    Glide.with(context).load(quotations[0].photoUrl)
+                quotations[0].photoUrl.let {
+                    Glide.with(context).load(it)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .dontAnimate().into(itemView.item_order_retail1_img)
                 }
@@ -235,13 +266,7 @@ class OrderItemAdapter(
                 ).toString()*/
 
                 itemView.item_order_retail1_place_btn.setOnClickListener {
-
-                    firestoreViewModel.placeOrder(
-                        orderItem,
-                        quotations[0].retailerId,
-                        quotations[0].cartItems
-                    )
-
+                    placeOrderClickAction.retailerOnePlaceOrder(orderItem)
                 }
             } else {
                 itemView.item_order_retail1_details_ll.visibility = View.GONE
@@ -267,12 +292,7 @@ class OrderItemAdapter(
                 }
 
                 itemView.item_order_retail2_place_btn.setOnClickListener {
-
-                    firestoreViewModel.placeOrder(
-                        orderItem,
-                        quotations[1].retailerId,
-                        quotations[1].cartItems
-                    )
+                    placeOrderClickAction.retailerTwoPlaceOrder(orderItem)
                 }
             } else {
                 itemView.item_order_retail2_details_ll.visibility = View.GONE
@@ -297,17 +317,22 @@ class OrderItemAdapter(
                 }
 
                 itemView.item_order_retail3_place_btn.setOnClickListener {
-
-                    firestoreViewModel.placeOrder(
-                        orderItem,
-                        quotations[2].retailerId,
-                        quotations[2].cartItems
-                    )
+                    placeOrderClickAction.retailerThreePlaceOrder(orderItem)
                 }
             } else {
                 itemView.item_order_retail3_details_ll.visibility = View.GONE
             }
         }
+
+    }
+
+    interface OnItemClickListener {
+
+        fun retailerOnePlaceOrder(orderItem: OrderItem)
+
+        fun retailerTwoPlaceOrder(orderItem: OrderItem)
+
+        fun retailerThreePlaceOrder(orderItem: OrderItem)
 
     }
 

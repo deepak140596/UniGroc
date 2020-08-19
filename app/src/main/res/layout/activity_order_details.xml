@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:background="@color/md_grey_100"
-        android:orientation="vertical"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
         tools:context=".ui.order_status.OrderItemDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,23 +19,95 @@
                 android:id="@+id/orderToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/primaryColor"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleTextAppearance="@style/RobotoBoldTextAppearance">
-
+                app:titleTextAppearance="@style/RobotoBoldTextAppearance"
+                app:titleTextColor="@color/colorWhite">
 
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <LinearLayout
+            android:id="@+id/ll_order_summary_retailer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_bar"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/dimen_4"
+            android:paddingBottom="@dimen/dimen_8">
+
+        <TextView
+                android:id="@+id/tv_order_summary_retailer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:paddingStart="@dimen/space_10"
+                android:text="Retailer Name"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        <TextView
+                android:id="@+id/tv_order_summary_retailer_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_order_summary_retailer_name"
+                android:paddingStart="@dimen/space_10"
+                android:text="retailer address" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_1"
+                android:layout_below="@+id/tv_order_summary_retailer_address"
+                android:layout_marginStart="@dimen/space_10"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:layout_marginEnd="@dimen/space_10"
+                android:layout_marginBottom="@dimen/dimen_4"
+                android:background="@color/md_grey_100" />
+
+        <TextView
+                android:id="@+id/tv_order_summary_retailer_order_done"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/space_10"
+                android:text="order done with" />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/yourOrderTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_order_summary_retailer"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:paddingStart="@dimen/space_10"
+            android:text="Your Order"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+    <View
+            android:id="@+id/yourOrderView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_1"
+            android:layout_below="@+id/yourOrderTv"
+            android:layout_marginStart="@dimen/space_10"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:layout_marginEnd="@dimen/space_10"
+            android:layout_marginBottom="@dimen/dimen_4"
+            android:background="@color/md_grey_100" />
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_order_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/app_bar"
-            android:layout_above="@+id/textDateTimeView" />
+            android:layout_above="@+id/textDateTimeView"
+            android:layout_below="@+id/yourOrderView" />
 
     <LinearLayout
             android:id="@+id/textDateTimeView"
@@ -53,14 +124,14 @@
                 android:orientation="vertical"
                 android:padding="@dimen/space_10">
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:id="@+id/tv_order_Detail_retailer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="retailer name"
                     android:textColor="#000" />
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:id="@+id/tv_order_delivery_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,7 +139,7 @@
                     android:textColor="#000" />
 
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:id="@+id/tv_order_Detail_total_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,19 +150,21 @@
         </LinearLayout>
 
         <RelativeLayout
-                android:id="@+id/btn_order_detail_cancel"
+                android:id="@+id/btn_order_detail_review"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_margin="12dp"
                 android:background="@drawable/bg_rounded_button"
-                android:padding="12dp">
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone">
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Add Review"
-                    android:textColor="#fff"
                     android:textSize="@dimen/text_size_small" />
 
 
@@ -116,7 +189,7 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:id="@+id/order_item_status_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,7 +206,7 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal">
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,12 +215,12 @@
                     android:textColor="@color/color_white"
                     android:textSize="18sp" />
 
-            <com.avvnapps.unigroc.Fonts.LatoBLack
+            <TextView
                     android:id="@+id/tv_order_Detail_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_10"
                     android:layout_marginStart="@dimen/space_10"
+                    android:layout_marginLeft="@dimen/space_10"
                     android:text="00.00"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/color_white"

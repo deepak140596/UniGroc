@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical">
 
     <ImageView
@@ -51,18 +52,17 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_sign_out"
                     android:layout_width="140dp"
                     android:layout_height="40dp"
                     android:layout_below="@+id/rdi_group"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:background="@drawable/button_design12"
+                    app:backgroundTint="@color/color_white"
                     android:text="Yes! I'm Sure"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
-                    android:textSize="19sp" />
+                    android:textColor="#000000" />
 
             <Button
                     android:id="@+id/btn_no"
@@ -74,8 +74,7 @@
                     android:background="@drawable/button_design9"
                     android:text="Back"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="19sp" />
+                    android:textColor="#FFFFFF" />
 
         </LinearLayout>
 

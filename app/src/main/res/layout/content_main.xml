@@ -60,7 +60,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:src="@mipmap/ic_search_primarycolor"
-                    android:tint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimary" />
 
             <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="match_parent"
@@ -213,15 +213,14 @@
                             android:layout_weight="1"
                             android:gravity="center|right">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                                 android:id="@+id/view_all_topselling"
-                                android:layout_width="70dp"
-                                android:layout_height="35dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
                                 android:layout_marginRight="12dp"
-                                android:background="@drawable/corner_button_orange"
                                 android:text="View All"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="10dp"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp"
                                 android:textStyle="bold" />
 
                     </LinearLayout>
@@ -371,13 +370,12 @@
 
                                 <Button
                                         android:id="@+id/view_all_deals"
-                                        android:layout_width="70dp"
-                                        android:layout_height="35dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="40dp"
                                         android:layout_marginEnd="12dp"
-                                        android:background="@drawable/corner_button_orange"
                                         android:text="View All"
-                                        android:textColor="@color/colorPrimary"
-                                        android:textSize="10sp"
+                                        android:textColor="@color/colorWhite"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
 
                             </LinearLayout>
@@ -455,7 +453,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/call_answer"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -471,7 +469,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/mywhatsapp"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -487,7 +485,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:src="@drawable/reviews"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -503,7 +501,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/share_via"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
