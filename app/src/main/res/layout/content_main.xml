@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".MainActivity"
+        tools:context=".ui.MainActivity"
         tools:showIn="@layout/app_bar_main">
 
     <LinearLayout
@@ -28,7 +28,7 @@
                 android:clickable="true"
                 android:focusable="true">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -59,10 +59,10 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:tint="@color/colorPrimary"
-                    android:src="@mipmap/ic_search_primarycolor" />
+                    android:src="@mipmap/ic_search_primarycolor"
+                    android:tint="@color/colorPrimary" />
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -195,7 +195,7 @@
                             android:gravity="center_vertical"
                             android:orientation="vertical">
 
-                        <Fonts.LatoBLack
+                        <com.avvnapps.unigroc.Fonts.LatoBLack
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center_vertical"
@@ -229,17 +229,47 @@
 
                 </LinearLayout>
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerTopSelling"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="40dp"
+                        android:orientation="vertical"
+                        app:shimmer_duration="1500">
+
+                    <!-- Adding 15 rows of placeholders -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_8"
+                            android:layout_marginEnd="@dimen/dimen_8"
+                            android:orientation="horizontal">
+
+                        <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                        <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                        <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                        <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                        <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/top_selling_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:layout_marginTop="40dp"
                         android:orientation="horizontal"
                         android:scrollbars="none"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
             </FrameLayout>
 
@@ -252,7 +282,7 @@
                     android:background="#f2f0f4"
                     android:gravity="center">
 
-                <Fonts.LatoBLack
+                <com.avvnapps.unigroc.Fonts.LatoBLack
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -355,6 +385,36 @@
 
                         </LinearLayout>
 
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/shimmerDealDay"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="40dp"
+                                android:orientation="vertical"
+                                app:shimmer_duration="1500">
+
+                            <!-- Adding 15 rows of placeholders -->
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen_8"
+                                    android:layout_marginEnd="@dimen/dimen_8"
+                                    android:orientation="horizontal">
+
+                                <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                                <include layout="@layout/shimmer_placeholder_top_selling_home_layout" />
+
+                            </LinearLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
 
                         <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_deal_of_the_day"
@@ -362,6 +422,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="8dp"
+                                android:visibility="gone"
                                 android:layout_marginTop="40dp"
                                 android:layout_marginRight="8dp"
                                 android:scrollbars="none"
@@ -392,9 +453,9 @@
                     <ImageView
                             android:id="@+id/iv_call"
                             android:layout_width="32dp"
-                            android:tint="@color/colorPrimary"
                             android:layout_height="32dp"
-                            android:src="@drawable/call_answer" />
+                            android:src="@drawable/call_answer"
+                            android:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -408,9 +469,9 @@
                     <ImageView
                             android:id="@+id/iv_whatsapp"
                             android:layout_width="32dp"
-                            android:tint="@color/colorPrimary"
                             android:layout_height="32dp"
-                            android:src="@drawable/mywhatsapp" />
+                            android:src="@drawable/mywhatsapp"
+                            android:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -425,8 +486,8 @@
                             android:id="@+id/reviews"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
-                            android:tint="@color/colorPrimary"
-                            android:src="@drawable/reviews" />
+                            android:src="@drawable/reviews"
+                            android:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -441,8 +502,8 @@
                             android:id="@+id/share_via"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:tint="@color/colorPrimary"
-                            android:src="@drawable/share_via" />
+                            android:src="@drawable/share_via"
+                            android:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="10"
-        tools:context=".Activity.IndividualProduct">
+        tools:context=".ui.Activity.IndividualProduct">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,7 +23,7 @@
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize">
 
-            <Fonts.LatoBLack
+            <com.avvnapps.unigroc.Fonts.LatoBLack
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Product"
@@ -79,7 +79,7 @@
                     android:layout_marginTop="16dp"
                     android:orientation="vertical">
 
-                <Fonts.LatoBLack
+                <com.avvnapps.unigroc.Fonts.LatoBLack
                         android:id="@+id/product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                <Fonts.LatoBLack
+                <com.avvnapps.unigroc.Fonts.LatoBLack
                         android:id="@+id/product_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
-                <Fonts.LatoBLack
+                <com.avvnapps.unigroc.Fonts.LatoBLack
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -200,7 +200,7 @@
                             android:layout_height="30dp"
                             android:src="@drawable/share" />
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:id="@+id/text_action1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -231,7 +231,7 @@
                             android:layout_height="30dp"
                             android:src="@drawable/similar" />
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:id="@+id/text_action2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -267,7 +267,7 @@
                             android:visibility="visible"
                             app:lottie_fileName="heart.json" />
 
-                    <Fonts.LatoBLack
+                    <com.avvnapps.unigroc.Fonts.LatoBLack
                             android:id="@+id/text_action3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="16dp">
 
-                <Fonts.LatoBLack
+                <com.avvnapps.unigroc.Fonts.LatoBLack
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Details"
@@ -330,7 +330,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-        <Fonts.LatoBLack
+        <com.avvnapps.unigroc.Fonts.LatoBLack
                 android:id="@+id/add_to_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -342,7 +342,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-        <Fonts.LatoBLack
+        <com.avvnapps.unigroc.Fonts.LatoBLack
                 android:id="@+id/buy_now_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

@@ -8,5 +8,6 @@ class ApplicationConstants {
         var ORDER_PREPARING = 3
         var ORDER_READY = 4
         var ORDER_PICKED_DELIVERED = 5
+        var ORDER_CANCELED = 6
     }
 }

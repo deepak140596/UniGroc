@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
@@ -25,17 +26,17 @@ android {
     }
     buildTypes {
         release {
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    androidExtensions {
-        experimental = true
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -45,42 +46,51 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test:runner:1.3.0-rc01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc01'
 
     implementation 'com.google.android.material:material:1.2.0-alpha01'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha04'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
     implementation 'androidx.viewpager:viewpager:1.0.0'
-    implementation "androidx.preference:preference-ktx:1.1.0"
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
+    implementation 'android.arch.work:work-runtime:1.0.1'
+    implementation 'com.google.guava:guava:27.0.1-android'
     //====================================================================================
     // Firebase Core
-    implementation 'com.google.firebase:firebase-core:17.2.2'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
+    implementation 'com.google.firebase:firebase-core:17.4.4'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    // Firestore (Kotlin)
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.5.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+    // FCM
+    implementation 'com.google.firebase:firebase-messaging:20.2.3'
+    implementation 'com.google.firebase:firebase-iid:20.2.3'
     // FirebaseUI for Cloud Firestore
-    implementation 'com.firebaseui:firebase-ui-firestore:6.2.0'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     // Recommended: Add the Firebase SDK for Google Analytics.
-    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
     // Add the Firebase SDK for Crashlytics.
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
     //====================================================================================
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
 
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
 
     //=====================================================================================
     // Location
@@ -93,21 +103,36 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.0.0'
 
     //=====================================================================================
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    //rxjava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+
+    // braintree
+    implementation 'com.braintreepayments.api:drop-in:4.5.0'
+
+    //shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
 
     // Toasty
     implementation 'com.github.GrenderG:Toasty:1.4.2'
 
-    // circle image view
+    // Image view libraries
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.caverock:androidsvg-aar:1.4'
     // glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+
     //For Step View
     implementation 'com.shuhart.stepview:stepview:1.5.1'
     //For PinView EditText
-    implementation 'com.chaos.view:pinview:1.3.2'
+    implementation 'com.chaos.view:pinview:1.4.3'
     //For playing .gif images
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.20'
 
     // Floating Search View
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
@@ -125,14 +150,15 @@ dependencies {
     implementation 'hyogeun.github.com.colorratingbar:ColorRatingBar:1.0.1'
 
     //Lottie
-    implementation 'com.airbnb.android:lottie:3.3.1'
+    implementation 'com.airbnb.android:lottie:3.4.0'
     // Image Slider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
 
     //money converter
-    implementation 'com.github.tobiasschuerg:android-money:v0.3'
+    implementation 'com.github.tobiasschuerg:android-money:0.8.0'
 
-    implementation 'com.github.seventhmoon:ipapi-retrofit:1.4.6'
+    /*Anko*/
+    implementation "org.jetbrains.anko:anko:0.10.8"
+
 }
 
-apply plugin: 'com.google.gms.google-services'

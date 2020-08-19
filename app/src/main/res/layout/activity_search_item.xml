@@ -4,22 +4,169 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".generate_cart.SearchItemActivity">
+        tools:context=".ui.generate_cart.SearchItemActivity">
 
     <View
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_search_item_rv"
+
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginTop="70dp">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_search_item_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp" />
+
+            <RelativeLayout
+                    android:id="@+id/submit_rl_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/activity_search_item_rv"
+                    android:layout_marginTop="32dp"
+                    android:background="@color/color_white">
+
+                <TextView
+                        android:id="@+id/textTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_yellow_50"
+                        android:padding="@dimen/dimen_16"
+                        android:text="Having trouble? Let us know"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen_16" />
+
+                <LinearLayout
+                        android:id="@+id/submit_ll1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textTV"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                    <Button
+                            android:id="@+id/cant_find_item_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="@dimen/space_4"
+                            android:layout_marginBottom="@dimen/space_4"
+                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_strock"
+                            android:padding="@dimen/space_14"
+                            android:text="Can't find my item"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/md_blue_grey_700" />
+
+                    <Button
+                            android:id="@+id/prices_high_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="@dimen/space_4"
+                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_strock"
+                            android:padding="@dimen/space_14"
+                            android:text="Prices are too high"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/md_blue_grey_700" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/summit_ll2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/submit_ll1"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                    <Button
+                            android:id="@+id/too_less_info_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="@dimen/space_4"
+                            android:layout_marginBottom="@dimen/space_4"
+                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_strock"
+                            android:padding="@dimen/space_14"
+                            android:text="Too less item info"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/md_blue_grey_700" />
+
+                    <Button
+                            android:id="@+id/others_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="@dimen/space_4"
+                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_strock"
+                            android:padding="@dimen/space_14"
+                            android:text="Others"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/md_blue_grey_700" />
+                </LinearLayout>
+
+                <View
+                        android:id="@+id/submit_v"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_1"
+                        android:layout_below="@+id/summit_ll2"
+                        android:layout_margin="@dimen/dimen_8"
+                        android:background="@color/md_grey_300" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/submit_problem_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/submit_v"
+                        android:layout_margin="@dimen/dimen_8"
+                        android:background="@drawable/rectangle_strock"
+                        android:hint=""
+                        android:padding="32dp"
+                        android:visibility="gone" />
+
+
+                <Button
+                        android:id="@+id/submit_problem_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/submit_problem_edit_text"
+                        android:layout_margin="@dimen/dimen_8"
+                        android:background="@drawable/corner_button_red"
+                        android:text="Submit"
+                        android:textColor="@color/color_white" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.arlib.floatingsearchview.FloatingSearchView
             android:id="@+id/activity_search_floating_search_view"
@@ -30,10 +177,11 @@
             android:paddingRight="8dp"
             app:floatingSearch_close_search_on_keyboard_dismiss="false"
             app:floatingSearch_hintTextColor="@color/colorPrimary"
-            app:floatingSearch_leftActionMode="showHome"
+            app:floatingSearch_leftActionMode="noLeftAction"
             app:floatingSearch_searchHint="Search products"
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250" />
+
 
     <ProgressBar
             android:id="@+id/activity_search_progress_bar"

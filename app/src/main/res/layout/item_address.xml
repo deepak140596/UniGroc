@@ -29,7 +29,7 @@
             android:layout_toLeftOf="@id/item_address_options_tv"
             android:orientation="vertical">
 
-        <Fonts.LatoBLack
+        <com.avvnapps.unigroc.Fonts.LatoBLack
                 android:id="@+id/item_saved_add_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
-        <Fonts.LatoBLack
+        <com.avvnapps.unigroc.Fonts.LatoBLack
                 android:id="@+id/item_saved_add_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

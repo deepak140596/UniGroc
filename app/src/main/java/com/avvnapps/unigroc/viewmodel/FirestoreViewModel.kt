@@ -2,13 +2,13 @@ package com.avvnapps.unigroc.viewmodel
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
-
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.avvnapps.unigroc.database.firestore.FirestoreRepository
-import com.avvnapps.unigroc.generate_cart.DeliveryDetailsActivity
 import com.avvnapps.unigroc.models.*
-import com.avvnapps.unigroc.utils.ApplicationConstants
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.QuerySnapshot
 
 class FirestoreViewModel(application: Application) : AndroidViewModel(application){
 
@@ -29,9 +29,9 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
         availableCartItems = MutableLiveData()
         firebaseRepository.getAvailableCartItems().addOnSuccessListener {documents ->
-            var availableCartList : MutableList<CartEntity> = mutableListOf()
+            val availableCartList: MutableList<CartEntity> = mutableListOf()
             for(doc in documents){
-                var cartItem = doc.toObject(CartEntity::class.java)
+                val cartItem = doc.toObject(CartEntity::class.java)
                 availableCartList.add(cartItem)
             }
 
@@ -48,9 +48,9 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     fun getWishListItem() : LiveData<List<wishlistItems>>{
         wishListItems = MutableLiveData()
         firebaseRepository.getWishlistItems().addOnSuccessListener { document->
-            var wishlistItemsList : MutableList<wishlistItems> = mutableListOf()
+            val wishlistItemsList: MutableList<wishlistItems> = mutableListOf()
             for (doc in document){
-                var wishlistItem = doc.toObject(wishlistItems::class.java)
+                val wishlistItem = doc.toObject(wishlistItems::class.java)
                 wishlistItemsList.add(wishlistItem)
             }
             wishListItems.value = wishlistItemsList
@@ -79,7 +79,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
             var savedAddressList : MutableList<AddressItem> = mutableListOf()
             for (doc in value!!) {
-                var addressItem = doc.toObject(AddressItem::class.java)
+                val addressItem = doc.toObject(AddressItem::class.java)
                 savedAddressList.add(addressItem)
             }
             savedAddresses.value = savedAddressList
@@ -92,6 +92,13 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     fun deleteAddress(addressItem: AddressItem){
         firebaseRepository.deleteAddress(addressItem).addOnFailureListener {
             Log.e(TAG,"Failed to delete Address")
+        }
+    }
+
+    // delete an order Item from firebase
+    fun cancelOrder(orderItem: OrderItem) {
+        firebaseRepository.deleteOrderItem(orderItem).addOnFailureListener {
+            Log.e(TAG, "Failed to delete Address")
         }
     }
 
@@ -117,7 +124,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
             var qPrices : MutableList<RetailerQuotationItem> = mutableListOf()
             for(doc in value!!){
-                var quotationItem = doc.toObject(RetailerQuotationItem::class.java)
+                val quotationItem = doc.toObject(RetailerQuotationItem::class.java)
                 qPrices.add(quotationItem)
             }
             quotedPrices.value = qPrices
@@ -127,24 +134,26 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getQuotedOrders(): MutableLiveData<List<OrderItem>> {
-        firebaseRepository.getQuotedOrders().addOnSuccessListener {
-            var qOrders : MutableList<OrderItem> = mutableListOf()
-            for ( doc in it){
-                var orderItem = doc.toObject(OrderItem::class.java)
+
+        firebaseRepository.getQuotedOrders().addSnapshotListener { value, e ->
+            if (e != null) {
+                Log.e(TAG, "Failed to retrieve quoted prices, $e")
+                quotedOrdersList.value = null
+                return@addSnapshotListener
+            }
+            val qOrders: MutableList<OrderItem> = mutableListOf()
+            for (doc in value!!) {
+                val orderItem = doc.toObject(OrderItem::class.java)
                 qOrders.add(orderItem)
             }
             quotedOrdersList.value = qOrders
-        }.addOnFailureListener {
-            Log.e(TAG,"Failed to retrieve quoted prices",it)
-            quotedOrdersList.value = null
         }
-
         return quotedOrdersList
     }
 
     fun getOrdersHistory(): MutableLiveData<List<OrderItem>> {
         firebaseRepository.getOrderHistory().addOnSuccessListener {
-            var qOrders : MutableList<OrderItem> = mutableListOf()
+            val qOrders: MutableList<OrderItem> = mutableListOf()
             for ( doc in it){
                 var orderItem = doc.toObject(OrderItem::class.java)
                 qOrders.add(orderItem)
