@@ -28,16 +28,6 @@
                     android:background="@color/light_gray"
                     android:elevation="0dp">
 
-                <com.denzcoskun.imageslider.ImageSlider
-                        android:id="@+id/image_slider"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:auto_cycle="true"
-                        app:corner_radius="5"
-                        app:placeholder="@drawable/slider_placeholder"
-                        app:period="1500"
-                        app:delay="0"/>
 
             </RelativeLayout>
 

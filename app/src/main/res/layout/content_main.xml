@@ -105,20 +105,15 @@
 
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/light_gray"
                     android:elevation="0dp">
 
-                <com.denzcoskun.imageslider.ImageSlider
-                        android:id="@+id/image_slider"
+                <com.github.islamkhsh.CardSliderViewPager
+                        android:id="@+id/HomeBanner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:auto_cycle="true"
-                        app:corner_radius="5"
-                        app:delay="0"
-                        app:period="1500"
-                        app:placeholder="@drawable/slider_placeholder" />
+                        android:layout_height="wrap_content"
+                        app:auto_slide_time="4" />
 
             </RelativeLayout>
 
@@ -264,10 +259,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:visibility="gone"
                         android:layout_marginTop="40dp"
                         android:orientation="horizontal"
                         android:scrollbars="none"
+                        android:visibility="gone"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             </FrameLayout>
@@ -420,10 +415,10 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="8dp"
-                                android:visibility="gone"
                                 android:layout_marginTop="40dp"
                                 android:layout_marginRight="8dp"
                                 android:scrollbars="none"
+                                android:visibility="gone"
                                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 

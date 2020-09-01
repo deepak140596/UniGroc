@@ -19,6 +19,16 @@ class FirestoreRepository {
     val email by lazy { FirebaseAuth.getInstance().currentUser!!.email.toString() }
 
 
+    // get Banner Page Data
+    fun getBannerData(): Task<QuerySnapshot> {
+        val collectionReference =
+            firestoreDB.collection("category")
+                .document("HOME")
+                .collection("TOP_DEALS")
+                .whereEqualTo("view_type", 0)
+        return collectionReference.get()
+    }
+
     // get available cart items
     fun getAvailableCartItems(): Task<QuerySnapshot> {
         val collectionReference = firestoreDB.collection("available_cart_items").limit(10)

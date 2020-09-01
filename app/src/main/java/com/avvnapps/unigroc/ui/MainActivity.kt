@@ -38,11 +38,13 @@ import com.avvnapps.unigroc.database.SharedPreferencesDB
 import com.avvnapps.unigroc.models.CartEntity
 import com.avvnapps.unigroc.models.GeoIp
 import com.avvnapps.unigroc.models.GeoIpResponseModel
+import com.avvnapps.unigroc.models.SliderModel
 import com.avvnapps.unigroc.ui.Activity.*
 import com.avvnapps.unigroc.ui.authentication.AuthUiActivity
 import com.avvnapps.unigroc.ui.generate_cart.CartItemAdapter
 import com.avvnapps.unigroc.ui.generate_cart.ReviewCartActivity
 import com.avvnapps.unigroc.ui.generate_cart.SearchItemActivity
+import com.avvnapps.unigroc.ui.home_page.BannerViewAdapter
 import com.avvnapps.unigroc.ui.location_address.SavedAddressesActivity
 import com.avvnapps.unigroc.utils.*
 import com.avvnapps.unigroc.viewmodel.CartViewModel
@@ -51,8 +53,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.denzcoskun.imageslider.ImageSlider
-import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -87,13 +87,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val firestoreViewModel by lazy {
         ViewModelProvider(this).get(FirestoreViewModel::class.java)
     }
-    var cartItemAdapter: CartItemAdapter? = null
+    private val user by lazy { FirebaseAuth.getInstance().currentUser }
+    private val gpsUtils by lazy { GpsUtils(this) }
 
     private var savedCartItems: List<CartEntity> = emptyList()
+    private var sliderList: List<SliderModel> = emptyList()
 
-    val user by lazy { FirebaseAuth.getInstance().currentUser }
-
-    private lateinit var gpsUtils: GpsUtils
+    var cartItemAdapter: CartItemAdapter? = null
+    private var bannerAdapter: BannerViewAdapter? = null
 
     var latitude: Double = 0.0
     var longitude: Double = 0.0
@@ -104,14 +105,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //Location Permissions
         askForPermissions()
 
-        gpsUtils = GpsUtils(this)
-
         getGeoIpAddress()
 
         //inflate Navigation Drawer
         inflateNavDrawer()
-        //inflate Slides
-        inflateSlider()
+
         cartViewModel.cartList.observe(this, Observer {
             savedCartItems = it
             updateCartImageView(savedCartItems)
@@ -257,8 +255,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
+        when (item.itemId) {
             R.id.nav_shop_now -> {
             }
             R.id.nav_my_profile -> {
@@ -316,18 +313,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     //Image Slider
-    private fun inflateSlider() {
-        val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
+    private fun inflateSlider(list: List<SliderModel>) {
 
-        val listURL = ArrayList<SlideModel>()
-        listURL.add(SlideModel("https://i.imgur.com/F142xAr.jpg"))
-        listURL.add(SlideModel("https://i.imgur.com/rjUxZOJ.jpg"))
-        listURL.add(SlideModel("https://i.imgur.com/B3vqL4T.jpg"))
-        listURL.add(SlideModel("https://i.imgur.com/DeRFbNz.jpg"))
-        listURL.add(SlideModel("https://i.imgur.com/tuQ03J9.jpg"))
+        bannerAdapter =
+            BannerViewAdapter(
+                applicationContext,
+                list
+            )
+        HomeBanner.adapter = bannerAdapter?.apply {
+            notifyDataSetChanged()
+        }
 
-
-        imageSlider.setImageList(listURL, true)
 
     }
 
@@ -410,8 +406,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
         }
-
-
     }
 
 
@@ -522,6 +516,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun initialiseFirebaseViewModel() {
+
+        //slider
+        firestoreViewModel.getSlider().observe(this, Observer {
+            sliderList = it
+            Log.i(TAG, "Slider Size: ${sliderList.size}")
+            //inflate Slides
+            inflateSlider(it)
+        })
+
+        //products data
         firestoreViewModel.getAvailableCartItems().observe(this, Observer {
             savedCartItems = it
             Log.i(TAG, "Order Size: ${savedCartItems.size}")

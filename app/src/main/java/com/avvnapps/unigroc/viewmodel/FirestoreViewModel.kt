@@ -10,10 +10,10 @@ import com.avvnapps.unigroc.models.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.QuerySnapshot
 
-class FirestoreViewModel(application: Application) : AndroidViewModel(application){
+class FirestoreViewModel(application: Application) : AndroidViewModel(application) {
 
-    val TAG = "FIRESTORE_VIEW_MODEL"
-    var firebaseRepository = FirestoreRepository()
+    val TAG by lazy { "FIRESTORE_VIEW_MODEL" }
+    private var firebaseRepository = FirestoreRepository()
     var availableCartItems: MutableLiveData<List<CartEntity>> = MutableLiveData()
     var savedAddresses: MutableLiveData<List<AddressItem>> = MutableLiveData()
     var quotedPrices: MutableLiveData<List<RetailerQuotationItem>> = MutableLiveData()
@@ -21,10 +21,42 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     var wishListItems: MutableLiveData<List<wishlistItems>> = MutableLiveData()
 
     //Orders
-    var quotedOrdersList: MutableLiveData<List<OrderItem>> = MutableLiveData()
+    private var quotedOrdersList: MutableLiveData<List<OrderItem>> = MutableLiveData()
     var orderHistoryList: MutableLiveData<List<OrderItem>> = MutableLiveData()
 
-    var retailerReviews: MutableLiveData<List<Review>> = MutableLiveData()
+    private var retailerReviews: MutableLiveData<List<Review>> = MutableLiveData()
+
+    private var sliderList: MutableLiveData<List<SliderModel>> = MutableLiveData()
+
+
+    // get realtime updates from firebase regarding slider
+    fun getSlider(): LiveData<List<SliderModel>> {
+
+        sliderList = MutableLiveData()
+        firebaseRepository.getBannerData().addOnSuccessListener { documents ->
+            val availableSlider: MutableList<SliderModel> = mutableListOf()
+
+            for (document in documents) {
+                val noOfBanner: Long = document.get("no_of_banners") as Long
+                for (n in 1..noOfBanner) {
+                    availableSlider.add(
+                        SliderModel(
+                            document.get("banner_$n").toString(),
+                            document.get("banner_${n}_background").toString()
+                        )
+                    )
+                }
+
+            }
+            sliderList.value = availableSlider
+
+        }.addOnFailureListener { exception ->
+            sliderList.value = null
+            Log.w(TAG, "Error getting Banner: ", exception)
+        }
+        return sliderList
+
+    }
 
 
     // get available cart items from firestore
@@ -40,19 +72,20 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
             availableCartItems.value = availableCartList
 
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             availableCartItems.value = null
         }
 
         return availableCartItems
 
     }
+
     // get wishlist items from firestore
-    fun getWishListItem() : LiveData<List<wishlistItems>>{
+    fun getWishListItem(): LiveData<List<wishlistItems>> {
         wishListItems = MutableLiveData()
-        firebaseRepository.getWishlistItems().addOnSuccessListener { document->
+        firebaseRepository.getWishlistItems().addOnSuccessListener { document ->
             val wishlistItemsList: MutableList<wishlistItems> = mutableListOf()
-            for (doc in document){
+            for (doc in document) {
                 val wishlistItem = doc.toObject(wishlistItems::class.java)
                 wishlistItemsList.add(wishlistItem)
             }
@@ -65,36 +98,37 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     // save address to firebase
-    fun saveAddressToFirebase(addressItem: AddressItem){
+    fun saveAddressToFirebase(addressItem: AddressItem) {
         firebaseRepository.saveAddressItem(addressItem).addOnFailureListener {
-            Log.e(TAG,"Failed to save Address!")
+            Log.e(TAG, "Failed to save Address!")
         }
     }
 
     // get realtime updates from firebase regarding saved addresses
-    fun getSavedAddresses(): LiveData<List<AddressItem>>{
-        firebaseRepository.getSavedAddress().addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                savedAddresses.value = null
-                return@EventListener
-            }
+    fun getSavedAddresses(): LiveData<List<AddressItem>> {
+        firebaseRepository.getSavedAddress()
+            .addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e)
+                    savedAddresses.value = null
+                    return@EventListener
+                }
 
-            var savedAddressList : MutableList<AddressItem> = mutableListOf()
-            for (doc in value!!) {
-                val addressItem = doc.toObject(AddressItem::class.java)
-                savedAddressList.add(addressItem)
-            }
-            savedAddresses.value = savedAddressList
-        })
+                val savedAddressList: MutableList<AddressItem> = mutableListOf()
+                for (doc in value!!) {
+                    val addressItem = doc.toObject(AddressItem::class.java)
+                    savedAddressList.add(addressItem)
+                }
+                savedAddresses.value = savedAddressList
+            })
 
         return savedAddresses
     }
 
     // delete an address from firebase
-    fun deleteAddress(addressItem: AddressItem){
+    fun deleteAddress(addressItem: AddressItem) {
         firebaseRepository.deleteAddress(addressItem).addOnFailureListener {
-            Log.e(TAG,"Failed to delete Address")
+            Log.e(TAG, "Failed to delete Address")
         }
     }
 
@@ -105,34 +139,35 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun submitOrder(orderItem: OrderItem,cartViewModel: CartViewModel){
+    fun submitOrder(orderItem: OrderItem, cartViewModel: CartViewModel) {
         firebaseRepository.submitOrder(orderItem)
             .addOnSuccessListener {
                 // when order is successfully submitted, clear the cart
                 cartViewModel.deleteAll()
-                Log.i(TAG,"Order Placed!")
+                Log.i(TAG, "Order Placed!")
             }
-            .addOnFailureListener {e ->
-            Log.e(TAG,"Failed to submit Order: $e")
-        }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Failed to submit Order: $e")
+            }
     }
 
     fun getQuotedPrices(orderItem: OrderItem): MutableLiveData<List<RetailerQuotationItem>> {
-        firebaseRepository.getQuotedPrices(orderItem).addSnapshotListener(EventListener<QuerySnapshot>{ value, e->
-            if(e!=null){
-                Log.w(TAG,"Get Quoted Price failed", e)
-                quotedPrices.value = null
-                return@EventListener
-            }
+        firebaseRepository.getQuotedPrices(orderItem)
+            .addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
+                if (e != null) {
+                    Log.w(TAG, "Get Quoted Price failed", e)
+                    quotedPrices.value = null
+                    return@EventListener
+                }
 
-            val qPrices: MutableList<RetailerQuotationItem> = mutableListOf()
-            for(doc in value!!){
-                val quotationItem = doc.toObject(RetailerQuotationItem::class.java)
-                qPrices.add(quotationItem)
-            }
-            quotedPrices.value = qPrices
+                val qPrices: MutableList<RetailerQuotationItem> = mutableListOf()
+                for (doc in value!!) {
+                    val quotationItem = doc.toObject(RetailerQuotationItem::class.java)
+                    qPrices.add(quotationItem)
+                }
+                quotedPrices.value = qPrices
 
-        })
+            })
         return quotedPrices
     }
 
@@ -157,13 +192,13 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     fun getOrdersHistory(): MutableLiveData<List<OrderItem>> {
         firebaseRepository.getOrderHistory().addOnSuccessListener {
             val qOrders: MutableList<OrderItem> = mutableListOf()
-            for ( doc in it){
+            for (doc in it) {
                 val orderItem = doc.toObject(OrderItem::class.java)
                 qOrders.add(orderItem)
             }
             orderHistoryList.value = qOrders
         }.addOnFailureListener {
-            Log.e(TAG,"Failed to retrieve quoted prices",it)
+            Log.e(TAG, "Failed to retrieve quoted prices", it)
             orderHistoryList.value = null
         }
 
@@ -171,20 +206,21 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getAllOrders(): MutableLiveData<List<OrderItem>> {
-        firebaseRepository.getAllOrders().addSnapshotListener(EventListener<QuerySnapshot>{ value, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                allOrdersList.value = null
-                return@EventListener
-            }
+        firebaseRepository.getAllOrders()
+            .addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e)
+                    allOrdersList.value = null
+                    return@EventListener
+                }
 
-            var ordersList : MutableList<OrderItem> = mutableListOf()
-            for (doc in value!!) {
-                var orderItem = doc.toObject(OrderItem::class.java)
-                ordersList.add(orderItem)
-            }
-            allOrdersList.value = ordersList
-        })
+                var ordersList: MutableList<OrderItem> = mutableListOf()
+                for (doc in value!!) {
+                    var orderItem = doc.toObject(OrderItem::class.java)
+                    ordersList.add(orderItem)
+                }
+                allOrdersList.value = ordersList
+            })
 
         return allOrdersList
     }

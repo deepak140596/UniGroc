@@ -18,7 +18,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:src="@drawable/placeholder" />
+                android:src="@drawable/slider_placeholder" />
 
         <LinearLayout
                 android:id="@+id/layout_item_desc"

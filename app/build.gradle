@@ -45,11 +45,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.3.0-rc03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc03'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha05'
@@ -62,11 +62,11 @@ dependencies {
     implementation 'com.google.guava:guava:27.0.1-android'
     //====================================================================================
     // Firebase Core
-    implementation 'com.google.firebase:firebase-core:17.4.4'
+    implementation 'com.google.firebase:firebase-core:17.5.0'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     // Firestore (Kotlin)
-    implementation 'com.google.firebase:firebase-firestore-ktx:21.5.0'
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.6.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
     // FCM
     implementation 'com.google.firebase:firebase-messaging:20.2.3'
     implementation 'com.google.firebase:firebase-iid:20.2.3'
@@ -74,9 +74,9 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     // Recommended: Add the Firebase SDK for Google Analytics.
-    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
     // Add the Firebase SDK for Crashlytics.
-    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     //====================================================================================
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
@@ -92,8 +92,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0' // For lifecycleScope
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8'
 
     //=====================================================================================
     // Location
@@ -108,10 +108,10 @@ dependencies {
     //=====================================================================================
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     //rxjava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
 
     // braintree
     implementation 'com.braintreepayments.api:drop-in:4.6.0'
@@ -155,8 +155,9 @@ dependencies {
 
     //Lottie
     implementation 'com.airbnb.android:lottie:3.4.1'
-    // Image Slider
-    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+
+    //card slider
+    implementation 'com.github.IslamKhSh:CardSlider:1.0.1'
 
     //money converter
     implementation 'com.github.tobiasschuerg:android-money:0.8.0'
